@@ -20,9 +20,16 @@
 #include "PhysicsModel.h"
 
 namespace akgr {
+  PhysicsModel::PhysicsModel()
+  : m_world({ 0.0f, 0.0f })
+  {
+
+  }
 
   void PhysicsModel::update(float dt) {
-    
+    int32 velocityIterations = 10; // 6;
+    int32 positionIterations = 8; // 2;
+    m_world.Step(dt, velocityIterations, positionIterations);
   }
 
 }

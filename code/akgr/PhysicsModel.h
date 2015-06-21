@@ -20,16 +20,20 @@
 #ifndef PHYSICS_MODEL_H
 #define PHYSICS_MODEL_H
 
+#include <Box2D/Box2D.h>
+
 #include <game/Model.h>
 
 namespace akgr {
 
   class PhysicsModel : public game::Model {
   public:
+    PhysicsModel();
+
     virtual void update(float dt) override;
 
   private:
-    
+    b2World m_world;
   };
 
 }
