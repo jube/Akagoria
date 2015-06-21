@@ -17,15 +17,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "Singletons.h"
+#ifndef PHYSICS_MODEL_H
+#define PHYSICS_MODEL_H
+
+#include <game/Model.h>
 
 namespace akgr {
 
-  game::Singleton<game::ResourceManager> gResourceManager;
-  game::Singleton<game::EventManager> gEventManager;
-  game::Singleton<game::EntityManager> gMainEntityManager;
-  game::Singleton<game::EntityManager> gHeadsUpEntityManager;
+  class PhysicsModel : public game::Model {
+  public:
+    virtual void update(float dt) override;
 
-  game::Singleton<PhysicsModel> gPhysicsModel;
+  private:
+    
+  };
 
 }
+
+
+#endif // PHYSICS_MODEL_H

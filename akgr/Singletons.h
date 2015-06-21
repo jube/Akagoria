@@ -25,12 +25,16 @@
 #include <game/ResourceManager.h>
 #include <game/Singleton.h>
 
+#include "PhysicsModel.h"
+
 namespace akgr {
 
   extern game::Singleton<game::ResourceManager> gResourceManager;
   extern game::Singleton<game::EventManager> gEventManager;
   extern game::Singleton<game::EntityManager> gMainEntityManager;
   extern game::Singleton<game::EntityManager> gHeadsUpEntityManager;
+
+  extern game::Singleton<PhysicsModel> gPhysicsModel;
 
 }
 

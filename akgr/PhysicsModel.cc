@@ -17,15 +17,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "Singletons.h"
+#include "PhysicsModel.h"
 
 namespace akgr {
 
-  game::Singleton<game::ResourceManager> gResourceManager;
-  game::Singleton<game::EventManager> gEventManager;
-  game::Singleton<game::EntityManager> gMainEntityManager;
-  game::Singleton<game::EntityManager> gHeadsUpEntityManager;
-
-  game::Singleton<PhysicsModel> gPhysicsModel;
+  void PhysicsModel::update(float dt) {
+    
+  }
 
 }

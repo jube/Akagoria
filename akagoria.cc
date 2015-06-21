@@ -25,6 +25,7 @@
 #include "game/Clock.h"
 #include "game/EntityManager.h"
 #include "game/Log.h"
+#include "game/ModelManager.h"
 #include "game/ResourceManager.h"
 #include "game/WindowSettings.h"
 
@@ -41,6 +42,8 @@ int main(int argc, char *argv[]) {
   game::SingletonStorage<game::EventManager> storageForEventManager(akgr::gEventManager);
   game::SingletonStorage<game::EntityManager> storageForMainEntityManager(akgr::gMainEntityManager);
   game::SingletonStorage<game::EntityManager> storageForHeadsUpEntityManager(akgr::gHeadsUpEntityManager);
+
+  game::SingletonStorage<akgr::PhysicsModel> storageForPhysicsModel(akgr::gPhysicsModel);
 
   // initialize
 
@@ -78,6 +81,8 @@ int main(int argc, char *argv[]) {
   actions.addAction(fullscreenAction);
 
   // add entities
+  game::ModelManager models;
+  models.addModel(akgr::gPhysicsModel());
 
 
   // main loop
@@ -110,8 +115,10 @@ int main(int argc, char *argv[]) {
     }
 
     // update
-    auto elapsed = clock.restart();
-    auto dt = elapsed.asSeconds();
+    auto dt = clock.restart().asSeconds();
+
+    models.update(dt);
+
     akgr::gMainEntityManager().update(dt);
     akgr::gHeadsUpEntityManager().update(dt);
 
