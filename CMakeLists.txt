@@ -21,6 +21,7 @@ add_definitions(-Wall -g -O2)
 add_definitions(-std=c++11)
 
 include_directories(${Boost_INCLUDE_DIRS})
+include_directories(${BOX2D_INCLUDE_DIRS})
 include_directories(${SFML2_INCLUDE_DIRS})
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
@@ -57,6 +58,7 @@ add_executable(akagoria
 target_link_libraries(akagoria
   ${CMAKE_THREAD_LIBS_INIT}
   ${Boost_LIBRARIES}
+  ${BOX2D_LIBRARIES}
   ${SFML2_LIBRARIES}
 )
 
