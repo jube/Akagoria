@@ -20,6 +20,8 @@
 #include <cassert>
 #include <cstdio>
 
+#include <tmx/Map.h>
+
 #include "game/Action.h"
 #include "game/Camera.h"
 #include "game/Clock.h"
@@ -84,6 +86,10 @@ int main(int argc, char *argv[]) {
   game::ModelManager models;
   models.addModel(akgr::gPhysicsModel());
 
+  {
+    auto path = akgr::gResourceManager().getAbsolutePath("maps/map.tmx");
+    auto map = tmx::Map::parseFile(path);
+  }
 
   // main loop
   game::Clock clock;

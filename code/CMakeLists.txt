@@ -1,6 +1,7 @@
 include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${BOX2D_INCLUDE_DIRS})
 include_directories(${SFML2_INCLUDE_DIRS})
+include_directories(${LIBTMX0_INCLUDE_DIRS})
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
@@ -39,14 +40,10 @@ target_link_libraries(akagoria
   ${Boost_LIBRARIES}
   ${BOX2D_LIBRARIES}
   ${SFML2_LIBRARIES}
+  ${LIBTMX0_LIBRARIES}
 )
 
 install(
   TARGETS akagoria
   RUNTIME DESTINATION games
-)
-
-install(
-  DIRECTORY "${CMAKE_SOURCE_DIR}/data/akagoria"
-  DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/games"
 )
