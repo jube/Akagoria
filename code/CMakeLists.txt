@@ -29,6 +29,7 @@ add_executable(akagoria
   game/ModelManager.cc
 
   # akagoria
+  akgr/Body.cc
   akgr/PhysicsModel.cc
   akgr/Singletons.cc
 )
