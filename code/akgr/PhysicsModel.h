@@ -17,8 +17,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef PHYSICS_MODEL_H
-#define PHYSICS_MODEL_H
+#ifndef AKGR_PHYSICS_MODEL_H
+#define AKGR_PHYSICS_MODEL_H
 
 #include <Box2D/Box2D.h>
 
@@ -30,6 +30,10 @@ namespace akgr {
   public:
     PhysicsModel();
 
+    b2World& getWorld() {
+      return m_world;
+    }
+
     virtual void update(float dt) override;
 
   private:
@@ -39,4 +43,4 @@ namespace akgr {
 }
 
 
-#endif // PHYSICS_MODEL_H
+#endif // AKGR_PHYSICS_MODEL_H
