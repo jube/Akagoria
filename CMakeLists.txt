@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
 
 project(AKAGORIA
-  VERSION 0.2.0
+  VERSION 0.5.0
   LANGUAGES C CXX
 )
 
@@ -19,11 +19,13 @@ add_definitions(-std=c++11)
 include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${SFML2_INCLUDE_DIRS})
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h @ONLY)
 
 add_executable(akagoria
   akagoria.cc
+
   # base
   game/AssetManager.cc
   game/Clock.cc
@@ -42,6 +44,9 @@ add_executable(akagoria
   # model
   game/Model.cc
   game/ModelManager.cc
+
+  # akagoria
+  akgr/Singletons.cc
 )
 
 target_link_libraries(akagoria

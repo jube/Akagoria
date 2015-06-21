@@ -1,23 +1,21 @@
 /*
- * Copyright (c) 2014-2015, Julien Bernard
+ * Akagoria, the revenge of Kalista
+ * a single-player RPG in an open world with a top-down view.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * Copyright (c) 2013-2015, Julien Bernard
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
-
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <cassert>
 #include <cstdio>
@@ -30,71 +28,42 @@
 #include "game/ResourceManager.h"
 #include "game/WindowSettings.h"
 
+#include "akgr/Singletons.h"
+
 #include "config.h"
 
-static constexpr float AREA_WIDTH = 100.0f;
-static constexpr float AREA_HEIGHT = 50.0f;
-
-class Background : public game::Entity {
-public:
-
-  virtual void render(sf::RenderWindow& window) override {
-    sf::RectangleShape shape({ AREA_WIDTH, AREA_HEIGHT });
-    shape.setOrigin(AREA_WIDTH / 2, AREA_HEIGHT / 2);
-    shape.setPosition(0.0f, 0.0f);
-    shape.setFillColor(sf::Color(0xCC, 0xCC, 0xCC));
-    window.draw(shape);
-  }
-
-};
-
-class Minimap : public game::Entity {
-public:
-  Minimap(game::HeadsUpCamera& camera)
-  : m_camera(camera)
-  {
-
-  }
-
-  virtual void render(sf::RenderWindow& window) override {
-    sf::Vector2f pos = m_camera.transform({ -74.0f, -74.0f });
-
-    sf::RectangleShape shape({ 64, 64 });
-    shape.setPosition(pos);
-    shape.setFillColor(sf::Color(0xCC, 0x00, 0x00));
-    window.draw(shape);
-  }
-
-private:
-  game::HeadsUpCamera& m_camera;
-};
 
 int main(int argc, char *argv[]) {
   game::Log::setLevel(game::Log::INFO);
+
+  // singletons
+  game::SingletonStorage<game::ResourceManager> storageForResourceManager(akgr::gResourceManager);
+  game::SingletonStorage<game::EventManager> storageForEventManager(akgr::gEventManager);
+  game::SingletonStorage<game::EntityManager> storageForMainEntityManager(akgr::gMainEntityManager);
+  game::SingletonStorage<game::EntityManager> storageForHeadsUpEntityManager(akgr::gHeadsUpEntityManager);
 
   // initialize
 
   static constexpr unsigned INITIAL_WIDTH = 1024;
   static constexpr unsigned INITIAL_HEIGHT = 576;
 
-  game::WindowSettings settings(INITIAL_WIDTH, INITIAL_HEIGHT, "Game template (version " GAME_VERSION ")");
+  game::WindowSettings settings(INITIAL_WIDTH, INITIAL_HEIGHT, "Akagoria (version " GAME_VERSION ")");
 
   sf::RenderWindow window;
   settings.applyTo(window);
   window.setKeyRepeatEnabled(false);
 
   // load resources
-  game::ResourceManager resources;
-  resources.addSearchDir(GAME_DATADIR);
+  akgr::gResourceManager().addSearchDir(GAME_DATADIR);
 
   // add cameras
   game::CameraManager cameras;
 
-  game::FixedRatioCamera mainCamera(AREA_WIDTH, AREA_HEIGHT);
+  game::FlexibleCamera mainCamera(INITIAL_WIDTH);
   cameras.addCamera(mainCamera);
 
-  game::HeadsUpCamera hudCamera(window);
-  cameras.addCamera(hudCamera);
+  game::HeadsUpCamera headsUpCamera(window);
+  cameras.addCamera(headsUpCamera);
 
   // add actions
   game::ActionManager actions;
@@ -110,13 +79,6 @@ int main(int argc, char *argv[]) {
 
   // add entities
 
-  game::EntityManager mainEntities;
-  Background bg;
-  mainEntities.addEntity(bg);
-
-  game::EntityManager hudEntities;
-  Minimap map(hudCamera);
-  hudEntities.addEntity(map);
 
   // main loop
   game::Clock clock;
@@ -150,17 +112,17 @@ int main(int argc, char *argv[]) {
     // update
     auto elapsed = clock.restart();
     auto dt = elapsed.asSeconds();
-    mainEntities.update(dt);
-    hudEntities.update(dt);
+    akgr::gMainEntityManager().update(dt);
+    akgr::gHeadsUpEntityManager().update(dt);
 
     // render
     window.clear(sf::Color::White);
 
     mainCamera.configure(window);
-    mainEntities.render(window);
+    akgr::gMainEntityManager().render(window);
 
-    hudCamera.configure(window);
-    hudEntities.render(window);
+    headsUpCamera.configure(window);
+    akgr::gHeadsUpEntityManager().render(window);
 
     window.display();
 
