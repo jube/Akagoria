@@ -22,26 +22,12 @@
 #ifndef GAME_EVENT_MANAGER_H
 #define GAME_EVENT_MANAGER_H
 
-#include <functional>
 #include <map>
 #include <vector>
 
 #include "Event.h"
 
 namespace game {
-
-  /**
-   * @ingroup base
-   */
-  enum class EventStatus {
-    KEEP, /**< The handler must be kept */
-    DIE,  /**< The handler can be removed */
-  };
-
-  /**
-   * @ingroup base
-   */
-  typedef std::function<EventStatus(EventType, Event *)> EventHandler;
 
   /**
    * @ingroup base
