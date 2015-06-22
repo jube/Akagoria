@@ -31,6 +31,7 @@ add_executable(akagoria
 
   # akagoria
   akgr/Body.cc
+  akgr/GridMap.cc
   akgr/PhysicsModel.cc
   akgr/Singletons.cc
 )
