@@ -1,0 +1,12 @@
+Ball:
+  type: circle
+  radius: 8
+Bush:
+  type: circle
+  radius: 28
+Tree:
+  type: circle
+  radius: 32
+Well:
+  type: circle
+  radius: 32

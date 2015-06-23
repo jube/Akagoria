@@ -17,17 +17,43 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "Singletons.h"
+#ifndef AKGR_DATA_H
+#define AKGR_DATA_H
+
+#include <boost/filesystem.hpp>
+#include <SFML/Graphics.hpp>
+
 
 namespace akgr {
+  enum class CollisionShape {
+    CIRCLE,
+    RECTANGLE,
+  };
 
-  game::Singleton<game::ResourceManager> gResourceManager;
-  game::Singleton<game::EventManager> gEventManager;
-  game::Singleton<game::EntityManager> gMainEntityManager;
-  game::Singleton<game::EntityManager> gHeadsUpEntityManager;
+  struct CollisionData {
+    CollisionShape shape;
+    union {
+      struct {
+        float radius;
+      } circle;
+      struct {
+        float width;
+        float height;
+      } rectangle;
+    };
+  };
 
-  game::Singleton<DataManager> gDataManager;
+  struct SpriteData {
+    boost::filesystem::path image;
+    sf::IntRect rectangle;
+  };
 
-  game::Singleton<PhysicsModel> gPhysicsModel;
+  struct ItemData {
+    std::string sprite;
+    std::string collision;
+  };
+
 
 }
+
+#endif // AKGR_DATA_H

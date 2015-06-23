@@ -26,6 +26,7 @@
 #include <game/Singleton.h>
 
 #include "PhysicsModel.h"
+#include "DataManager.h"
 
 namespace akgr {
 
@@ -33,6 +34,8 @@ namespace akgr {
   extern game::Singleton<game::EventManager> gEventManager;
   extern game::Singleton<game::EntityManager> gMainEntityManager;
   extern game::Singleton<game::EntityManager> gHeadsUpEntityManager;
+
+  extern game::Singleton<DataManager> gDataManager;
 
   extern game::Singleton<PhysicsModel> gPhysicsModel;
 

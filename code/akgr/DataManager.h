@@ -17,17 +17,36 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "Singletons.h"
+#ifndef AKGR_DATA_MANAGER_H
+#define AKGR_DATA_MANAGER_H
+
+#include <map>
+#include <string>
+
+#include <boost/filesystem.hpp>
+
+#include "Data.h"
 
 namespace akgr {
 
-  game::Singleton<game::ResourceManager> gResourceManager;
-  game::Singleton<game::EventManager> gEventManager;
-  game::Singleton<game::EntityManager> gMainEntityManager;
-  game::Singleton<game::EntityManager> gHeadsUpEntityManager;
+  class DataManager {
+  public:
+    void load(const boost::filesystem::path& basedir);
 
-  game::Singleton<DataManager> gDataManager;
+    CollisionData getCollisionDataFor(const std::string& name) const;
 
-  game::Singleton<PhysicsModel> gPhysicsModel;
+    SpriteData getSpriteDataFor(const std::string& name) const;
+
+    std::tuple<CollisionData, SpriteData> getItemDataFor(const std::string& name) const;
+
+
+  private:
+    std::map<std::string, CollisionData> m_collisions;
+    std::map<std::string, SpriteData> m_sprites;
+    std::map<std::string, ItemData> m_items;
+  };
+
 
 }
+
+#endif // AKGR_DATA_MANAGER_H

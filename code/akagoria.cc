@@ -45,6 +45,8 @@ int main(int argc, char *argv[]) {
   game::SingletonStorage<game::EntityManager> storageForMainEntityManager(akgr::gMainEntityManager);
   game::SingletonStorage<game::EntityManager> storageForHeadsUpEntityManager(akgr::gHeadsUpEntityManager);
 
+  game::SingletonStorage<akgr::DataManager> storageForDataManager(akgr::gDataManager);
+
   game::SingletonStorage<akgr::PhysicsModel> storageForPhysicsModel(akgr::gPhysicsModel);
 
   // initialize
@@ -60,6 +62,8 @@ int main(int argc, char *argv[]) {
 
   // load resources
   akgr::gResourceManager().addSearchDir(GAME_DATADIR);
+  akgr::gDataManager().load(GAME_DATADIR);
+
 
   // add cameras
   game::CameraManager cameras;

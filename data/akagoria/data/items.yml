@@ -1,0 +1,3 @@
+RedBall:
+  sprite: 'red_ball'
+  collision: 'Ball'

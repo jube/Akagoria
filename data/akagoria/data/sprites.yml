@@ -1,0 +1,11 @@
+Sprites32:
+  image: 'sprites/sprites-32.png'
+  dimension:
+    width: 1024
+    height: 1024
+  sprite:
+    width: 32
+    height: 32
+  ids:
+    - 'red_ball'
+
