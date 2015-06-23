@@ -21,6 +21,7 @@
 #define AKGR_GRID_MAP_H
 
 #include <cassert>
+#include <vector>
 
 #include <boost/range/irange.hpp>
 

@@ -80,7 +80,7 @@ namespace akgr {
 
   game::EventStatus BaseMap::onViewUp(game::EventType type, game::Event *event) {
     assert(type == ViewDownEvent::type);
-    m_floor -= 2;
+    m_floor += 2;
     setDirty();
     return game::EventStatus::KEEP;
   }
@@ -95,7 +95,6 @@ namespace akgr {
   }
 
 
-//   template class GridMap<Sprite>;
 //   template class GridMap<Tile>;
 
 }
