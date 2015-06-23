@@ -37,24 +37,24 @@ namespace akgr {
 
         assert(properties.IsMap());
 
-        auto type_node = properties["type"];
+        auto typeNode = properties["type"];
 
-        if (!type_node) {
+        if (!typeNode) {
           game::Log::warning(game::Log::RESOURCES, "Missing type for entry: '%s'\n", name.c_str());
           continue;
         }
 
-        std::string type = type_node.as<std::string>();
+        std::string type = typeNode.as<std::string>();
 
         CollisionData data;
 
         if (type == "circle") {
           data.shape = CollisionShape::CIRCLE;
 
-          auto radius_node = properties["radius"];
-          assert(radius_node);
+          auto radiusNode = properties["radius"];
+          assert(radiusNode);
 
-          data.circle.radius = radius_node.as<float>();
+          data.circle.radius = radiusNode.as<float>();
 
           collisions.emplace(std::move(name), data);
 
@@ -80,47 +80,47 @@ namespace akgr {
 
         assert(properties.IsMap());
 
-        auto image_node = properties["image"];
+        auto imageNode = properties["image"];
 
-        if (!image_node) {
+        if (!imageNode) {
           game::Log::warning(game::Log::RESOURCES, "Missing image for entry: '%s'\n", name.c_str());
           continue;
         }
 
-        std::string image = image_node.as<std::string>();
+        std::string image = imageNode.as<std::string>();
 
-        auto dimension_node = properties["dimension"];
+        auto dimensionNode = properties["dimension"];
 
-        if (!dimension_node) {
+        if (!dimensionNode) {
           game::Log::warning(game::Log::RESOURCES, "Missing dimension for entry: '%s'\n", name.c_str());
           continue;
         }
 
-        assert(dimension_node.IsMap());
+        assert(dimensionNode.IsMap());
 
-        int width = dimension_node["width"].as<int>();
+        int width = dimensionNode["width"].as<int>();
         assert(width > 0);
-        int height = dimension_node["height"].as<int>();
+        int height = dimensionNode["height"].as<int>();
         assert(height > 0);
 
-        auto content_data = properties["sprite"];
+        auto spriteNode = properties["sprite"];
 
-        if (!content_data) {
+        if (!spriteNode) {
           game::Log::warning(game::Log::RESOURCES, "Missing sprite for entry: '%s'\n", name.c_str());
           continue;
         }
 
-        assert(content_data.IsMap());
+        assert(spriteNode.IsMap());
 
-        int sprite_width = content_data["width"].as<int>();
-        assert(sprite_width > 0);
-        int sprite_height = content_data["height"].as<int>();
-        assert(sprite_height > 0);
+        int spriteWidth = spriteNode["width"].as<int>();
+        assert(spriteWidth > 0);
+        int spriteHeight = spriteNode["height"].as<int>();
+        assert(spriteHeight > 0);
 
-        assert(width % sprite_width == 0);
-        assert(height % sprite_height == 0);
+        assert(width % spriteWidth == 0);
+        assert(height % spriteHeight == 0);
 
-        int count = width / sprite_width;
+        int count = width / spriteWidth;
         assert(count > 0);
 
         auto ids_node = properties["ids"];
@@ -130,12 +130,12 @@ namespace akgr {
         for (auto id : ids_node) {
           std::string name = id.as<std::string>();
 
-          int left = (k % count) * sprite_width;
-          int top = (k / count) * sprite_height;
+          int left = (k % count) * spriteWidth;
+          int top = (k / count) * spriteHeight;
 
           SpriteData data;
           data.image = image;
-          data.rectangle = { left, top, sprite_width, sprite_height };
+          data.rectangle = { left, top, spriteWidth, spriteHeight };
 
           sprites.emplace(std::move(name), std::move(data));
 
@@ -161,23 +161,23 @@ namespace akgr {
 
         assert(properties.IsMap());
 
-        auto sprite_node = properties["sprite"];
+        auto spriteNode = properties["sprite"];
 
-        if (!sprite_node) {
+        if (!spriteNode) {
           game::Log::warning(game::Log::RESOURCES, "Missing sprite for entry: '%s'\n", name.c_str());
           continue;
         }
 
-        data.sprite = sprite_node.as<std::string>();
+        data.sprite = spriteNode.as<std::string>();
 
-        auto collision_node = properties["collision"];
+        auto collisionNode = properties["collision"];
 
-        if (!collision_node) {
+        if (!collisionNode) {
           game::Log::warning(game::Log::RESOURCES, "Missing collision for entry: '%s'\n", name.c_str());
           continue;
         }
 
-        data.collision = collision_node.as<std::string>();
+        data.collision = collisionNode.as<std::string>();
 
         items.emplace(std::move(name), std::move(data));
       }
