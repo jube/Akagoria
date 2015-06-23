@@ -204,34 +204,34 @@ namespace akgr {
     game::Log::info(game::Log::RESOURCES, "\tItem data: %zu\n", m_items.size());
   }
 
-  CollisionData DataManager::getCollisionDataFor(const std::string& name) const {
+  const CollisionData *DataManager::getCollisionDataFor(const std::string& name) const {
     auto it = m_collisions.find(name);
 
     if (it == m_collisions.end()) {
       game::Log::warning(game::Log::RESOURCES, "Could not find collision data for '%s'\n", name.c_str());
-      return CollisionData();
+      return nullptr;
     }
 
-    return it->second;
+    return &it->second;
   }
 
-  SpriteData DataManager::getSpriteDataFor(const std::string& name) const {
+  const SpriteData *DataManager::getSpriteDataFor(const std::string& name) const {
     auto it = m_sprites.find(name);
 
     if (it == m_sprites.end()) {
       game::Log::warning(game::Log::RESOURCES, "Could not find sprite data for '%s'\n", name.c_str());
-      return SpriteData();
+      return nullptr;
     }
 
-    return it->second;
+    return &it->second;
   }
 
-  std::tuple<CollisionData, SpriteData> DataManager::getItemDataFor(const std::string& name) const {
+  std::tuple<const CollisionData *, const SpriteData *> DataManager::getItemDataFor(const std::string& name) const {
     auto it = m_items.find(name);
 
     if (it == m_items.end()) {
       game::Log::warning(game::Log::RESOURCES, "Could not find item data for '%s'\n", name.c_str());
-      return std::make_tuple(CollisionData(), SpriteData());
+      return std::make_tuple(nullptr, nullptr);
     }
 
     ItemData data = it->second;

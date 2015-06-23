@@ -33,11 +33,11 @@ namespace akgr {
   public:
     void load(const boost::filesystem::path& basedir);
 
-    CollisionData getCollisionDataFor(const std::string& name) const;
+    const CollisionData *getCollisionDataFor(const std::string& name) const;
 
-    SpriteData getSpriteDataFor(const std::string& name) const;
+    const SpriteData *getSpriteDataFor(const std::string& name) const;
 
-    std::tuple<CollisionData, SpriteData> getItemDataFor(const std::string& name) const;
+    std::tuple<const CollisionData *, const SpriteData *> getItemDataFor(const std::string& name) const;
 
 
   private:
