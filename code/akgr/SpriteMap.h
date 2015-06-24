@@ -17,36 +17,39 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_PHYSICS_MODEL_H
-#define AKGR_PHYSICS_MODEL_H
+#ifndef AKGR_SPRITE_MAP_H
+#define AKGR_SPRITE_MAP_H
 
-#include <Box2D/Box2D.h>
+#include <tmx/Map.h>
 
-#include <game/Model.h>
-
-#include "Data.h"
+#include "GridMap.h"
 
 namespace akgr {
 
-  class PhysicsModel : public game::Model {
+  struct Sprite {
+    int floor;
+    sf::Vector2f pos;
+    sf::IntRect rect;
+    sf::Texture *texture;
+  };
+
+  extern template class GridMap<Sprite>;
+
+  class SpriteMap : public GridMap<Sprite> {
   public:
-    static constexpr float BOX2D_SCALE = 0.02f;
+    SpriteMap(int priority);
 
-    PhysicsModel();
+    void loadMap(const tmx::Map& map, const std::string& kind);
 
-    b2World& getWorld() {
-      return m_world;
-    }
+    void addSprite(const Sprite& sprite);
 
     virtual void update(float dt) override;
-
-    void addMapItem(float x, float y, int floor, const CollisionData *data);
+    virtual void render(sf::RenderWindow& window) override;
 
   private:
-    b2World m_world;
+    std::vector<const Sprite*> m_sprites;
   };
 
 }
 
-
-#endif // AKGR_PHYSICS_MODEL_H
+#endif // AKGR_SPRITE_MAP_H

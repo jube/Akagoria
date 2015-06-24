@@ -19,7 +19,7 @@
  */
 #include "Body.h"
 
-static constexpr float BOX2D_SCALE = 0.02f;
+#include "PhysicsModel.h"
 
 namespace akgr {
 
@@ -40,7 +40,7 @@ namespace akgr {
 
   sf::Vector2f Body::getPosition() const {
     auto pos = m_body->GetPosition();
-    return { pos.x / BOX2D_SCALE, pos.y / BOX2D_SCALE };
+    return { pos.x / PhysicsModel::BOX2D_SCALE, pos.y / PhysicsModel::BOX2D_SCALE };
   }
 
   float Body::getAngle() const {
@@ -52,7 +52,7 @@ namespace akgr {
     m_body->SetAngularVelocity(0.0f);
 
     b2Rot rot(angle);
-    b2Vec2 vel(0.0f, velocity * BOX2D_SCALE);
+    b2Vec2 vel(0.0f, velocity * PhysicsModel::BOX2D_SCALE);
     vel = b2Mul(rot, vel);
 
     m_body->SetLinearVelocity(vel);
