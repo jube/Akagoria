@@ -73,6 +73,11 @@ int main(int argc, char *argv[]) {
 
   game::FlexibleCamera mainCamera(INITIAL_WIDTH);
   cameras.addCamera(mainCamera);
+  akgr::gEventManager().registerHandler<akgr::HeroLocationEvent>([&mainCamera](game::EventType type, game::Event *event) {
+    auto heroLocation = static_cast<akgr::HeroLocationEvent*>(event);
+    mainCamera.setCenter(heroLocation->loc.pos);
+    return game::EventStatus::KEEP;
+  });
 
   game::HeadsUpCamera headsUpCamera(window);
   cameras.addCamera(headsUpCamera);
@@ -122,13 +127,12 @@ int main(int argc, char *argv[]) {
   }
 
   {
+    // initial position
     akgr::HeroLocationEvent event;
     event.loc.floor = 0;
     event.loc.pos.x = 4000;
     event.loc.pos.y = 4000;
     akgr::gEventManager().triggerEvent(&event);
-
-    mainCamera.setCenter({ 4000.0f, 4000.0f });
   }
 
   // main loop
