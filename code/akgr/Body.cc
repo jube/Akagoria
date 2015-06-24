@@ -19,9 +19,17 @@
  */
 #include "Body.h"
 
+#include <cassert>
+
 #include "PhysicsModel.h"
 
 namespace akgr {
+  Body::Body()
+  : m_floor(0)
+  , m_body(nullptr)
+  {
+
+  }
 
   Body::Body(int floor, b2Body *body)
   : m_floor(floor)
@@ -39,15 +47,18 @@ namespace akgr {
   }
 
   sf::Vector2f Body::getPosition() const {
+    assert(m_body);
     auto pos = m_body->GetPosition();
     return { pos.x / PhysicsModel::BOX2D_SCALE, pos.y / PhysicsModel::BOX2D_SCALE };
   }
 
   float Body::getAngle() const {
+    assert(m_body);
     return m_body->GetAngle();
   }
 
   void Body::setAngleAndVelocity(float angle, float velocity) {
+    assert(m_body);
     m_body->SetTransform(m_body->GetPosition(), angle);
     m_body->SetAngularVelocity(0.0f);
 

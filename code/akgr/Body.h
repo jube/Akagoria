@@ -28,6 +28,7 @@ namespace akgr {
 
   class Body {
   public:
+    Body();
     Body(int floor, b2Body *body);
 
     Body(const Body&) = delete;

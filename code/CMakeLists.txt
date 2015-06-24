@@ -34,6 +34,7 @@ add_executable(akagoria
   akgr/Body.cc
   akgr/DataManager.cc
   akgr/GridMap.cc
+  akgr/Hero.cc
   akgr/PhysicsModel.cc
   akgr/Singletons.cc
   akgr/SpriteMap.cc

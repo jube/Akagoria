@@ -24,6 +24,7 @@
 
 #include <game/Model.h>
 
+#include "Body.h"
 #include "Data.h"
 
 namespace akgr {
@@ -41,6 +42,8 @@ namespace akgr {
     virtual void update(float dt) override;
 
     void addMapItem(float x, float y, int floor, const CollisionData *data);
+
+    Body createHeroBody(float x, float y, int floor, const CollisionData *data);
 
   private:
     b2World m_world;

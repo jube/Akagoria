@@ -32,6 +32,7 @@
 #include "game/WindowSettings.h"
 
 #include "akgr/GameEvents.h"
+#include "akgr/Hero.h"
 #include "akgr/Singletons.h"
 #include "akgr/SpriteMap.h"
 #include "akgr/TileMap.h"
@@ -113,7 +114,6 @@ int main(int argc, char *argv[]) {
   akgr::SpriteMap hiSpriteMap(20);
   akgr::gMainEntityManager().addEntity(hiSpriteMap);
 
-
   {
     auto path = akgr::gResourceManager().getAbsolutePath("maps/map.tmx");
     auto map = tmx::Map::parseFile(path);
@@ -126,14 +126,9 @@ int main(int argc, char *argv[]) {
     hiSpriteMap.loadMap(*map, "high_sprite");
   }
 
-  {
-    // initial position
-    akgr::HeroLocationEvent event;
-    event.loc.floor = 0;
-    event.loc.pos.x = 4000;
-    event.loc.pos.y = 4000;
-    akgr::gEventManager().triggerEvent(&event);
-  }
+  akgr::Hero hero(4000, 4000, 0);
+  akgr::gMainEntityManager().addEntity(hero);
+  hero.broadcastLocation();
 
   // main loop
   game::Clock clock;
