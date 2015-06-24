@@ -94,7 +94,4 @@ namespace akgr {
     return map_size / grid_unit + 1;
   }
 
-
-//   template class GridMap<Tile>;
-
 }

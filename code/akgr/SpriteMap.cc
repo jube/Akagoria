@@ -37,7 +37,7 @@ namespace akgr {
 
     struct SpriteConstructor : public tmx::LayerVisitor {
 
-      SpriteConstructor(SpriteMap *spriteMap, const std::string& kind)
+      SpriteConstructor(SpriteMap& spriteMap, const std::string& kind)
       : m_spriteMap(spriteMap)
       , m_kind(kind)
       {
@@ -106,7 +106,7 @@ namespace akgr {
 
           sprite.texture = texture;
 
-          m_spriteMap->addSprite(sprite);
+          m_spriteMap.addSprite(sprite);
           count++;
 
           auto collisionData = gDataManager().getCollisionDataFor(name);
@@ -124,7 +124,7 @@ namespace akgr {
       }
 
     private:
-      SpriteMap *m_spriteMap;
+      SpriteMap& m_spriteMap;
       const std::string& m_kind;
     };
 
@@ -138,7 +138,7 @@ namespace akgr {
   void SpriteMap::loadMap(const tmx::Map& map, const std::string& kind) {
     initialize(map.getWidth() * map.getTileWidth(), map.getHeight() * map.getTileHeight(), SPRITE_MAP_UNIT);
 
-    SpriteConstructor visitor(this, kind);
+    SpriteConstructor visitor(*this, kind);
     map.visitLayers(visitor);
   }
 

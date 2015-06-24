@@ -37,6 +37,7 @@ add_executable(akagoria
   akgr/PhysicsModel.cc
   akgr/Singletons.cc
   akgr/SpriteMap.cc
+  akgr/TileMap.cc
 )
 
 target_link_libraries(akagoria
