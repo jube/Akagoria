@@ -95,6 +95,27 @@ int main(int argc, char *argv[]) {
   fullscreenAction.addKeyControl(sf::Keyboard::F);
   actions.addAction(fullscreenAction);
 
+  game::Action leftAction("Left");
+  leftAction.addKeyControl(sf::Keyboard::Left);
+  leftAction.setContinuous();
+  actions.addAction(leftAction);
+
+  game::Action rightAction("Right");
+  rightAction.addKeyControl(sf::Keyboard::Right);
+  rightAction.setContinuous();
+  actions.addAction(rightAction);
+
+  game::Action upAction("Up");
+  upAction.addKeyControl(sf::Keyboard::Up);
+  upAction.setContinuous();
+  actions.addAction(upAction);
+
+  game::Action downAction("Down");
+  downAction.addKeyControl(sf::Keyboard::Down);
+  downAction.setContinuous();
+  actions.addAction(downAction);
+
+
   // add entities
   game::ModelManager models;
   models.addModel(akgr::gPhysicsModel());
@@ -157,6 +178,22 @@ int main(int argc, char *argv[]) {
       event.size.width = sz.x;
       event.size.height = sz.y;
       cameras.update(event);
+    }
+
+    if (leftAction.isActive()) {
+      hero.turnLeft();
+    } else if (rightAction.isActive()) {
+      hero.turnRight();
+    } else {
+      hero.stopTurning();
+    }
+
+    if (upAction.isActive()) {
+      hero.walkForward();
+    } else if (downAction.isActive()) {
+      hero.walkBackward();
+    } else {
+      hero.stopWalking();
     }
 
     // update
