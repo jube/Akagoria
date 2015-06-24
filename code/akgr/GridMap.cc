@@ -42,13 +42,13 @@ namespace akgr {
   BaseMap::Range BaseMap::getXRange() const {
     unsigned xmin = (m_focus_x > 0) ? m_focus_x - 1 : m_focus_x;
     unsigned xmax = (m_focus_x < m_grid_width - 1) ? m_focus_x + 1 : m_focus_x;
-    return boost::irange(xmin, xmax);
+    return boost::irange(xmin, xmax + 1);
   }
 
   BaseMap::Range BaseMap::getYRange() const {
     unsigned ymin = (m_focus_y > 0) ? m_focus_y - 1 : m_focus_y;
     unsigned ymax = (m_focus_y < m_grid_height - 1) ? m_focus_y + 1 : m_focus_y;
-    return boost::irange(ymin, ymax);
+    return boost::irange(ymin, ymax + 1);
   }
 
   game::EventStatus BaseMap::onHeroLocation(game::EventType type, game::Event *event) {
