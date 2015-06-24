@@ -22,6 +22,8 @@
 
 #include <game/Event.h>
 
+#include "Location.h"
+
 namespace akgr {
 
   struct HeroLocationEvent : public game::Event {

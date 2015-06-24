@@ -31,7 +31,10 @@
 #include "game/ResourceManager.h"
 #include "game/WindowSettings.h"
 
+#include "akgr/GameEvents.h"
 #include "akgr/Singletons.h"
+#include "akgr/SpriteMap.h"
+#include "akgr/TileMap.h"
 
 #include "config.h"
 
@@ -90,9 +93,42 @@ int main(int argc, char *argv[]) {
   game::ModelManager models;
   models.addModel(akgr::gPhysicsModel());
 
+  akgr::TileMap groundMap(-30);
+  akgr::gMainEntityManager().addEntity(groundMap);
+
+  akgr::TileMap loTileMap(-20);
+  akgr::gMainEntityManager().addEntity(loTileMap);
+
+  akgr::SpriteMap loSpriteMap(-10);
+  akgr::gMainEntityManager().addEntity(loSpriteMap);
+
+  akgr::TileMap hiTileMap(10);
+  akgr::gMainEntityManager().addEntity(hiTileMap);
+
+  akgr::SpriteMap hiSpriteMap(20);
+  akgr::gMainEntityManager().addEntity(hiSpriteMap);
+
+
   {
     auto path = akgr::gResourceManager().getAbsolutePath("maps/map.tmx");
     auto map = tmx::Map::parseFile(path);
+
+    groundMap.loadMap(*map, "ground");
+    loTileMap.loadMap(*map, "low_tile");
+    hiTileMap.loadMap(*map, "high_tile");
+
+    loSpriteMap.loadMap(*map, "low_sprite");
+    hiSpriteMap.loadMap(*map, "high_sprite");
+  }
+
+  {
+    akgr::HeroLocationEvent event;
+    event.loc.floor = 0;
+    event.loc.pos.x = 4000;
+    event.loc.pos.y = 4000;
+    akgr::gEventManager().triggerEvent(&event);
+
+    mainCamera.setCenter({ 4000.0f, 4000.0f });
   }
 
   // main loop

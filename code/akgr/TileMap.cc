@@ -55,7 +55,7 @@ static constexpr unsigned TILE_MAP_UNIT = 1600; /* 25 * 64 */
 
         int floor = std::stoi(layer.getProperty("floor", "0"));
 
-        game::Log::info(game::Log::GRAPHICS, "\tLoading tile layer: '%s' (floor: %i)\n", layer.getName().c_str(), floor);
+        game::Log::info(game::Log::GRAPHICS, "Loading tile layer: '%s' (floor: %i)\n", layer.getName().c_str(), floor);
 
         unsigned tileWidth = map.getTileWidth();
         assert(tileWidth);
@@ -134,7 +134,7 @@ static constexpr unsigned TILE_MAP_UNIT = 1600; /* 25 * 64 */
           count++;
         }
 
-        game::Log::info(game::Log::GRAPHICS, "\t\tTiles loaded: %u\n", count);
+        game::Log::info(game::Log::GRAPHICS, "\tTiles loaded: %u\n", count);
       }
 
 

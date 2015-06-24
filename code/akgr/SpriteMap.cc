@@ -56,7 +56,7 @@ namespace akgr {
 
         int floor = std::stoi(layer.getProperty("floor", "0"));
 
-        game::Log::info(game::Log::GRAPHICS, "\tLoading sprite layer: '%s' (floor: %i)\n", layer.getName().c_str(), floor);
+        game::Log::info(game::Log::GRAPHICS, "Loading sprite layer: '%s' (floor: %i)\n", layer.getName().c_str(), floor);
 
         unsigned count = 0;
 
@@ -120,7 +120,7 @@ namespace akgr {
           gPhysicsModel().addMapItem(x, y, floor, collisionData);
         }
 
-        game::Log::info(game::Log::GRAPHICS, "\t\tSprites loaded: %u\n", count);
+        game::Log::info(game::Log::GRAPHICS, "\tSprites loaded: %u\n", count);
       }
 
     private:
