@@ -19,6 +19,7 @@
  */
 #include "DataManager.h"
 
+#include <tmx/ObjectLayer.h>
 #include <yaml-cpp/yaml.h>
 
 #include <game/Log.h>
@@ -204,6 +205,60 @@ namespace akgr {
     game::Log::info(game::Log::RESOURCES, "\tItem data: %zu\n", m_items.size());
   }
 
+  namespace {
+
+    struct DataConstructor : public tmx::LayerVisitor {
+      DataConstructor(DataManager& manager)
+      : m_manager(manager)
+      {
+
+      }
+
+      virtual void visitObjectLayer(const tmx::Map& map, const tmx::ObjectLayer& layer) override {
+        if (!layer.hasProperty("kind")) {
+          game::Log::warning(game::Log::GRAPHICS, "No kind for the layer: '%s'\n", layer.getName().c_str());
+          return;
+        }
+
+        if (layer.getProperty("kind", "") != "poi") {
+          return;
+        }
+
+        int floor = std::stoi(layer.getProperty("floor", "0"));
+
+        game::Log::info(game::Log::RESOURCES, "Loading POI layer: '%s' (floor: %i)\n", layer.getName().c_str(), floor);
+
+        unsigned count = 0;
+
+        for (auto obj : layer) {
+          const std::string& name = obj->getName();
+
+          if (!obj->isEllipse()) {
+            game::Log::warning(game::Log::RESOURCES, "Object is not an ellipse: '%s'\n", name.c_str());
+            continue;
+          }
+
+          sf::Vector2f pos(obj->getX(), obj->getY());
+          m_manager.addPointOfInterestData(name, { pos, floor });
+
+          count++;
+        }
+
+        game::Log::info(game::Log::RESOURCES, "\tPOI loaded: %u\n", count);
+      }
+
+    private:
+      DataManager& m_manager;
+    };
+
+
+  }
+
+  void DataManager::loadMap(const tmx::Map& map) {
+    DataConstructor visitor(*this);
+    map.visitLayers(visitor);
+  }
+
   const CollisionData *DataManager::getCollisionDataFor(const std::string& name) const {
     auto it = m_collisions.find(name);
 
@@ -236,6 +291,21 @@ namespace akgr {
 
     ItemData data = it->second;
     return std::make_tuple(getCollisionDataFor(data.collision), getSpriteDataFor(data.sprite));
+  }
+
+  void DataManager::addPointOfInterestData(std::string name, const Location& loc) {
+    m_pois.insert(std::make_pair(std::move(name), PointOfInterestData{ loc }));
+  }
+
+  const PointOfInterestData *DataManager::getPointOfInterestDataFor(const std::string& name) const {
+    auto it = m_pois.find(name);
+
+    if (it == m_pois.end()) {
+      game::Log::warning(game::Log::RESOURCES, "Could not find point of interest data for '%s'\n", name.c_str());
+      return nullptr;
+    }
+
+    return &it->second;
   }
 
 }

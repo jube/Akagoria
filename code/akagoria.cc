@@ -147,6 +147,7 @@ int main(int argc, char *argv[]) {
     hiSpriteMap.loadMap(*map, "high_sprite");
 
     akgr::gPhysicsModel().loadMap(*map);
+    akgr::gDataManager().loadMap(*map);
   }
 
   akgr::Hero hero(4000, 4000, 0);

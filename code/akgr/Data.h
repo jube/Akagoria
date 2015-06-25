@@ -23,6 +23,7 @@
 #include <boost/filesystem.hpp>
 #include <SFML/Graphics.hpp>
 
+#include "Location.h"
 
 namespace akgr {
   enum class CollisionShape {
@@ -53,6 +54,9 @@ namespace akgr {
     std::string collision;
   };
 
+  struct PointOfInterestData {
+    Location loc;
+  };
 
 }
 

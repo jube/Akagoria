@@ -25,6 +25,8 @@
 
 #include <boost/filesystem.hpp>
 
+#include <tmx/Map.h>
+
 #include "Data.h"
 
 namespace akgr {
@@ -32,6 +34,7 @@ namespace akgr {
   class DataManager {
   public:
     void load(const boost::filesystem::path& basedir);
+    void loadMap(const tmx::Map& map);
 
     const CollisionData *getCollisionDataFor(const std::string& name) const;
 
@@ -39,11 +42,14 @@ namespace akgr {
 
     std::tuple<const CollisionData *, const SpriteData *> getItemDataFor(const std::string& name) const;
 
+    void addPointOfInterestData(std::string name, const Location& loc);
+    const PointOfInterestData *getPointOfInterestDataFor(const std::string& name) const;
 
   private:
     std::map<std::string, CollisionData> m_collisions;
     std::map<std::string, SpriteData> m_sprites;
     std::map<std::string, ItemData> m_items;
+    std::map<std::string, PointOfInterestData> m_pois;
   };
 
 
