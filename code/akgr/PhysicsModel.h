@@ -21,6 +21,7 @@
 #define AKGR_PHYSICS_MODEL_H
 
 #include <Box2D/Box2D.h>
+#include <tmx/Map.h>
 
 #include <game/Model.h>
 
@@ -28,12 +29,17 @@
 #include "Data.h"
 
 namespace akgr {
+  class PhysicsListener;
 
   class PhysicsModel : public game::Model {
   public:
     static constexpr float BOX2D_SCALE = 0.02f;
 
     PhysicsModel();
+    ~PhysicsModel();
+
+    PhysicsModel(const PhysicsModel&) = delete;
+    PhysicsModel& operator=(const PhysicsModel&) = delete;
 
     b2World& getWorld() {
       return m_world;
@@ -45,8 +51,11 @@ namespace akgr {
 
     Body createHeroBody(float x, float y, int floor, const CollisionData *data);
 
+    void loadMap(tmx::Map& map);
+
   private:
     b2World m_world;
+    PhysicsListener *m_listener;
   };
 
 }
