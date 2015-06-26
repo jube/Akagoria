@@ -39,6 +39,31 @@
 
 #include "config.h"
 
+static constexpr unsigned INITIAL_WIDTH = 1024;
+static constexpr unsigned INITIAL_HEIGHT = 576;
+
+static void displaySplashScreen(sf::RenderWindow& window) {
+  window.clear(sf::Color::White);
+
+  // define a splash message
+  sf::Text text;
+  text.setFont(*akgr::gResourceManager().getFont("fonts/DejaVuSans.ttf"));
+  text.setCharacterSize(32);
+  text.setColor(sf::Color::Black);
+  text.setString("Akagoria, the revenge of Kalista");
+
+  // put the splash screen in the center
+  sf::FloatRect rect = text.getLocalBounds();
+  text.setOrigin(rect.width / 2.0f, rect.height / 2.0f);
+  text.setPosition(INITIAL_WIDTH / 2, INITIAL_HEIGHT / 2);
+  window.draw(text);
+
+  text.setColor(sf::Color(255, 127, 0));
+  text.move(-2.0f, -2.0f);
+  window.draw(text);
+
+  window.display();
+}
 
 int main(int argc, char *argv[]) {
   game::Log::setLevel(game::Log::INFO);
@@ -53,19 +78,24 @@ int main(int argc, char *argv[]) {
 
   game::SingletonStorage<akgr::PhysicsModel> storageForPhysicsModel(akgr::gPhysicsModel);
 
-  // initialize
 
-  static constexpr unsigned INITIAL_WIDTH = 1024;
-  static constexpr unsigned INITIAL_HEIGHT = 576;
-
+  // initialize window
   game::WindowSettings settings(INITIAL_WIDTH, INITIAL_HEIGHT, "Akagoria (version " GAME_VERSION ")");
 
   sf::RenderWindow window;
   settings.applyTo(window);
   window.setKeyRepeatEnabled(false);
 
-  // load resources
+
+  // initialize directories
   akgr::gResourceManager().addSearchDir(GAME_DATADIR);
+
+
+  // splash screen
+  displaySplashScreen(window);
+
+
+  // load data
   akgr::gDataManager().load(GAME_DATADIR);
 
 
@@ -82,6 +112,7 @@ int main(int argc, char *argv[]) {
 
   game::HeadsUpCamera headsUpCamera(window);
   cameras.addCamera(headsUpCamera);
+
 
   // add actions
   game::ActionManager actions;
@@ -153,6 +184,7 @@ int main(int argc, char *argv[]) {
   akgr::Hero hero(4000, 4000, 0);
   akgr::gMainEntityManager().addEntity(hero);
   hero.broadcastLocation();
+
 
   // main loop
   game::Clock clock;
