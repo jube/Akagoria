@@ -58,6 +58,15 @@ namespace akgr {
     Location loc;
   };
 
+  struct DialogueData {
+    struct Line {
+      std::string speaker;
+      std::string line;
+    };
+
+    std::vector<Line> content;
+  };
+
 }
 
 #endif // AKGR_DATA_H

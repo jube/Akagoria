@@ -188,6 +188,48 @@ namespace akgr {
     }
   }
 
+  static void loadDialogueData(std::map<std::string, DialogueData>& dialogues, const std::string& path) {
+    try {
+      YAML::Node node = YAML::LoadFile(path);
+
+      assert(node.IsMap());
+
+      for (const auto& entry : node) {
+        std::string name = entry.first.as<std::string>();
+        auto properties = entry.second;
+
+        DialogueData data;
+
+        assert(properties.IsMap());
+
+        auto contentNode = properties["content"];
+
+        if (!contentNode) {
+          game::Log::warning(game::Log::RESOURCES, "Missing content for entry: '%s'\n", name.c_str());
+          continue;
+        }
+
+        assert(contentNode.IsSequence());
+
+        for (const auto& itemNode : contentNode) {
+          auto speakerNode = itemNode["speaker"];
+          assert(speakerNode);
+          std::string speaker = speakerNode.as<std::string>();
+
+          auto lineNode = itemNode["line"];
+          assert(lineNode);
+          std::string line = lineNode.as<std::string>();
+
+          data.content.push_back({ std::move(speaker), std::move(line) });
+        }
+
+        dialogues.emplace(std::move(name), std::move(data));
+      }
+    } catch (std::exception& ex) {
+      game::Log::error(game::Log::RESOURCES, "Error when loading item database: %s\n", ex.what());
+      return;
+    }
+  }
 
   void DataManager::load(const boost::filesystem::path& basedir) {
     game::Log::info(game::Log::RESOURCES, "Loading data\n");
@@ -203,6 +245,10 @@ namespace akgr {
     boost::filesystem::path items_path = basedir / "data/items.yml";
     loadItemData(m_items, items_path.string());
     game::Log::info(game::Log::RESOURCES, "\tItem data: %zu\n", m_items.size());
+
+    boost::filesystem::path dialogues_path = basedir / "data/dialogues.yml";
+    loadDialogueData(m_dialogues, dialogues_path.string());
+    game::Log::info(game::Log::RESOURCES, "\tDialogue data: %zu\n", m_dialogues.size());
   }
 
   namespace {
@@ -302,6 +348,17 @@ namespace akgr {
 
     if (it == m_pois.end()) {
       game::Log::warning(game::Log::RESOURCES, "Could not find point of interest data for '%s'\n", name.c_str());
+      return nullptr;
+    }
+
+    return &it->second;
+  }
+
+  const DialogueData *DataManager::getDialogueDataFor(const std::string& name) const {
+    auto it = m_dialogues.find(name);
+
+    if (it == m_dialogues.end()) {
+      game::Log::warning(game::Log::RESOURCES, "Could not find dialogue data for '%s'\n", name.c_str());
       return nullptr;
     }
 
