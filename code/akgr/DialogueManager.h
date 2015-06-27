@@ -17,21 +17,33 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "Singletons.h"
+#ifndef AKGR_DIALOGUE_MANAGER_H
+#define AKGR_DIALOGUE_MANAGER_H
+
+#include <string>
+
+#include <game/Entity.h>
+
+#include "Data.h"
 
 namespace akgr {
 
-  game::Singleton<game::ResourceManager> gResourceManager;
-  game::Singleton<game::EventManager> gEventManager;
-  game::Singleton<game::EntityManager> gMainEntityManager;
-  game::Singleton<game::EntityManager> gHeadsUpEntityManager;
+  class DialogueManager : public game::Entity {
+  public:
+    DialogueManager();
 
-  game::Singleton<DataManager> gDataManager;
+    bool start(const std::string& name);
+    bool nextLine();
 
-  game::Singleton<PhysicsModel> gPhysicsModel;
+    virtual void render(sf::RenderWindow& window) override;
 
-  game::Singleton<DialogueManager> gDialogueManager;
-
-  game::Singleton<game::WindowGeometry> gWindowGeometry;
+  private:
+    sf::Font *m_font;
+    const DialogueData *m_currentDialogue;
+    std::size_t m_currentLine;
+  };
 
 }
+
+
+#endif // AKGR_DIALOGUE_MANAGER_H

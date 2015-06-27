@@ -26,6 +26,7 @@ add_executable(akagoria
   game/EntityManager.cc
   game/ResourceManager.cc
   game/WindowSettings.cc
+  game/WindowGeometry.cc
   # gameskel model
   game/Model.cc
   game/ModelManager.cc
@@ -33,11 +34,13 @@ add_executable(akagoria
   # akagoria
   akgr/Body.cc
   akgr/DataManager.cc
+  akgr/DialogueManager.cc
   akgr/GridMap.cc
   akgr/Hero.cc
   akgr/PhysicsModel.cc
   akgr/Singletons.cc
   akgr/SpriteMap.cc
+  akgr/Story.cc
   akgr/TileMap.cc
 )
 

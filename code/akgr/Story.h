@@ -17,35 +17,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_SINGLETONS_H
-#define AKGR_SINGLETONS_H
-
-#include <game/EntityManager.h>
-#include <game/EventManager.h>
-#include <game/ResourceManager.h>
-#include <game/Singleton.h>
-#include <game/WindowGeometry.h>
-
-#include "PhysicsModel.h"
-#include "DataManager.h"
-#include "DialogueManager.h"
+#ifndef AKGR_STORY_H
+#define AKGR_STORY_H
 
 namespace akgr {
 
-  extern game::Singleton<game::ResourceManager> gResourceManager;
-  extern game::Singleton<game::EventManager> gEventManager;
-  extern game::Singleton<game::EntityManager> gMainEntityManager;
-  extern game::Singleton<game::EntityManager> gHeadsUpEntityManager;
-
-  extern game::Singleton<DataManager> gDataManager;
-
-  extern game::Singleton<PhysicsModel> gPhysicsModel;
-
-  extern game::Singleton<DialogueManager> gDialogueManager;
-
-  extern game::Singleton<game::WindowGeometry> gWindowGeometry;
+  class Story {
+  public:
+    Story();
+  private:
+  };
 
 }
 
-
-#endif // AKGR_SINGLETONS_H
+#endif // AKGR_STORY_H

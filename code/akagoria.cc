@@ -35,6 +35,7 @@
 #include "akgr/Hero.h"
 #include "akgr/Singletons.h"
 #include "akgr/SpriteMap.h"
+#include "akgr/Story.h"
 #include "akgr/TileMap.h"
 
 #include "config.h"
@@ -54,7 +55,7 @@ static void displaySplashScreen(sf::RenderWindow& window) {
 
   // put the splash screen in the center
   sf::FloatRect rect = text.getLocalBounds();
-  text.setOrigin(rect.width / 2.0f, rect.height / 2.0f);
+  text.setOrigin(rect.left + rect.width / 2.0f, rect.top + rect.height / 2.0f);
   text.setPosition(INITIAL_WIDTH / 2, INITIAL_HEIGHT / 2);
   window.draw(text);
 
@@ -70,14 +71,20 @@ int main(int argc, char *argv[]) {
 
   // singletons
   game::SingletonStorage<game::ResourceManager> storageForResourceManager(akgr::gResourceManager);
+  akgr::gResourceManager().addSearchDir(GAME_DATADIR);
+
   game::SingletonStorage<game::EventManager> storageForEventManager(akgr::gEventManager);
   game::SingletonStorage<game::EntityManager> storageForMainEntityManager(akgr::gMainEntityManager);
   game::SingletonStorage<game::EntityManager> storageForHeadsUpEntityManager(akgr::gHeadsUpEntityManager);
 
   game::SingletonStorage<akgr::DataManager> storageForDataManager(akgr::gDataManager);
+  akgr::gDataManager().load(GAME_DATADIR);
 
   game::SingletonStorage<akgr::PhysicsModel> storageForPhysicsModel(akgr::gPhysicsModel);
 
+  game::SingletonStorage<akgr::DialogueManager> storageForDialogueManager(akgr::gDialogueManager);
+
+  game::SingletonStorage<game::WindowGeometry> storageForWindowGeometry(akgr::gWindowGeometry, INITIAL_WIDTH, INITIAL_HEIGHT);
 
   // initialize window
   game::WindowSettings settings(INITIAL_WIDTH, INITIAL_HEIGHT, "Akagoria (version " GAME_VERSION ")");
@@ -86,18 +93,8 @@ int main(int argc, char *argv[]) {
   settings.applyTo(window);
   window.setKeyRepeatEnabled(false);
 
-
-  // initialize directories
-  akgr::gResourceManager().addSearchDir(GAME_DATADIR);
-
-
   // splash screen
   displaySplashScreen(window);
-
-
-  // load data
-  akgr::gDataManager().load(GAME_DATADIR);
-
 
   // add cameras
   game::CameraManager cameras;
@@ -186,6 +183,10 @@ int main(int argc, char *argv[]) {
   hero.broadcastLocation();
 
 
+  akgr::gHeadsUpEntityManager().addEntity(akgr::gDialogueManager());
+
+  akgr::Story story;
+
   // main loop
   game::Clock clock;
 
@@ -196,6 +197,8 @@ int main(int argc, char *argv[]) {
     while (window.pollEvent(event)) {
       actions.update(event);
       cameras.update(event);
+
+      akgr::gWindowGeometry().update(event);
     }
 
     if (closeWindowAction.isActive()) {
@@ -213,6 +216,7 @@ int main(int argc, char *argv[]) {
       event.size.width = sz.x;
       event.size.height = sz.y;
       cameras.update(event);
+      akgr::gWindowGeometry().update(event);
     }
 
     if (leftAction.isActive()) {

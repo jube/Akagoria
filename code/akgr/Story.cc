@@ -17,35 +17,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_SINGLETONS_H
-#define AKGR_SINGLETONS_H
+#include "Story.h"
 
-#include <game/EntityManager.h>
-#include <game/EventManager.h>
-#include <game/ResourceManager.h>
-#include <game/Singleton.h>
-#include <game/WindowGeometry.h>
+#include <game/Event.h>
+#include <game/Log.h>
 
-#include "PhysicsModel.h"
-#include "DataManager.h"
-#include "DialogueManager.h"
+#include "Singletons.h"
 
 namespace akgr {
 
-  extern game::Singleton<game::ResourceManager> gResourceManager;
-  extern game::Singleton<game::EventManager> gEventManager;
-  extern game::Singleton<game::EntityManager> gMainEntityManager;
-  extern game::Singleton<game::EntityManager> gHeadsUpEntityManager;
+  static game::EventStatus onIntroDialogueEvent(game::EventType type, game::Event *event) {
+    std::printf("Intro dialogue!\n");
+    gDialogueManager().start("Intro");
+    return game::EventStatus::DIE;
+  }
 
-  extern game::Singleton<DataManager> gDataManager;
-
-  extern game::Singleton<PhysicsModel> gPhysicsModel;
-
-  extern game::Singleton<DialogueManager> gDialogueManager;
-
-  extern game::Singleton<game::WindowGeometry> gWindowGeometry;
+  Story::Story()
+  {
+    gEventManager().registerHandler("IntroDialogueEvent"_type, onIntroDialogueEvent);
+  }
 
 }
-
-
-#endif // AKGR_SINGLETONS_H
