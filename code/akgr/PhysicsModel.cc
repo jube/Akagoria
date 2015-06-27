@@ -183,7 +183,7 @@ namespace akgr {
 
   class PhysicsListener : public b2ContactListener {
   public:
-    void addEventZone(int floor, const std::string& name, const tmx::Object *object, game::EventType event) {
+    void addEventZone(int floor, const std::string& name, const tmx::Object *object, const std::string& event) {
       auto fixture = createFixtureFromObject(gPhysicsModel().getWorld(), object, floor, true);
 
       if (fixture == nullptr) {
@@ -191,7 +191,10 @@ namespace akgr {
         return;
       }
 
-      m_eventZones[fixture] = event;
+      auto type = game::Hash(event);
+
+      m_eventZones[fixture] = type;
+      m_eventNames[type] = event;
     }
 
     void addCollisionZone(int floor, const std::string& name, const tmx::Object *object) {
@@ -218,7 +221,7 @@ namespace akgr {
       }
 
       gEventManager().triggerEvent(event, nullptr);
-      game::Log::info(game::Log::PHYSICS, "Event triggered: %" PRId64 "\n", event);
+      game::Log::info(game::Log::PHYSICS, "Map event triggered: %s (%" PRIu64 ")\n", m_eventNames[event].c_str(), event);
       return true;
     }
 
@@ -234,6 +237,7 @@ namespace akgr {
 
   private:
     std::map<b2Fixture*, game::EventType> m_eventZones;
+    std::map<game::EventType, std::string> m_eventNames;
   };
 
   namespace {
@@ -271,7 +275,7 @@ namespace akgr {
             }
 
             const std::string& type = obj->getProperty("type", "");
-            m_listener.addEventZone(floor, name, obj, game::Hash(type));
+            m_listener.addEventZone(floor, name, obj, type);
             eventCount++;
           } else if (obj->getType() == "collision") {
             m_listener.addCollisionZone(floor, name, obj);
@@ -351,6 +355,8 @@ namespace akgr {
 
     ZoneConstructor visitor(*m_listener);
     map.visitLayers(visitor);
+
+    m_world.SetContactListener(m_listener);
   }
 
 }
