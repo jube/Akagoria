@@ -34,7 +34,7 @@ add_executable(akagoria
   # akagoria
   akgr/Body.cc
   akgr/DataManager.cc
-  akgr/DialogueManager.cc
+  akgr/DialogManager.cc
   akgr/GridMap.cc
   akgr/Hero.cc
   akgr/PhysicsModel.cc

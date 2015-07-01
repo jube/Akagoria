@@ -30,7 +30,7 @@ namespace akgr {
 
   game::Singleton<PhysicsModel> gPhysicsModel;
 
-  game::Singleton<DialogueManager> gDialogueManager;
+  game::Singleton<DialogManager> gDialogManager;
 
   game::Singleton<game::WindowGeometry> gWindowGeometry;
 

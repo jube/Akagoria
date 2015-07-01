@@ -31,7 +31,7 @@ namespace akgr {
   }
 
   game::EventStatus Story::onIntroDialogueEvent(game::EventType type, game::Event *event) {
-    gDialogueManager().start("Intro");
+    gDialogManager().start("Intro");
     return game::EventStatus::DIE;
   }
 

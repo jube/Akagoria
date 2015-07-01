@@ -82,7 +82,7 @@ int main(int argc, char *argv[]) {
 
   game::SingletonStorage<akgr::PhysicsModel> storageForPhysicsModel(akgr::gPhysicsModel);
 
-  game::SingletonStorage<akgr::DialogueManager> storageForDialogueManager(akgr::gDialogueManager);
+  game::SingletonStorage<akgr::DialogManager> storageForDialogManager(akgr::gDialogManager);
 
   game::SingletonStorage<game::WindowGeometry> storageForWindowGeometry(akgr::gWindowGeometry, INITIAL_WIDTH, INITIAL_HEIGHT);
 
@@ -183,7 +183,7 @@ int main(int argc, char *argv[]) {
   hero.broadcastLocation();
 
 
-  akgr::gHeadsUpEntityManager().addEntity(akgr::gDialogueManager());
+  akgr::gHeadsUpEntityManager().addEntity(akgr::gDialogManager());
 
   akgr::Story story;
 
