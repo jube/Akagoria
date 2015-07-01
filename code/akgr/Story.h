@@ -28,7 +28,7 @@ namespace akgr {
   public:
     Story();
   private:
-    game::EventStatus onIntroDialogueEvent(game::EventType type, game::Event *event);
+    game::EventStatus onIntroDialogEvent(game::EventType type, game::Event *event);
   };
 
 }

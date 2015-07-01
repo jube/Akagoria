@@ -540,7 +540,7 @@
   </properties>
   <object id="109" type="event" x="3166" y="4074" width="274" height="124">
    <properties>
-    <property name="type" value="IntroDialogueEvent"/>
+    <property name="type" value="IntroDialogEvent"/>
    </properties>
   </object>
  </objectgroup>
