@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "DialogueManager.h"
+#include "DialogManager.h"
 
 #include <cassert>
 
@@ -30,44 +30,44 @@
 
 namespace akgr {
 
-  DialogueManager::DialogueManager()
-  : m_currentDialogue(nullptr)
+  DialogManager::DialogManager()
+  : m_currentDialog(nullptr)
   , m_currentLine(0)
   {
     m_font = gResourceManager().getFont("fonts/DejaVuSans.ttf");
     assert(m_font);
   }
 
-  bool DialogueManager::start(const std::string& name) {
-    if (m_currentDialogue != nullptr) {
+  bool DialogManager::start(const std::string& name) {
+    if (m_currentDialog != nullptr) {
       game::Log::warning(game::Log::RESOURCES, "Can not load a dialogue because one is already loaded: '%s'\n", name.c_str());
       return false;
     }
 
-    m_currentDialogue = gDataManager().getDialogueDataFor(name);
+    m_currentDialog = gDataManager().getDialogDataFor(name);
     m_currentLine = 0;
 
-    if (m_currentDialogue == nullptr) {
+    if (m_currentDialog == nullptr) {
       return false;
     }
 
-    assert(!m_currentDialogue->content.empty());
-    game::Log::info(game::Log::RESOURCES, "Dialogue loaded: '%s'\n", name.c_str());
-    game::Log::info(game::Log::RESOURCES, "Dialogue first line:: '%s'\n", m_currentDialogue->content[m_currentLine].line.c_str());
+    assert(!m_currentDialog->content.empty());
+    game::Log::info(game::Log::RESOURCES, "Dialog loaded: '%s'\n", name.c_str());
+    game::Log::info(game::Log::RESOURCES, "Dialog first line:: '%s'\n", m_currentDialog->content[m_currentLine].line.c_str());
     return true;
   }
 
-  bool DialogueManager::nextLine() {
-    if (m_currentDialogue == nullptr) {
+  bool DialogManager::nextLine() {
+    if (m_currentDialog == nullptr) {
       game::Log::warning(game::Log::RESOURCES, "The dialogue is not available anymore.\n");
       return false;
     }
 
     m_currentLine++;
 
-    if (m_currentLine == m_currentDialogue->content.size()) {
+    if (m_currentLine == m_currentDialog->content.size()) {
       game::Log::info(game::Log::RESOURCES, "End of the dialogue.\n");
-      m_currentDialogue = nullptr;
+      m_currentDialog = nullptr;
       return false;
     }
 
@@ -82,8 +82,8 @@ namespace akgr {
   static constexpr unsigned LINE_SIZE = 20;
   static constexpr unsigned SPEAKER_SIZE = 16;
 
-  void DialogueManager::render(sf::RenderWindow& window) {
-    if (m_currentDialogue == nullptr) {
+  void DialogManager::render(sf::RenderWindow& window) {
+    if (m_currentDialog == nullptr) {
       return;
     }
 
@@ -100,14 +100,14 @@ namespace akgr {
     text.setCharacterSize(LINE_SIZE);
     text.setColor(sf::Color::Black);
 
-    text.setString(m_currentDialogue->content[m_currentLine].line);
+    text.setString(m_currentDialog->content[m_currentLine].line);
     sf::FloatRect rect = text.getLocalBounds();
     text.setOrigin(rect.left, rect.top);
     text.setPosition(x + DIALOGUE_PADDING, y + DIALOGUE_PADDING);
     window.draw(text);
 
     text.setCharacterSize(SPEAKER_SIZE);
-    text.setString(m_currentDialogue->content[m_currentLine].speaker);
+    text.setString(m_currentDialog->content[m_currentLine].speaker);
     text.setStyle(sf::Text::Bold);
     rect = text.getLocalBounds();
     text.setOrigin(rect.left, rect.top);

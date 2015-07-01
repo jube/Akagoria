@@ -17,8 +17,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_DIALOGUE_MANAGER_H
-#define AKGR_DIALOGUE_MANAGER_H
+#ifndef AKGR_DIALOG_MANAGER_H
+#define AKGR_DIALOG_MANAGER_H
 
 #include <string>
 
@@ -28,9 +28,9 @@
 
 namespace akgr {
 
-  class DialogueManager : public game::Entity {
+  class DialogManager : public game::Entity {
   public:
-    DialogueManager();
+    DialogManager();
 
     bool start(const std::string& name);
     bool nextLine();
@@ -39,11 +39,11 @@ namespace akgr {
 
   private:
     sf::Font *m_font;
-    const DialogueData *m_currentDialogue;
+    const DialogData *m_currentDialog;
     std::size_t m_currentLine;
   };
 
 }
 
 
-#endif // AKGR_DIALOGUE_MANAGER_H
+#endif // AKGR_DIALOG_MANAGER_H

@@ -188,7 +188,7 @@ namespace akgr {
     }
   }
 
-  static void loadDialogueData(std::map<std::string, DialogueData>& dialogues, const std::string& path) {
+  static void loadDialogData(std::map<std::string, DialogData>& dialogues, const std::string& path) {
     try {
       YAML::Node node = YAML::LoadFile(path);
 
@@ -198,7 +198,7 @@ namespace akgr {
         std::string name = entry.first.as<std::string>();
         auto properties = entry.second;
 
-        DialogueData data;
+        DialogData data;
 
         assert(properties.IsMap());
 
@@ -247,8 +247,8 @@ namespace akgr {
     game::Log::info(game::Log::RESOURCES, "\tItem data: %zu\n", m_items.size());
 
     boost::filesystem::path dialogues_path = basedir / "data/dialogues.yml";
-    loadDialogueData(m_dialogues, dialogues_path.string());
-    game::Log::info(game::Log::RESOURCES, "\tDialogue data: %zu\n", m_dialogues.size());
+    loadDialogData(m_dialogues, dialogues_path.string());
+    game::Log::info(game::Log::RESOURCES, "\tDialog data: %zu\n", m_dialogues.size());
   }
 
   namespace {
@@ -354,7 +354,7 @@ namespace akgr {
     return &it->second;
   }
 
-  const DialogueData *DataManager::getDialogueDataFor(const std::string& name) const {
+  const DialogData *DataManager::getDialogDataFor(const std::string& name) const {
     auto it = m_dialogues.find(name);
 
     if (it == m_dialogues.end()) {

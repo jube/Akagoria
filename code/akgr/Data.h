@@ -58,7 +58,7 @@ namespace akgr {
     Location loc;
   };
 
-  struct DialogueData {
+  struct DialogData {
     struct Line {
       std::string speaker;
       std::string line;

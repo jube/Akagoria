@@ -45,14 +45,14 @@ namespace akgr {
     void addPointOfInterestData(std::string name, const Location& loc);
     const PointOfInterestData *getPointOfInterestDataFor(const std::string& name) const;
 
-    const DialogueData *getDialogueDataFor(const std::string& name) const;
+    const DialogData *getDialogDataFor(const std::string& name) const;
 
   private:
     std::map<std::string, CollisionData> m_collisions;
     std::map<std::string, SpriteData> m_sprites;
     std::map<std::string, ItemData> m_items;
     std::map<std::string, PointOfInterestData> m_pois;
-    std::map<std::string, DialogueData> m_dialogues;
+    std::map<std::string, DialogData> m_dialogues;
   };
 
 
