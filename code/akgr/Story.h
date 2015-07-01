@@ -20,12 +20,15 @@
 #ifndef AKGR_STORY_H
 #define AKGR_STORY_H
 
+#include <game/Event.h>
+
 namespace akgr {
 
   class Story {
   public:
     Story();
   private:
+    game::EventStatus onIntroDialogueEvent(game::EventType type, game::Event *event);
   };
 
 }

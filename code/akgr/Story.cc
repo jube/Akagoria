@@ -19,22 +19,20 @@
  */
 #include "Story.h"
 
-#include <game/Event.h>
 #include <game/Log.h>
 
 #include "Singletons.h"
 
 namespace akgr {
 
-  static game::EventStatus onIntroDialogueEvent(game::EventType type, game::Event *event) {
-    std::printf("Intro dialogue!\n");
-    gDialogueManager().start("Intro");
-    return game::EventStatus::DIE;
-  }
-
   Story::Story()
   {
-    gEventManager().registerHandler("IntroDialogueEvent"_type, onIntroDialogueEvent);
+    gEventManager().registerHandler("IntroDialogueEvent"_type, &Story::onIntroDialogueEvent, this);
+  }
+
+  game::EventStatus Story::onIntroDialogueEvent(game::EventType type, game::Event *event) {
+    gDialogueManager().start("Intro");
+    return game::EventStatus::DIE;
   }
 
 }
