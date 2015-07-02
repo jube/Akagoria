@@ -33,7 +33,9 @@ namespace akgr {
     DialogManager();
 
     bool start(const std::string& name);
-    bool nextLine();
+    bool showNextLine();
+
+    bool hasNextLine() const;
 
     virtual void render(sf::RenderWindow& window) override;
 

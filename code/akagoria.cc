@@ -143,6 +143,9 @@ int main(int argc, char *argv[]) {
   downAction.setContinuous();
   actions.addAction(downAction);
 
+  game::Action useAction("Use");
+  useAction.addKeyControl(sf::Keyboard::Space);
+  actions.addAction(useAction);
 
   // add entities
   game::ModelManager models;
@@ -233,6 +236,12 @@ int main(int argc, char *argv[]) {
       hero.walkBackward();
     } else {
       hero.stopWalking();
+    }
+
+    if (useAction.isActive()) {
+      if (akgr::gDialogManager().hasNextLine()) {
+        akgr::gDialogManager().showNextLine();
+      }
     }
 
     // update

@@ -53,11 +53,11 @@ namespace akgr {
 
     assert(!m_currentDialog->content.empty());
     game::Log::info(game::Log::RESOURCES, "Dialog loaded: '%s'\n", name.c_str());
-    game::Log::info(game::Log::RESOURCES, "Dialog first line:: '%s'\n", m_currentDialog->content[m_currentLine].line.c_str());
+//     game::Log::info(game::Log::RESOURCES, "Dialog first line:: '%s'\n", m_currentDialog->content[m_currentLine].line.c_str());
     return true;
   }
 
-  bool DialogManager::nextLine() {
+  bool DialogManager::showNextLine() {
     if (m_currentDialog == nullptr) {
       game::Log::warning(game::Log::RESOURCES, "The dialogue is not available anymore.\n");
       return false;
@@ -72,6 +72,10 @@ namespace akgr {
     }
 
     return true;
+  }
+
+  bool DialogManager::hasNextLine() const {
+    return m_currentDialog != nullptr;
   }
 
   static constexpr float SPEAKER_WIDTH = 150.0f;
