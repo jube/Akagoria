@@ -41,6 +41,7 @@ namespace akgr {
 
   private:
     sf::Font *m_font;
+    std::string m_currentDialogName;
     const DialogData *m_currentDialog;
     std::size_t m_currentLine;
   };

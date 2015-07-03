@@ -26,6 +26,7 @@
 #include <game/Log.h>
 
 #include "DataManager.h"
+#include "GameEvents.h"
 #include "Singletons.h"
 
 namespace akgr {
@@ -44,6 +45,7 @@ namespace akgr {
       return false;
     }
 
+    m_currentDialogName = name;
     m_currentDialog = gDataManager().getDialogDataFor(name);
     m_currentLine = 0;
 
@@ -68,6 +70,11 @@ namespace akgr {
     if (m_currentLine == m_currentDialog->content.size()) {
       game::Log::info(game::Log::GENERAL, "End of the dialogue.\n");
       m_currentDialog = nullptr;
+
+      DialogEndEvent event;
+      event.name = m_currentDialogName;
+      gEventManager().triggerEvent(&event);
+
       return false;
     }
 

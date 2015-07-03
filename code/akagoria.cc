@@ -145,7 +145,7 @@ int main(int argc, char *argv[]) {
   actions.addAction(downAction);
 
   game::Action useAction("Use");
-  useAction.addKeyControl(sf::Keyboard::Space);
+  useAction.addKeyControl(sf::Keyboard::X);
   actions.addAction(useAction);
 
   // add entities
@@ -192,7 +192,8 @@ int main(int argc, char *argv[]) {
   // another character
   auto shagirLocation = akgr::gDataManager().getPointOfInterestDataFor("Shagir");
   assert(shagirLocation);
-  akgr::gCharacterManager().addCharacter("Shagir", shagirLocation->loc.pos.x, shagirLocation->loc.pos.y, 0.5f, shagirLocation->loc.floor);
+  auto shagirCharacter = akgr::gCharacterManager().addCharacter("Shagir", shagirLocation->loc.pos.x, shagirLocation->loc.pos.y, 0.5f, shagirLocation->loc.floor);
+  shagirCharacter->attachDialog("ShagirConversation0");
 
 
   akgr::gMainEntityManager().addEntity(akgr::gCharacterManager());
@@ -252,6 +253,8 @@ int main(int argc, char *argv[]) {
     if (useAction.isActive()) {
       if (akgr::gDialogManager().hasNextLine()) {
         akgr::gDialogManager().showNextLine();
+      } else {
+        hero.tryToTalk();
       }
     }
 

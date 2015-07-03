@@ -32,8 +32,10 @@ namespace akgr {
   Hero::Hero(float x, float y, int floor)
   : game::Entity(1)
   , m_linear(Linear::STOP), m_angular(Angular::STOP)
+  , m_mode(Mode::WALK)
   , m_staticAnimation("static"), m_forwardAnimation("forward"), m_backwardAnimation("backward")
   , m_currentAnimation(&m_staticAnimation) {
+    gEventManager().registerHandler<DialogEndEvent>(&Hero::onDialogEnd, this);
 
     CollisionData data;
     data.shape = CollisionShape::RECTANGLE;
@@ -58,6 +60,19 @@ namespace akgr {
     m_backwardAnimation.addFrame(texture, {  64, 0, 64, 64 }, 0.30f);
   }
 
+  void Hero::tryToTalk() {
+    if (m_mode == Mode::WALK) {
+      TalkEvent event;
+      event.loc = m_body.getLocation();
+      event.isTalking = false;
+      gEventManager().triggerEvent(&event);
+
+      if (event.isTalking) {
+        m_mode = Mode::TALK;
+      }
+    }
+  }
+
   void Hero::broadcastLocation() {
     HeroLocationEvent event;
     event.loc = m_body.getLocation();
@@ -70,22 +85,6 @@ namespace akgr {
   void Hero::update(float dt) {
     float angle = m_body.getAngle();
     float velocity = 0.0f;
-
-    switch (m_linear) {
-      case Linear::STOP:
-        m_currentAnimation = &m_staticAnimation;
-        break;
-
-      case Linear::FORWARD:
-        m_currentAnimation = &m_forwardAnimation;
-        velocity = -HOP;
-        break;
-
-      case Linear::BACKWARD:
-        m_currentAnimation = &m_backwardAnimation;
-        velocity = HOP * 0.5f;
-        break;
-    }
 
     switch (m_angular) {
       case Angular::STOP:
@@ -100,6 +99,25 @@ namespace akgr {
         break;
     }
 
+    if (m_mode == Mode::WALK) {
+      switch (m_linear) {
+        case Linear::STOP:
+          m_currentAnimation = &m_staticAnimation;
+          break;
+
+        case Linear::FORWARD:
+          m_currentAnimation = &m_forwardAnimation;
+          velocity = -HOP;
+          break;
+
+        case Linear::BACKWARD:
+          m_currentAnimation = &m_backwardAnimation;
+          velocity = HOP * 0.5f;
+          break;
+      }
+
+    }
+
     m_body.setAngleAndVelocity(angle, velocity);
 
     assert(m_currentAnimation);
@@ -112,6 +130,11 @@ namespace akgr {
 
   void Hero::render(sf::RenderWindow& window) {
     m_currentAnimation->renderAt(window, getPosition(), m_body.getAngle() / PI_2 * 90.0f);
+  }
+
+  game::EventStatus Hero::onDialogEnd(game::EventType type, game::Event *event) {
+    m_mode = Mode::WALK;
+    return game::EventStatus::KEEP;
   }
 
 }

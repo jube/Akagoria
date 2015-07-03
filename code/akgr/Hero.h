@@ -20,8 +20,9 @@
 #ifndef AKGR_HERO_H
 #define AKGR_HERO_H
 
-#include <game/Entity.h>
 #include <game/Animation.h>
+#include <game/Event.h>
+#include <game/Entity.h>
 
 #include "Body.h"
 
@@ -59,6 +60,8 @@ namespace akgr {
       m_angular = Angular::RIGHT;
     }
 
+    void tryToTalk();
+
     void broadcastLocation();
 
     virtual void update(float dt) override;
@@ -83,10 +86,20 @@ namespace akgr {
 
     Angular m_angular;
 
+    enum class Mode {
+      WALK,
+      TALK,
+    };
+
+    Mode m_mode;
+
     game::Animation m_staticAnimation;
     game::Animation m_forwardAnimation;
     game::Animation m_backwardAnimation;
     game::Animation *m_currentAnimation;
+
+  private:
+    game::EventStatus onDialogEnd(game::EventType type, game::Event *event);
   };
 
 

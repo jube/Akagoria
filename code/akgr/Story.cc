@@ -27,10 +27,10 @@ namespace akgr {
 
   Story::Story()
   {
-    gEventManager().registerHandler("IntroDialogEvent"_type, &Story::onIntroDialogEvent, this);
+    gEventManager().registerHandler("IntroDialogEvent"_type, &Story::onIntroDialog, this);
   }
 
-  game::EventStatus Story::onIntroDialogEvent(game::EventType type, game::Event *event) {
+  game::EventStatus Story::onIntroDialog(game::EventType type, game::Event *event) {
     gDialogManager().start("Intro");
     return game::EventStatus::DIE;
   }

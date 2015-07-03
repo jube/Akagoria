@@ -2,4 +2,8 @@ Intro:
   content:
     - { speaker: 'Kalista', line: "Ouch! What a terrible headache!\nWhere am I? Why am I here?\nI am sooo hungry, I must find something to eat..." }
     - { speaker: 'Kalista', line: "I think there is a village not so far from here,\nI can see some smoke in the south...\nLet's go!" }
-
+ShagirConversation0:
+  content:
+    - { speaker: 'Kalista', line: "Hi! Can you help me?\nI am looking for a village nearby.\nAm I in the right direction?" }
+    - { speaker: 'Shagir', line: "Hummm... Yes!\nYou seem to be lost, you should be carefull!\nIt is said that an evil sorceress is haunting the woods..." }
+    - { speaker: 'Kalista', line: "Ho really?\n(Gniak! Gniark!)\n" }

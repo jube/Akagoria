@@ -19,12 +19,18 @@
  */
 #include "Character.h"
 
+#include <cmath>
+
 #include <game/Log.h>
 
 #include "Data.h"
+#include "GameEvents.h"
 #include "Singletons.h"
 
 namespace akgr {
+
+  static constexpr float DIALOG_RADIUS = 30.0f;
+  static constexpr float DIALOG_THICKNESS = 5.0f;
 
   static constexpr float CHARACTER_WIDTH = 60;
   static constexpr float CHARACTER_HEIGHT = 45;
@@ -40,6 +46,14 @@ namespace akgr {
     m_body.setAngleAndVelocity(angle, 0.0f);
   }
 
+  void Character::attachDialog(std::string dialogName) {
+    m_dialog = std::move(dialogName);
+  }
+
+  void Character::detachDialog() {
+    m_dialog.clear();
+  }
+
   void Character::update(float dt) {
 
   }
@@ -50,6 +64,16 @@ namespace akgr {
     auto pos = m_body.getPosition();
     auto angle = m_body.getAngle() / PI_2 * 90.0f;
 
+    if (hasDialog()) {
+      sf::CircleShape circleShape(DIALOG_RADIUS);
+      circleShape.setFillColor(sf::Color::Transparent);
+      circleShape.setOutlineThickness(DIALOG_THICKNESS);
+      circleShape.setOutlineColor(sf::Color(0xFF, 0xFF, 0x60, 0x80));
+      circleShape.setOrigin(DIALOG_RADIUS, DIALOG_RADIUS);
+      circleShape.setPosition(pos);
+      window.draw(circleShape);
+    }
+
     sf::RectangleShape shape({ CHARACTER_WIDTH, CHARACTER_HEIGHT });
     shape.setOrigin(CHARACTER_WIDTH / 2, CHARACTER_HEIGHT / 2);
     shape.setFillColor(sf::Color(0xFF, 0x80, 0x00));
@@ -59,17 +83,22 @@ namespace akgr {
   }
 
 
-  void CharacterManager::addCharacter(std::string name, float x, float y, float angle, int floor) {
+  CharacterManager::CharacterManager() {
+    gEventManager().registerHandler<TalkEvent>(&CharacterManager::onTalk, this);
+  }
+
+  Character *CharacterManager::addCharacter(std::string name, float x, float y, float angle, int floor) {
     auto it = m_nameToCharacters.find(name);
 
     if (it != m_nameToCharacters.end()) {
       game::Log::warning(game::Log::GENERAL, "A character already exists with this name: '%s'\n", name.c_str());
-      return;
+      return &m_characters[it->second];
     }
 
     auto index = m_characters.size();
     m_nameToCharacters.insert(std::make_pair(name, index));
     m_characters.emplace_back(std::move(name), x, y, angle, floor);
+    return &m_characters[index];
   }
 
   Character *CharacterManager::getCharacter(const std::string& name) {
@@ -93,6 +122,37 @@ namespace akgr {
     for (auto& c : m_characters) {
       c.render(window);
     }
+  }
+
+  static float squareDistance(const sf::Vector2f& lhs, const sf::Vector2f& rhs) {
+    auto d = lhs - rhs;
+    return d.x * d.x + d.y * d.y;
+  }
+
+  static constexpr float DIALOG_DISTANCE = 100.0f;
+
+  game::EventStatus CharacterManager::onTalk(game::EventType type, game::Event *event) {
+    auto talkEvent = static_cast<TalkEvent *>(event);
+
+    for (auto& c : m_characters) {
+      if (!c.hasDialog()) {
+        continue;
+      }
+
+      Location loc = c.getLocation();
+
+      if (loc.floor == talkEvent->loc.floor) {
+        float d2 = squareDistance(loc.pos, talkEvent->loc.pos);
+        game::Log::info(game::Log::GENERAL, "Distance: %f\n", std::sqrt(d2));
+
+        if (d2 < DIALOG_DISTANCE * DIALOG_DISTANCE) {
+          talkEvent->isTalking = true;
+          gDialogManager().start(c.getDialogName());
+        }
+      }
+    }
+
+    return game::EventStatus::KEEP;
   }
 
 }

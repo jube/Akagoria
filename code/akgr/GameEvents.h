@@ -20,6 +20,8 @@
 #ifndef AKGR_GAME_EVENTS_H
 #define AKGR_GAME_EVENTS_H
 
+#include <string>
+
 #include <game/Event.h>
 
 #include "Location.h"
@@ -30,6 +32,19 @@ namespace akgr {
     static const game::EventType type = "HeroLocation"_type;
 
     Location loc;
+  };
+
+  struct DialogEndEvent : public game::Event {
+    static const game::EventType type = "DialogEndEvent"_type;
+
+    std::string name;
+  };
+
+  struct TalkEvent : public game::Event {
+    static const game::EventType type = "TalkEvent"_type;
+
+    Location loc;
+    bool isTalking;
   };
 
 }
