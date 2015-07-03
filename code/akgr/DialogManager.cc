@@ -40,7 +40,7 @@ namespace akgr {
 
   bool DialogManager::start(const std::string& name) {
     if (m_currentDialog != nullptr) {
-      game::Log::warning(game::Log::RESOURCES, "Can not load a dialogue because one is already loaded: '%s'\n", name.c_str());
+      game::Log::warning(game::Log::GENERAL, "Can not load a dialogue because one is already loaded: '%s'\n", name.c_str());
       return false;
     }
 
@@ -52,21 +52,21 @@ namespace akgr {
     }
 
     assert(!m_currentDialog->content.empty());
-    game::Log::info(game::Log::RESOURCES, "Dialog loaded: '%s'\n", name.c_str());
-//     game::Log::info(game::Log::RESOURCES, "Dialog first line:: '%s'\n", m_currentDialog->content[m_currentLine].line.c_str());
+    game::Log::info(game::Log::GENERAL, "Dialog loaded: '%s'\n", name.c_str());
+//     game::Log::info(game::Log::GENERAL, "Dialog first line:: '%s'\n", m_currentDialog->content[m_currentLine].line.c_str());
     return true;
   }
 
   bool DialogManager::showNextLine() {
     if (m_currentDialog == nullptr) {
-      game::Log::warning(game::Log::RESOURCES, "The dialogue is not available anymore.\n");
+      game::Log::warning(game::Log::GENERAL, "The dialogue is not available anymore.\n");
       return false;
     }
 
     m_currentLine++;
 
     if (m_currentLine == m_currentDialog->content.size()) {
-      game::Log::info(game::Log::RESOURCES, "End of the dialogue.\n");
+      game::Log::info(game::Log::GENERAL, "End of the dialogue.\n");
       m_currentDialog = nullptr;
       return false;
     }

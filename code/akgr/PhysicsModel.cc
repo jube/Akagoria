@@ -348,6 +348,15 @@ namespace akgr {
     return Body(floor, body);
   }
 
+  Body PhysicsModel::createCharacterBody(float x, float y, int floor, const CollisionData *data) {
+    b2BodyDef def;
+    def.type = b2_kinematicBody;
+    def.position = { x * BOX2D_SCALE, y * BOX2D_SCALE };
+    auto body = m_world.CreateBody(&def);
+    addFixtureToBody(body, floor, true, false, data);
+    return Body(floor, body);
+  }
+
   void PhysicsModel::loadMap(tmx::Map& map) {
     assert(m_listener == nullptr);
 

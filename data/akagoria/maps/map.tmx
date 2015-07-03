@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="512" height="512" tilewidth="32" tileheight="32" nextobjectid="110">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="512" height="512" tilewidth="32" tileheight="32" nextobjectid="115">
  <tileset firstgid="1" name="Biomes" tilewidth="32" tileheight="32" spacing="2" margin="1">
   <image source="biomes.png" width="782" height="782"/>
   <terraintypes>
@@ -538,7 +538,7 @@
   <properties>
    <property name="kind" value="zone"/>
   </properties>
-  <object id="109" type="event" x="3166" y="4074" width="274" height="124">
+  <object id="109" type="event" x="3805" y="3908" width="274" height="124">
    <properties>
     <property name="type" value="IntroDialogEvent"/>
    </properties>
@@ -851,7 +851,10 @@
    <property name="floor" value="0"/>
    <property name="kind" value="poi"/>
   </properties>
-  <object id="108" name="Ball_of_Kalista" x="3518.51" y="4283.57">
+  <object id="113" name="Start" x="3948" y="3957">
+   <ellipse/>
+  </object>
+  <object id="114" name="Shagir" x="3324" y="4466">
    <ellipse/>
   </object>
  </objectgroup>

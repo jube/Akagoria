@@ -17,22 +17,44 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "Singletons.h"
+#ifndef AKGR_CHARACTER_H
+#define AKGR_CHARACTER_H
+
+#include <game/Entity.h>
+
+#include <akgr/Body.h>
 
 namespace akgr {
 
-  game::Singleton<game::ResourceManager> gResourceManager;
-  game::Singleton<game::EventManager> gEventManager;
-  game::Singleton<game::EntityManager> gMainEntityManager;
-  game::Singleton<game::EntityManager> gHeadsUpEntityManager;
+  class Character {
+  public:
+    Character(std::string name, float x, float y, float angle, int floor);
 
-  game::Singleton<DataManager> gDataManager;
+    void update(float dt);
+    void render(sf::RenderWindow& window);
 
-  game::Singleton<PhysicsModel> gPhysicsModel;
+  private:
+    std::string m_name;
+    Body m_body;
+  };
 
-  game::Singleton<CharacterManager> gCharacterManager;
-  game::Singleton<DialogManager> gDialogManager;
 
-  game::Singleton<game::WindowGeometry> gWindowGeometry;
+  class CharacterManager : public game::Entity {
+  public:
+
+    void addCharacter(std::string name, float x, float y, float angle, int floor);
+
+    Character *getCharacter(const std::string& name);
+
+    virtual void update(float dt) override;
+    virtual void render(sf::RenderWindow& window) override;
+
+  private:
+    std::vector<Character> m_characters;
+    std::map<std::string, std::size_t> m_nameToCharacters;
+  };
 
 }
+
+#endif // AKGR_CHARACTER_H
+

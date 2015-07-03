@@ -27,6 +27,8 @@
 #include <game/WindowGeometry.h>
 
 #include "PhysicsModel.h"
+
+#include "Character.h"
 #include "DataManager.h"
 #include "DialogManager.h"
 
@@ -41,6 +43,7 @@ namespace akgr {
 
   extern game::Singleton<PhysicsModel> gPhysicsModel;
 
+  extern game::Singleton<CharacterManager> gCharacterManager;
   extern game::Singleton<DialogManager> gDialogManager;
 
   extern game::Singleton<game::WindowGeometry> gWindowGeometry;

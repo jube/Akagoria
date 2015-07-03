@@ -33,6 +33,7 @@ add_executable(akagoria
 
   # akagoria
   akgr/Body.cc
+  akgr/Character.cc
   akgr/DataManager.cc
   akgr/DialogManager.cc
   akgr/GridMap.cc

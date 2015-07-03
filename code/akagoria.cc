@@ -82,6 +82,7 @@ int main(int argc, char *argv[]) {
 
   game::SingletonStorage<akgr::PhysicsModel> storageForPhysicsModel(akgr::gPhysicsModel);
 
+  game::SingletonStorage<akgr::CharacterManager> storageForCharacterManager(akgr::gCharacterManager);
   game::SingletonStorage<akgr::DialogManager> storageForDialogManager(akgr::gDialogManager);
 
   game::SingletonStorage<game::WindowGeometry> storageForWindowGeometry(akgr::gWindowGeometry, INITIAL_WIDTH, INITIAL_HEIGHT);
@@ -181,10 +182,20 @@ int main(int argc, char *argv[]) {
     akgr::gDataManager().loadMap(*map);
   }
 
-  akgr::Hero hero(4000, 4000, 0);
+  // hero
+  auto startLocation = akgr::gDataManager().getPointOfInterestDataFor("Start");
+  assert(startLocation);
+  akgr::Hero hero(startLocation->loc.pos.x, startLocation->loc.pos.y, startLocation->loc.floor);
   akgr::gMainEntityManager().addEntity(hero);
   hero.broadcastLocation();
 
+  // another character
+  auto shagirLocation = akgr::gDataManager().getPointOfInterestDataFor("Shagir");
+  assert(shagirLocation);
+  akgr::gCharacterManager().addCharacter("Shagir", shagirLocation->loc.pos.x, shagirLocation->loc.pos.y, 0.5f, shagirLocation->loc.floor);
+
+
+  akgr::gMainEntityManager().addEntity(akgr::gCharacterManager());
 
   akgr::gHeadsUpEntityManager().addEntity(akgr::gDialogManager());
 
