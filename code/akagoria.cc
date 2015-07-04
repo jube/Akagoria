@@ -185,14 +185,14 @@ int main(int argc, char *argv[]) {
   // hero
   auto startLocation = akgr::gDataManager().getPointOfInterestDataFor("Start");
   assert(startLocation);
-  akgr::Hero hero(startLocation->loc.pos.x, startLocation->loc.pos.y, startLocation->loc.floor);
+  akgr::Hero hero(startLocation->loc);
   akgr::gMainEntityManager().addEntity(hero);
   hero.broadcastLocation();
 
   // another character
   auto shagirLocation = akgr::gDataManager().getPointOfInterestDataFor("Shagir");
   assert(shagirLocation);
-  auto shagirCharacter = akgr::gCharacterManager().addCharacter("Shagir", shagirLocation->loc.pos.x, shagirLocation->loc.pos.y, 0.5f, shagirLocation->loc.floor);
+  auto shagirCharacter = akgr::gCharacterManager().addCharacter("Shagir", shagirLocation->loc, 0.5f);
   shagirCharacter->attachDialog("ShagirConversation0");
 
 

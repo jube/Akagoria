@@ -25,12 +25,13 @@
 #include <game/Entity.h>
 
 #include "Body.h"
+#include "Location.h"
 
 namespace akgr {
 
   class Hero : public game::Entity {
   public:
-    Hero(float x, float y, int floor);
+    Hero(const Location& loc);
 
     sf::Vector2f getPosition() const {
       return m_body.getPosition();

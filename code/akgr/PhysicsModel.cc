@@ -339,22 +339,22 @@ namespace akgr {
     addFixtureToBody(body, floor, true, false, data);
   }
 
-  Body PhysicsModel::createHeroBody(float x, float y, int floor, const CollisionData *data) {
+  Body PhysicsModel::createHeroBody(const Location& loc, const CollisionData *data) {
     b2BodyDef def;
     def.type = b2_dynamicBody;
-    def.position = { x * BOX2D_SCALE, y * BOX2D_SCALE };
+    def.position = { loc.pos.x * BOX2D_SCALE, loc.pos.y * BOX2D_SCALE };
     auto body = m_world.CreateBody(&def);
-    addFixtureToBody(body, floor, true, false, data);
-    return Body(floor, body);
+    addFixtureToBody(body, loc.floor, true, false, data);
+    return Body(loc.floor, body);
   }
 
-  Body PhysicsModel::createCharacterBody(float x, float y, int floor, const CollisionData *data) {
+  Body PhysicsModel::createCharacterBody(const Location& loc, const CollisionData *data) {
     b2BodyDef def;
     def.type = b2_kinematicBody;
-    def.position = { x * BOX2D_SCALE, y * BOX2D_SCALE };
+    def.position = { loc.pos.x * BOX2D_SCALE, loc.pos.y * BOX2D_SCALE };
     auto body = m_world.CreateBody(&def);
-    addFixtureToBody(body, floor, true, false, data);
-    return Body(floor, body);
+    addFixtureToBody(body, loc.floor, true, false, data);
+    return Body(loc.floor, body);
   }
 
   void PhysicsModel::loadMap(tmx::Map& map) {

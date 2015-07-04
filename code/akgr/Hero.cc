@@ -29,7 +29,7 @@
 
 namespace akgr {
 
-  Hero::Hero(float x, float y, int floor)
+  Hero::Hero(const Location& loc)
   : game::Entity(1)
   , m_linear(Linear::STOP), m_angular(Angular::STOP)
   , m_mode(Mode::WALK)
@@ -41,7 +41,7 @@ namespace akgr {
     data.shape = CollisionShape::RECTANGLE;
     data.rectangle.width = 60;
     data.rectangle.height = 55;
-    m_body = gPhysicsModel().createHeroBody(x, y, floor, &data);
+    m_body = gPhysicsModel().createHeroBody(loc, &data);
 
     auto texture = gResourceManager().getTexture("sprites/kalista.png");
     assert(texture);

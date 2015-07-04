@@ -49,8 +49,8 @@ namespace akgr {
 
     void addMapItem(float x, float y, int floor, const CollisionData *data);
 
-    Body createHeroBody(float x, float y, int floor, const CollisionData *data);
-    Body createCharacterBody(float x, float y, int floor, const CollisionData *data);
+    Body createHeroBody(const Location& loc, const CollisionData *data);
+    Body createCharacterBody(const Location& loc, const CollisionData *data);
 
     void loadMap(tmx::Map& map);
 

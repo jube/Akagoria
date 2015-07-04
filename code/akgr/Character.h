@@ -29,7 +29,7 @@ namespace akgr {
 
   class Character {
   public:
-    Character(std::string name, float x, float y, float angle, int floor);
+    Character(std::string name, const Location& loc, float angle);
 
     void attachDialog(std::string dialogName);
     void detachDialog();
@@ -60,7 +60,7 @@ namespace akgr {
   public:
     CharacterManager();
 
-    Character *addCharacter(std::string name, float x, float y, float angle, int floor);
+    Character *addCharacter(std::string name, const Location& loc, float angle);
 
     Character *getCharacter(const std::string& name);
 

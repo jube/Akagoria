@@ -35,14 +35,14 @@ namespace akgr {
   static constexpr float CHARACTER_WIDTH = 60;
   static constexpr float CHARACTER_HEIGHT = 45;
 
-  Character::Character(std::string name, float x, float y, float angle, int floor)
+  Character::Character(std::string name, const Location& loc, float angle)
   : m_name(std::move(name))
   {
     CollisionData data;
     data.shape = CollisionShape::RECTANGLE;
     data.rectangle.width = CHARACTER_WIDTH;
     data.rectangle.height = CHARACTER_HEIGHT;
-    m_body = gPhysicsModel().createCharacterBody(x, y, floor, &data);
+    m_body = gPhysicsModel().createCharacterBody(loc, &data);
     m_body.setAngleAndVelocity(angle, 0.0f);
   }
 
@@ -87,7 +87,7 @@ namespace akgr {
     gEventManager().registerHandler<TalkEvent>(&CharacterManager::onTalk, this);
   }
 
-  Character *CharacterManager::addCharacter(std::string name, float x, float y, float angle, int floor) {
+  Character *CharacterManager::addCharacter(std::string name, const Location& loc, float angle) {
     auto it = m_nameToCharacters.find(name);
 
     if (it != m_nameToCharacters.end()) {
@@ -97,7 +97,7 @@ namespace akgr {
 
     auto index = m_characters.size();
     m_nameToCharacters.insert(std::make_pair(name, index));
-    m_characters.emplace_back(std::move(name), x, y, angle, floor);
+    m_characters.emplace_back(std::move(name), loc, angle);
     return &m_characters[index];
   }
 
