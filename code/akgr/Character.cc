@@ -143,7 +143,7 @@ namespace akgr {
 
       if (loc.floor == talkEvent->loc.floor) {
         float d2 = squareDistance(loc.pos, talkEvent->loc.pos);
-        game::Log::info(game::Log::GENERAL, "Distance: %f\n", std::sqrt(d2));
+//         game::Log::info(game::Log::GENERAL, "Distance: %f\n", std::sqrt(d2));
 
         if (d2 < DIALOG_DISTANCE * DIALOG_DISTANCE) {
           talkEvent->isTalking = true;

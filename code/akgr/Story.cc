@@ -19,8 +19,11 @@
  */
 #include "Story.h"
 
+#include <cassert>
+
 #include <game/Log.h>
 
+#include "GameEvents.h"
 #include "Singletons.h"
 
 namespace akgr {
@@ -28,11 +31,34 @@ namespace akgr {
   Story::Story()
   {
     gEventManager().registerHandler("IntroDialogEvent"_type, &Story::onIntroDialog, this);
+    gEventManager().registerHandler<DialogEndEvent>(&Story::onDialogEnd, this);
   }
 
   game::EventStatus Story::onIntroDialog(game::EventType type, game::Event *event) {
     gDialogManager().start("Intro");
     return game::EventStatus::DIE;
+  }
+
+  game::EventStatus Story::onDialogEnd(game::EventType type, game::Event *event) {
+    auto id = game::Hash(static_cast<DialogEndEvent*>(event)->name);
+    Character *character = nullptr;
+
+    switch (id) {
+      case "ShagirConversation0"_id:
+        character = gCharacterManager().getCharacter("Shagir");
+        assert(character);
+        character->attachDialog("ShagirConversation1");
+        break;
+      case "ShagirConversation1"_id:
+        character = gCharacterManager().getCharacter("Shagir");
+        assert(character);
+        character->detachDialog();
+        break;
+      default:
+        break;
+    }
+
+    return game::EventStatus::KEEP;
   }
 
 }
