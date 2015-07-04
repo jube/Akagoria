@@ -17,23 +17,35 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "Singletons.h"
+#include "RequirementManager.h"
 
 namespace akgr {
 
-  game::Singleton<game::ResourceManager> gResourceManager;
-  game::Singleton<game::EventManager> gEventManager;
-  game::Singleton<game::EntityManager> gMainEntityManager;
-  game::Singleton<game::EntityManager> gHeadsUpEntityManager;
+  bool RequirementManager::hasRequirement(const std::string& req) {
+    auto id = game::Hash(req);
+    return hasRequirement(id);
+  }
 
-  game::Singleton<DataManager> gDataManager;
+  bool RequirementManager::hasRequirement(game::Id req) {
+    return m_requirements.find(req) != m_requirements.end();
+  }
 
-  game::Singleton<PhysicsModel> gPhysicsModel;
+  void RequirementManager::addRequirement(const std::string& req) {
+    auto id = game::Hash(req);
+    addRequirement(id);
+  }
 
-  game::Singleton<CharacterManager> gCharacterManager;
-  game::Singleton<DialogManager> gDialogManager;
-  game::Singleton<RequirementManager> gRequirementManager;
+  void RequirementManager::addRequirement(game::Id req) {
+    m_requirements.insert(req);
+  }
 
-  game::Singleton<game::WindowGeometry> gWindowGeometry;
+  void RequirementManager::removeRequirement(const std::string& req) {
+    auto id = game::Hash(req);
+    removeRequirement(id);
+  }
+
+  void RequirementManager::removeRequirement(game::Id req) {
+    m_requirements.erase(req);
+  }
 
 }

@@ -84,6 +84,7 @@ int main(int argc, char *argv[]) {
 
   game::SingletonStorage<akgr::CharacterManager> storageForCharacterManager(akgr::gCharacterManager);
   game::SingletonStorage<akgr::DialogManager> storageForDialogManager(akgr::gDialogManager);
+  game::SingletonStorage<akgr::RequirementManager> storageForRequirementManager(akgr::gRequirementManager);
 
   game::SingletonStorage<game::WindowGeometry> storageForWindowGeometry(akgr::gWindowGeometry, INITIAL_WIDTH, INITIAL_HEIGHT);
 

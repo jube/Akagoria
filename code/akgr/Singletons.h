@@ -31,6 +31,7 @@
 #include "Character.h"
 #include "DataManager.h"
 #include "DialogManager.h"
+#include "RequirementManager.h"
 
 namespace akgr {
 
@@ -45,6 +46,7 @@ namespace akgr {
 
   extern game::Singleton<CharacterManager> gCharacterManager;
   extern game::Singleton<DialogManager> gDialogManager;
+  extern game::Singleton<RequirementManager> gRequirementManager;
 
   extern game::Singleton<game::WindowGeometry> gWindowGeometry;
 

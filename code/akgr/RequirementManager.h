@@ -17,23 +17,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "Singletons.h"
+#ifndef AKGR_REQUIREMENT_MANAGER_H
+#define AKGR_REQUIREMENT_MANAGER_H
+
+#include <set>
+#include <string>
+
+#include <game/Id.h>
 
 namespace akgr {
 
-  game::Singleton<game::ResourceManager> gResourceManager;
-  game::Singleton<game::EventManager> gEventManager;
-  game::Singleton<game::EntityManager> gMainEntityManager;
-  game::Singleton<game::EntityManager> gHeadsUpEntityManager;
+  class RequirementManager {
+  public:
 
-  game::Singleton<DataManager> gDataManager;
+    bool hasRequirement(const std::string& req);
+    bool hasRequirement(game::Id req);
 
-  game::Singleton<PhysicsModel> gPhysicsModel;
+    void addRequirement(const std::string& req);
+    void addRequirement(game::Id req);
 
-  game::Singleton<CharacterManager> gCharacterManager;
-  game::Singleton<DialogManager> gDialogManager;
-  game::Singleton<RequirementManager> gRequirementManager;
+    void removeRequirement(const std::string& req);
+    void removeRequirement(game::Id req);
 
-  game::Singleton<game::WindowGeometry> gWindowGeometry;
+  private:
+    std::set<game::Id> m_requirements;
+  };
 
 }
+
+#endif // AKGR_REQUIREMENT_MANAGER_H
