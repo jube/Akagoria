@@ -85,60 +85,64 @@ namespace akgr {
     return m_currentDialog != nullptr;
   }
 
+  static constexpr unsigned SPEAKER_SIZE = 16;
   static constexpr float SPEAKER_WIDTH = 150.0f;
-  static constexpr float SPEAKER_HEIGHT = 30.0f;
+  static constexpr float SPEAKER_HEIGHT = 25.0f;
   static constexpr float SPEAKER_PADDING = 5.0f;
 
-  static constexpr float DIALOG_WIDTH = 600.0f;
-  static constexpr float DIALOG_HEIGHT = 90.0f;
-  static constexpr float DIALOG_BOTTOM = 40.0f;
-  static constexpr float DIALOG_PADDING = 10.0f;
-
-  static constexpr unsigned LINE_SIZE = 20;
-  static constexpr unsigned SPEAKER_SIZE = 16;
+  static constexpr unsigned WORDS_SIZE = 20;
+  static constexpr float WORDS_WIDTH = 600.0f;
+  static constexpr float WORDS_HEIGHT = 90.0f;
+  static constexpr float WORDS_BOTTOM = 40.0f;
+  static constexpr float WORDS_PADDING = 10.0f;
 
   void DialogManager::render(sf::RenderWindow& window) {
     if (m_currentDialog == nullptr) {
       return;
     }
 
-    float x = gWindowGeometry().getXCentered(DIALOG_WIDTH);
-    float y = gWindowGeometry().getYFromBottom(DIALOG_HEIGHT + DIALOG_BOTTOM);
+    float x = gWindowGeometry().getXCentered(WORDS_WIDTH);
+    float y = gWindowGeometry().getYFromBottom(WORDS_HEIGHT + WORDS_BOTTOM);
 
+    const sf::Color fillColor(0x04, 0x08, 0x84, 0xC0);
+
+    // draw speaker box and text
 
     sf::RectangleShape speakerShape({ SPEAKER_WIDTH, SPEAKER_HEIGHT });
-    speakerShape.setPosition(x + DIALOG_PADDING, y - SPEAKER_HEIGHT);
-    speakerShape.setFillColor(sf::Color(0x04, 0x08, 0x84, 0xC0));
+    speakerShape.setPosition(x + WORDS_PADDING, y - SPEAKER_HEIGHT);
+    speakerShape.setFillColor(fillColor);
     speakerShape.setOutlineColor(sf::Color::White);
     speakerShape.setOutlineThickness(1);
     window.draw(speakerShape);
 
-    sf::RectangleShape lineShape({ DIALOG_WIDTH, DIALOG_HEIGHT });
-    lineShape.setPosition(x, y);
-//    lineShape.setFillColor(sf::Color(0xFF, 0xCF, 0x86, 0xC0));
-    lineShape.setFillColor(sf::Color(0x04, 0x08, 0x84, 0xC0));
-    lineShape.setOutlineColor(sf::Color::White);
-    lineShape.setOutlineThickness(1);
-    window.draw(lineShape);
+    sf::Text speakerText;
+    speakerText.setFont(*m_font);
+    speakerText.setCharacterSize(SPEAKER_SIZE);
+    speakerText.setColor(sf::Color::White);
+    speakerText.setString(m_currentDialog->content[m_currentLine].speaker);
+    auto speakerRect = speakerText.getLocalBounds();
+    speakerText.setOrigin(speakerRect.left, speakerRect.top);
+    speakerText.setPosition(x + WORDS_PADDING + SPEAKER_PADDING, y - SPEAKER_HEIGHT + SPEAKER_PADDING);
+    window.draw(speakerText);
 
-    sf::Text text;
-    text.setFont(*m_font);
-    text.setCharacterSize(LINE_SIZE);
-    text.setColor(sf::Color::White);
+    // draw words box and text
 
-    text.setString(m_currentDialog->content[m_currentLine].line);
-    sf::FloatRect rect = text.getLocalBounds();
-    text.setOrigin(rect.left, rect.top);
-    text.setPosition(x + DIALOG_PADDING, y + DIALOG_PADDING);
-    window.draw(text);
+    sf::RectangleShape wordsShape({ WORDS_WIDTH, WORDS_HEIGHT });
+    wordsShape.setPosition(x, y);
+    wordsShape.setFillColor(fillColor);
+    wordsShape.setOutlineColor(sf::Color::White);
+    wordsShape.setOutlineThickness(1);
+    window.draw(wordsShape);
 
-    text.setCharacterSize(SPEAKER_SIZE);
-    text.setString(m_currentDialog->content[m_currentLine].speaker);
-    rect = text.getLocalBounds();
-    text.setOrigin(rect.left, rect.top);
-    text.setPosition(x + DIALOG_PADDING + 2 * SPEAKER_PADDING, y - SPEAKER_HEIGHT + SPEAKER_PADDING);
-    window.draw(text);
-
+    sf::Text wordsText;
+    wordsText.setFont(*m_font);
+    wordsText.setCharacterSize(WORDS_SIZE);
+    wordsText.setColor(sf::Color::White);
+    wordsText.setString(m_currentDialog->content[m_currentLine].words);
+    auto wordsRect = wordsText.getLocalBounds();
+    wordsText.setOrigin(wordsRect.left, wordsRect.top);
+    wordsText.setPosition(x + WORDS_PADDING, y + WORDS_PADDING);
+    window.draw(wordsText);
   }
 
 }

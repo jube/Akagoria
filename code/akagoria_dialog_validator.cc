@@ -34,7 +34,7 @@
 struct DialogData {
   struct Line {
     std::string speaker;
-    std::string line;
+    std::string words;
   };
 
   std::vector<Line> content;
@@ -63,16 +63,16 @@ static void loadDialogData(std::map<std::string, DialogData>& dialogues, const s
 
       assert(contentNode.IsSequence());
 
-      for (const auto& itemNode : contentNode) {
-        auto speakerNode = itemNode["speaker"];
+      for (const auto& lineNode : contentNode) {
+        auto speakerNode = lineNode["speaker"];
         assert(speakerNode);
         std::string speaker = speakerNode.as<std::string>();
 
-        auto lineNode = itemNode["line"];
-        assert(lineNode);
-        std::string line = lineNode.as<std::string>();
+        auto wordsNode = lineNode["words"];
+        assert(wordsNode);
+        std::string words = wordsNode.as<std::string>();
 
-        data.content.push_back({ std::move(speaker), std::move(line) });
+        data.content.push_back({ std::move(speaker), std::move(words) });
       }
 
       dialogues.emplace(std::move(name), std::move(data));
@@ -83,20 +83,19 @@ static void loadDialogData(std::map<std::string, DialogData>& dialogues, const s
   }
 }
 
+static constexpr unsigned SPEAKER_SIZE = 16;
 static constexpr float SPEAKER_WIDTH = 150.0f;
-static constexpr float SPEAKER_HEIGHT = 30.0f;
+static constexpr float SPEAKER_HEIGHT = 25.0f;
 static constexpr float SPEAKER_PADDING = 5.0f;
 
-static constexpr float DIALOG_WIDTH = 600.0f;
-static constexpr float DIALOG_HEIGHT = 90.0f;
-static constexpr float DIALOG_BOTTOM = 40.0f;
-static constexpr float DIALOG_PADDING = 10.0f;
+static constexpr unsigned WORDS_SIZE = 20;
+static constexpr float WORDS_WIDTH = 600.0f;
+static constexpr float WORDS_HEIGHT = 90.0f;
+static constexpr float WORDS_BOTTOM = 40.0f;
+static constexpr float WORDS_PADDING = 10.0f;
 
-static constexpr unsigned LINE_SIZE = 20;
-static constexpr unsigned SPEAKER_SIZE = 16;
-
-static constexpr float DIALOG_MAX_WIDTH = DIALOG_WIDTH - 2 * DIALOG_PADDING;
-static constexpr float DIALOG_MAX_HEIGHT = DIALOG_HEIGHT - 2 * DIALOG_PADDING;
+static constexpr float WORDS_MAX_WIDTH = WORDS_WIDTH - 2 * WORDS_PADDING;
+static constexpr float WORDS_MAX_HEIGHT = WORDS_HEIGHT - 2 * WORDS_PADDING;
 
 static constexpr float SPEAKER_MAX_WIDTH = SPEAKER_WIDTH - 2 * SPEAKER_PADDING;
 static constexpr float SPEAKER_MAX_HEIGHT = SPEAKER_HEIGHT - 2 * SPEAKER_PADDING;
@@ -131,35 +130,35 @@ int main() {
     for (const auto& line : item.second.content) {
       sf::Text text;
       text.setFont(font);
-      text.setCharacterSize(LINE_SIZE);
+      text.setCharacterSize(WORDS_SIZE);
       text.setColor(sf::Color::White);
 
-      text.setString(line.line);
+      text.setString(line.words);
       sf::FloatRect rect = text.getLocalBounds();
 
-      float lineWidth = rect.left + rect.width;
+      float wordsWidth = rect.width;
 
-      if (lineWidth > DIALOG_MAX_WIDTH) {
-        std::fprintf(stderr, "\tLine too wide: %f (max: %f): '%s...'\n", lineWidth, DIALOG_MAX_WIDTH, extractBeginning(line.line).c_str());
+      if (wordsWidth > WORDS_MAX_WIDTH) {
+        std::fprintf(stderr, "\tLine too wide: %f (max: %f): '%s...'\n", wordsWidth, WORDS_MAX_WIDTH, extractBeginning(line.words).c_str());
       }
 
-      float lineHeight = rect.top + rect.height;
+      float wordsHeight = rect.height;
 
-      if (lineHeight > DIALOG_MAX_HEIGHT) {
-        std::fprintf(stderr, "\tLine too high: %f (max: %f): '%s...'\n", lineHeight, DIALOG_MAX_HEIGHT, extractBeginning(line.line).c_str());
+      if (wordsHeight > WORDS_MAX_HEIGHT) {
+        std::fprintf(stderr, "\tLine too high: %f (max: %f): '%s...'\n", wordsHeight, WORDS_MAX_HEIGHT, extractBeginning(line.words).c_str());
       }
 
       text.setCharacterSize(SPEAKER_SIZE);
       text.setString(line.speaker);
       rect = text.getLocalBounds();
 
-      float speakerWidth = rect.left + rect.width;
+      float speakerWidth = rect.width;
 
       if (speakerWidth > SPEAKER_MAX_WIDTH) {
         std::fprintf(stderr, "\tSpeaker too wide: %f (max: %f): '%s'\n", speakerWidth, SPEAKER_MAX_WIDTH, line.speaker.c_str());
       }
 
-      float speakerHeight = rect.top + rect.height;
+      float speakerHeight = rect.height;
 
       if (speakerHeight > SPEAKER_MAX_HEIGHT) {
         std::fprintf(stderr, "\tSpeaker too high: %f (max: %f): '%s'\n", speakerHeight, SPEAKER_MAX_HEIGHT, line.speaker.c_str());

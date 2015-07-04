@@ -211,16 +211,16 @@ namespace akgr {
 
         assert(contentNode.IsSequence());
 
-        for (const auto& itemNode : contentNode) {
-          auto speakerNode = itemNode["speaker"];
+        for (const auto& lineNode : contentNode) {
+          auto speakerNode = lineNode["speaker"];
           assert(speakerNode);
           std::string speaker = speakerNode.as<std::string>();
 
-          auto lineNode = itemNode["line"];
-          assert(lineNode);
-          std::string line = lineNode.as<std::string>();
+          auto wordsNode = lineNode["words"];
+          assert(wordsNode);
+          std::string words = wordsNode.as<std::string>();
 
-          data.content.push_back({ std::move(speaker), std::move(line) });
+          data.content.push_back({ std::move(speaker), std::move(words) });
         }
 
         dialogues.emplace(std::move(name), std::move(data));
@@ -234,20 +234,20 @@ namespace akgr {
   void DataManager::load(const boost::filesystem::path& basedir) {
     game::Log::info(game::Log::RESOURCES, "Loading data\n");
 
-    boost::filesystem::path collisions_path = basedir / "data/collisions.yml";
-    loadCollisionData(m_collisions, collisions_path.string());
+    boost::filesystem::path collisionsPath = basedir / "data/collisions.yml";
+    loadCollisionData(m_collisions, collisionsPath.string());
     game::Log::info(game::Log::RESOURCES, "\tCollision data: %zu\n", m_collisions.size());
 
-    boost::filesystem::path sprites_path = basedir / "data/sprites.yml";
-    loadSpriteData(m_sprites, sprites_path.string());
+    boost::filesystem::path spritesPath = basedir / "data/sprites.yml";
+    loadSpriteData(m_sprites, spritesPath.string());
     game::Log::info(game::Log::RESOURCES, "\tSprite data: %zu\n", m_sprites.size());
 
-    boost::filesystem::path items_path = basedir / "data/items.yml";
-    loadItemData(m_items, items_path.string());
+    boost::filesystem::path itemsPath = basedir / "data/items.yml";
+    loadItemData(m_items, itemsPath.string());
     game::Log::info(game::Log::RESOURCES, "\tItem data: %zu\n", m_items.size());
 
-    boost::filesystem::path dialogues_path = basedir / "data/dialogues.yml";
-    loadDialogData(m_dialogues, dialogues_path.string());
+    boost::filesystem::path dialoguesPath = basedir / "data/dialogues.yml";
+    loadDialogData(m_dialogues, dialoguesPath.string());
     game::Log::info(game::Log::RESOURCES, "\tDialog data: %zu\n", m_dialogues.size());
   }
 

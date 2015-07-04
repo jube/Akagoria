@@ -61,7 +61,7 @@ namespace akgr {
   struct DialogData {
     struct Line {
       std::string speaker;
-      std::string line;
+      std::string words;
     };
 
     std::vector<Line> content;
