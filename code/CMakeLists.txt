@@ -58,3 +58,13 @@ install(
   TARGETS akagoria
   RUNTIME DESTINATION games
 )
+
+add_executable(akagoria_dialog_validator
+  akagoria_dialog_validator.cc
+)
+
+target_link_libraries(akagoria_dialog_validator
+  ${Boost_LIBRARIES}
+  ${SFML2_LIBRARIES}
+  ${YAMLCPP_LIBRARIES}
+)

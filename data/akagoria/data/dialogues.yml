@@ -10,4 +10,4 @@ ShagirConversation0:
 ShagirConversation1:
   content:
     - { speaker: 'Kalista', line: "Where do I have to go to find the village?\nI do not remember what you told me." }
-    - { speaker: 'Shagir', line: "Go south and you will find a lovely place called Arabband." }
+    - { speaker: 'Shagir', line: "Go south, you will find a lovely place called Arabband." }

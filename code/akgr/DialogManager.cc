@@ -86,7 +86,7 @@ namespace akgr {
   }
 
   static constexpr float SPEAKER_WIDTH = 150.0f;
-  static constexpr float SPEAKER_HEIGHT = 25.0f;
+  static constexpr float SPEAKER_HEIGHT = 30.0f;
   static constexpr float SPEAKER_PADDING = 5.0f;
 
   static constexpr float DIALOG_WIDTH = 600.0f;
