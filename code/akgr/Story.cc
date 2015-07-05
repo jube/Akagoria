@@ -44,6 +44,9 @@ namespace akgr {
     Character *character = nullptr;
 
     switch (id) {
+      case "Intro"_id:
+        gRequirementManager().removeRequirement("IntroDialogReq"_id);
+        break;
       case "ShagirConversation0"_id:
         character = gCharacterManager().getCharacter("Shagir");
         assert(character);

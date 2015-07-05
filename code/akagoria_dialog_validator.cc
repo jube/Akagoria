@@ -91,7 +91,6 @@ static constexpr float SPEAKER_PADDING = 5.0f;
 static constexpr unsigned WORDS_SIZE = 20;
 static constexpr float WORDS_WIDTH = 600.0f;
 static constexpr float WORDS_HEIGHT = 90.0f;
-static constexpr float WORDS_BOTTOM = 40.0f;
 static constexpr float WORDS_PADDING = 10.0f;
 
 static constexpr float WORDS_MAX_WIDTH = WORDS_WIDTH - 2 * WORDS_PADDING;

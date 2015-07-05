@@ -540,6 +540,7 @@
   </properties>
   <object id="109" type="event" x="3805" y="3908" width="274" height="124">
    <properties>
+    <property name="requirements" value="IntroDialogReq"/>
     <property name="type" value="IntroDialogEvent"/>
    </properties>
   </object>

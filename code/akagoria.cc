@@ -183,6 +183,8 @@ int main(int argc, char *argv[]) {
     akgr::gDataManager().loadMap(*map);
   }
 
+  akgr::gRequirementManager().addRequirement("IntroDialogReq"_id);
+
   // hero
   auto startLocation = akgr::gDataManager().getPointOfInterestDataFor("Start");
   assert(startLocation);

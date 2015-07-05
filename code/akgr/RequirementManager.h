@@ -20,6 +20,7 @@
 #ifndef AKGR_REQUIREMENT_MANAGER_H
 #define AKGR_REQUIREMENT_MANAGER_H
 
+#include <algorithm>
 #include <set>
 #include <string>
 
@@ -32,6 +33,13 @@ namespace akgr {
 
     bool hasRequirement(const std::string& req);
     bool hasRequirement(game::Id req);
+
+    template<class Iterator>
+    bool hasRequirements(Iterator first, Iterator last) {
+      return std::all_of(first, last, [this](game::Id req) {
+        return hasRequirement(req);
+      });
+    }
 
     void addRequirement(const std::string& req);
     void addRequirement(game::Id req);
