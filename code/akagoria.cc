@@ -19,6 +19,10 @@
  */
 #include <cassert>
 #include <cstdio>
+#include <fstream>
+
+#include <boost/archive/text_iarchive.hpp>
+#include <boost/archive/text_oarchive.hpp>
 
 #include <tmx/Map.h>
 
@@ -191,6 +195,13 @@ int main(int argc, char *argv[]) {
   akgr::Hero hero(startLocation->loc);
   akgr::gMainEntityManager().addEntity(hero);
   hero.broadcastLocation();
+
+  {
+    std::ofstream file("save.akgr");
+    boost::archive::text_oarchive archive(file);
+    archive << akgr::gRequirementManager();
+    archive << hero;
+  }
 
   // another character
   auto shagirLocation = akgr::gDataManager().getPointOfInterestDataFor("Shagir");

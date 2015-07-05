@@ -20,6 +20,8 @@
 #ifndef AKGR_HERO_H
 #define AKGR_HERO_H
 
+#include <boost/serialization/serialization.hpp>
+
 #include <game/Animation.h>
 #include <game/Event.h>
 #include <game/Entity.h>
@@ -31,7 +33,7 @@ namespace akgr {
 
   class Hero : public game::Entity {
   public:
-    Hero(const Location& loc);
+    Hero(const Location& loc = { { 0.0f, 0.0f }, 0 });
 
     sf::Vector2f getPosition() const {
       return m_body.getPosition();
@@ -101,6 +103,14 @@ namespace akgr {
 
   private:
     game::EventStatus onDialogEnd(game::EventType type, game::Event *event);
+
+  private:
+    friend class boost::serialization::access;
+
+    template<class Archive>
+    void serialize(Archive & ar, const unsigned int file_version) {
+      ar & m_body;
+    }
   };
 
 

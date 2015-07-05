@@ -20,6 +20,9 @@
 #ifndef AKGR_BODY_H
 #define AKGR_BODY_H
 
+#include <boost/serialization/serialization.hpp>
+#include <boost/serialization/split_member.hpp>
+
 #include <Box2D/Box2D.h>
 
 #include "Location.h"
@@ -49,6 +52,36 @@ namespace akgr {
   private:
     int m_floor;
     b2Body *m_body;
+
+  private:
+    friend class boost::serialization::access;
+
+    template<class Archive>
+    void save(Archive & ar, const unsigned int version) const {
+      ar << m_floor;
+      b2Vec2 pos = m_body->GetPosition();
+      ar << pos.x;
+      ar << pos.y;
+      float32 angle = m_body->GetAngle();
+      ar << angle;
+    }
+
+    template<class Archive>
+    void load(Archive & ar, const unsigned int version) {
+      ar >> m_floor;
+      b2Vec2 pos;
+      ar >> pos.x;
+      ar >> pos.y;
+      float32 angle;
+      ar >> angle;
+      m_body->SetTransform(pos, angle);
+    }
+
+    template<class Archive>
+    void serialize(Archive & ar, const unsigned int file_version) {
+      boost::serialization::split_member(ar, *this, file_version);
+    }
+
   };
 
 }

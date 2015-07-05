@@ -24,6 +24,9 @@
 #include <set>
 #include <string>
 
+#include <boost/serialization/serialization.hpp>
+#include <boost/serialization/set.hpp>
+
 #include <game/Id.h>
 
 namespace akgr {
@@ -49,6 +52,14 @@ namespace akgr {
 
   private:
     std::set<game::Id> m_requirements;
+
+  private:
+    friend class boost::serialization::access;
+
+    template<class Archive>
+    void serialize(Archive & ar, const unsigned int file_version) {
+      ar & m_requirements;
+    }
   };
 
 }

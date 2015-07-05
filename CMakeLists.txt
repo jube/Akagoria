@@ -11,7 +11,7 @@ set(CMAKE_MODULE_PATH
   ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules")
 
 find_package(Threads)
-find_package(Boost REQUIRED COMPONENTS filesystem system)
+find_package(Boost REQUIRED COMPONENTS filesystem serialization system)
 find_package(Box2D REQUIRED)
 
 find_package(PkgConfig REQUIRED)
