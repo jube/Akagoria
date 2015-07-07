@@ -33,7 +33,7 @@ namespace akgr {
 
   class Hero : public game::Entity {
   public:
-    Hero(const Location& loc = { { 0.0f, 0.0f }, 0 });
+    Hero(const Location& loc = { { 100.0f, 100.0f }, 0 });
 
     sf::Vector2f getPosition() const {
       return m_body.getPosition();

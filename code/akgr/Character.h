@@ -23,13 +23,20 @@
 #include <game/Entity.h>
 #include <game/Event.h>
 
+#include <boost/serialization/serialization.hpp>
+#include <boost/serialization/vector.hpp>
+
 #include "Body.h"
 
 namespace akgr {
 
   class Character {
   public:
-    Character(std::string name, const Location& loc, float angle);
+    Character(std::string name = "", const Location& loc = { { 0.0f, 0.0f }, 0 }, float angle = 0.0f);
+
+    const std::string& getName() const {
+      return m_name;
+    }
 
     void attachDialog(std::string dialogName);
     void detachDialog();
@@ -53,6 +60,16 @@ namespace akgr {
     std::string m_name;
     Body m_body;
     std::string m_dialog;
+
+  private:
+    friend class boost::serialization::access;
+
+    template<class Archive>
+    void serialize(Archive & ar, const unsigned int file_version) {
+      ar & m_name;
+      ar & m_body;
+      ar & m_dialog;
+    }
   };
 
 
@@ -62,6 +79,7 @@ namespace akgr {
 
     Character *addCharacter(std::string name, const Location& loc, float angle);
 
+    void updateCharacterSearch();
     Character *getCharacter(const std::string& name);
 
     virtual void update(float dt) override;
@@ -73,6 +91,15 @@ namespace akgr {
 
   private:
     game::EventStatus onTalk(game::EventType type, game::Event *event);
+
+  private:
+    friend class boost::serialization::access;
+
+    template<class Archive>
+    void serialize(Archive & ar, const unsigned int file_version) {
+      ar & m_characters;
+    }
+
   };
 
 }

@@ -34,8 +34,8 @@ namespace akgr {
     Body();
     Body(int floor, b2Body *body);
 
-    Body(const Body&) = delete;
-    Body& operator=(const Body&) = delete;
+    Body(const Body&) = default;
+    Body& operator=(const Body&) = default;
 
     Body(Body&&) = default;
     Body& operator=(Body&&) = default;

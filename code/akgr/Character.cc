@@ -101,6 +101,14 @@ namespace akgr {
     return &m_characters[index];
   }
 
+  void CharacterManager::updateCharacterSearch() {
+    std::size_t index = 0;
+
+    for (const auto& c : m_characters) {
+      m_nameToCharacters.insert(std::make_pair(c.getName(), index));
+    }
+  }
+
   Character *CharacterManager::getCharacter(const std::string& name) {
     auto it = m_nameToCharacters.find(name);
 

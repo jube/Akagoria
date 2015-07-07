@@ -47,9 +47,7 @@
 static constexpr unsigned INITIAL_WIDTH = 1024;
 static constexpr unsigned INITIAL_HEIGHT = 576;
 
-static void displaySplashScreen(sf::RenderWindow& window) {
-  window.clear(sf::Color::White);
-
+static void displaySplashMessage(sf::RenderWindow& window) {
   // define a splash message
   sf::Text text;
   text.setFont(*akgr::gResourceManager().getFont("fonts/DejaVuSans.ttf"));
@@ -66,8 +64,6 @@ static void displaySplashScreen(sf::RenderWindow& window) {
   text.setColor(sf::Color(255, 127, 0));
   text.move(-2.0f, -2.0f);
   window.draw(text);
-
-  window.display();
 }
 
 int main(int argc, char *argv[]) {
@@ -100,7 +96,9 @@ int main(int argc, char *argv[]) {
   window.setKeyRepeatEnabled(false);
 
   // splash screen
-  displaySplashScreen(window);
+  window.clear(sf::Color::White);
+  displaySplashMessage(window);
+  window.display();
 
   // add cameras
   game::CameraManager cameras;
@@ -187,6 +185,8 @@ int main(int argc, char *argv[]) {
     akgr::gDataManager().loadMap(*map);
   }
 
+#if 0
+
   akgr::gRequirementManager().addRequirement("IntroDialogReq"_id);
 
   // hero
@@ -196,19 +196,36 @@ int main(int argc, char *argv[]) {
   akgr::gMainEntityManager().addEntity(hero);
   hero.broadcastLocation();
 
-  {
-    std::ofstream file("save.akgr");
-    boost::archive::text_oarchive archive(file);
-    archive << akgr::gRequirementManager();
-    archive << hero;
-  }
-
   // another character
   auto shagirLocation = akgr::gDataManager().getPointOfInterestDataFor("Shagir");
   assert(shagirLocation);
   auto shagirCharacter = akgr::gCharacterManager().addCharacter("Shagir", shagirLocation->loc, 0.5f);
   shagirCharacter->attachDialog("ShagirConversation0");
 
+  {
+    std::ofstream file("save.akgr");
+    boost::archive::text_oarchive archive(file);
+    archive << hero;
+    archive << akgr::gRequirementManager();
+    archive << akgr::gCharacterManager();
+  }
+
+#else
+  akgr::Hero hero;
+  akgr::gMainEntityManager().addEntity(hero);
+
+  {
+    std::ifstream file("save.akgr");
+    boost::archive::text_iarchive archive(file);
+    archive >> hero;
+    archive >> akgr::gRequirementManager();
+    archive >> akgr::gCharacterManager();
+  }
+
+  hero.broadcastLocation();
+  akgr::gCharacterManager().updateCharacterSearch();
+
+#endif
 
   akgr::gMainEntityManager().addEntity(akgr::gCharacterManager());
 
