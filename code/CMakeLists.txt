@@ -44,6 +44,7 @@ add_executable(akagoria
   akgr/SpriteMap.cc
   akgr/Story.cc
   akgr/TileMap.cc
+  akgr/UI.cc
 )
 
 target_link_libraries(akagoria

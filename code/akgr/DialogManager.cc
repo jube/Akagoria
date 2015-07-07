@@ -35,8 +35,6 @@ namespace akgr {
   : m_currentDialog(nullptr)
   , m_currentLine(0)
   {
-    m_font = gResourceManager().getFont("fonts/DejaVuSans.ttf");
-    assert(m_font);
   }
 
   bool DialogManager::start(const std::string& name) {
@@ -55,7 +53,7 @@ namespace akgr {
 
     assert(!m_currentDialog->content.empty());
     game::Log::info(game::Log::GENERAL, "Dialog loaded: '%s'\n", name.c_str());
-//     game::Log::info(game::Log::GENERAL, "Dialog first line:: '%s'\n", m_currentDialog->content[m_currentLine].line.c_str());
+    m_ui.setDialogLine(m_currentDialog->content[m_currentLine]);
     return true;
   }
 
@@ -78,6 +76,7 @@ namespace akgr {
       return false;
     }
 
+    m_ui.setDialogLine(m_currentDialog->content[m_currentLine]);
     return true;
   }
 
@@ -85,64 +84,12 @@ namespace akgr {
     return m_currentDialog != nullptr;
   }
 
-  static constexpr unsigned SPEAKER_SIZE = 16;
-  static constexpr float SPEAKER_WIDTH = 150.0f;
-  static constexpr float SPEAKER_HEIGHT = 25.0f;
-  static constexpr float SPEAKER_PADDING = 5.0f;
-
-  static constexpr unsigned WORDS_SIZE = 20;
-  static constexpr float WORDS_WIDTH = 600.0f;
-  static constexpr float WORDS_HEIGHT = 90.0f;
-  static constexpr float WORDS_BOTTOM = 40.0f;
-  static constexpr float WORDS_PADDING = 10.0f;
-
   void DialogManager::render(sf::RenderWindow& window) {
     if (m_currentDialog == nullptr) {
       return;
     }
 
-    float x = gWindowGeometry().getXCentered(WORDS_WIDTH);
-    float y = gWindowGeometry().getYFromBottom(WORDS_HEIGHT + WORDS_BOTTOM);
-
-    const sf::Color fillColor(0x04, 0x08, 0x84, 0xC0);
-
-    // draw speaker box and text
-
-    sf::RectangleShape speakerShape({ SPEAKER_WIDTH, SPEAKER_HEIGHT });
-    speakerShape.setPosition(x + WORDS_PADDING, y - SPEAKER_HEIGHT);
-    speakerShape.setFillColor(fillColor);
-    speakerShape.setOutlineColor(sf::Color::White);
-    speakerShape.setOutlineThickness(1);
-    window.draw(speakerShape);
-
-    sf::Text speakerText;
-    speakerText.setFont(*m_font);
-    speakerText.setCharacterSize(SPEAKER_SIZE);
-    speakerText.setColor(sf::Color::White);
-    speakerText.setString(m_currentDialog->content[m_currentLine].speaker);
-    auto speakerRect = speakerText.getLocalBounds();
-    speakerText.setOrigin(speakerRect.left, speakerRect.top);
-    speakerText.setPosition(x + WORDS_PADDING + SPEAKER_PADDING, y - SPEAKER_HEIGHT + SPEAKER_PADDING);
-    window.draw(speakerText);
-
-    // draw words box and text
-
-    sf::RectangleShape wordsShape({ WORDS_WIDTH, WORDS_HEIGHT });
-    wordsShape.setPosition(x, y);
-    wordsShape.setFillColor(fillColor);
-    wordsShape.setOutlineColor(sf::Color::White);
-    wordsShape.setOutlineThickness(1);
-    window.draw(wordsShape);
-
-    sf::Text wordsText;
-    wordsText.setFont(*m_font);
-    wordsText.setCharacterSize(WORDS_SIZE);
-    wordsText.setColor(sf::Color::White);
-    wordsText.setString(m_currentDialog->content[m_currentLine].words);
-    auto wordsRect = wordsText.getLocalBounds();
-    wordsText.setOrigin(wordsRect.left, wordsRect.top);
-    wordsText.setPosition(x + WORDS_PADDING, y + WORDS_PADDING);
-    window.draw(wordsText);
+    m_ui.render(window);
   }
 
 }

@@ -17,37 +17,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_DIALOG_MANAGER_H
-#define AKGR_DIALOG_MANAGER_H
-
-#include <string>
+#ifndef AKGR_UI_H
+#define AKGR_UI_H
 
 #include <game/Entity.h>
 
 #include "Data.h"
-#include "UI.h"
 
 namespace akgr {
 
-  class DialogManager : public game::Entity {
+  class DialogUI : public game::Entity {
   public:
-    DialogManager();
+    DialogUI();
 
-    bool start(const std::string& name);
-    bool showNextLine();
-
-    bool hasNextLine() const;
+    void setDialogLine(const DialogData::Line& line);
 
     virtual void render(sf::RenderWindow& window) override;
 
   private:
-    DialogUI m_ui;
-    std::string m_currentDialogName;
-    const DialogData *m_currentDialog;
-    std::size_t m_currentLine;
+    sf::Font *m_font;
+    const DialogData::Line *m_currentLine;
   };
 
 }
 
-
-#endif // AKGR_DIALOG_MANAGER_H
+#endif // AKGR_UI_H
