@@ -23,6 +23,26 @@
 
 namespace akgr {
 
+  static void drawBox(sf::RenderWindow& window, float x, float y, float width, float height) {
+    static const sf::Color fillColor(0x04, 0x08, 0x84, 0xC0);
+
+    sf::RectangleShape boxShape({ width, height });
+    boxShape.setPosition(x, y);
+    boxShape.setFillColor(fillColor);
+    boxShape.setOutlineColor(sf::Color::White);
+    boxShape.setOutlineThickness(1);
+    window.draw(boxShape);
+  }
+
+  static void drawText(sf::RenderWindow& window, sf::Font& font, float x, float y, unsigned size, const std::string& str) {
+    sf::Text text(str, font, size);
+    auto rect = text.getLocalBounds();
+    text.setColor(sf::Color::White);
+    text.setOrigin(rect.left, rect.top);
+    text.setPosition(x, y);
+    window.draw(text);
+  }
+
   static constexpr unsigned SPEAKER_SIZE = 16;
   static constexpr float SPEAKER_WIDTH = 150.0f;
   static constexpr float SPEAKER_HEIGHT = 25.0f;
@@ -51,45 +71,15 @@ namespace akgr {
     float x = gWindowGeometry().getXCentered(WORDS_WIDTH);
     float y = gWindowGeometry().getYFromBottom(WORDS_HEIGHT + WORDS_BOTTOM);
 
-    const sf::Color fillColor(0x04, 0x08, 0x84, 0xC0);
-
     // draw speaker box and text
-
-    sf::RectangleShape speakerShape({ SPEAKER_WIDTH, SPEAKER_HEIGHT });
-    speakerShape.setPosition(x + WORDS_PADDING, y - SPEAKER_HEIGHT);
-    speakerShape.setFillColor(fillColor);
-    speakerShape.setOutlineColor(sf::Color::White);
-    speakerShape.setOutlineThickness(1);
-    window.draw(speakerShape);
-
-    sf::Text speakerText;
-    speakerText.setFont(*m_font);
-    speakerText.setCharacterSize(SPEAKER_SIZE);
-    speakerText.setColor(sf::Color::White);
-    speakerText.setString(m_currentLine->speaker);
-    auto speakerRect = speakerText.getLocalBounds();
-    speakerText.setOrigin(speakerRect.left, speakerRect.top);
-    speakerText.setPosition(x + WORDS_PADDING + SPEAKER_PADDING, y - SPEAKER_HEIGHT + SPEAKER_PADDING);
-    window.draw(speakerText);
+    drawBox(window, x + WORDS_PADDING, y - SPEAKER_HEIGHT, SPEAKER_WIDTH, SPEAKER_HEIGHT);
+    drawText(window, *m_font, x + WORDS_PADDING + SPEAKER_PADDING, y - SPEAKER_HEIGHT + SPEAKER_PADDING, SPEAKER_SIZE, m_currentLine->speaker);
 
     // draw words box and text
-
-    sf::RectangleShape wordsShape({ WORDS_WIDTH, WORDS_HEIGHT });
-    wordsShape.setPosition(x, y);
-    wordsShape.setFillColor(fillColor);
-    wordsShape.setOutlineColor(sf::Color::White);
-    wordsShape.setOutlineThickness(1);
-    window.draw(wordsShape);
-
-    sf::Text wordsText;
-    wordsText.setFont(*m_font);
-    wordsText.setCharacterSize(WORDS_SIZE);
-    wordsText.setColor(sf::Color::White);
-    wordsText.setString(m_currentLine->words);
-    auto wordsRect = wordsText.getLocalBounds();
-    wordsText.setOrigin(wordsRect.left, wordsRect.top);
-    wordsText.setPosition(x + WORDS_PADDING, y + WORDS_PADDING);
-    window.draw(wordsText);
+    drawBox(window, x, y, WORDS_WIDTH, WORDS_HEIGHT);
+    drawText(window, *m_font, x + WORDS_PADDING, y + WORDS_PADDING, WORDS_SIZE, m_currentLine->words);
   }
+
+
 
 }
