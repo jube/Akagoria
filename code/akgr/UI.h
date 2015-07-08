@@ -56,7 +56,7 @@ namespace akgr {
     void moveDown();
     void moveUp();
 
-    void displaySplashMessage(sf::RenderWindow& window);
+    void displaySplashMessage(sf::RenderWindow& window, bool loading = false);
 
   private:
     sf::Font *m_font;

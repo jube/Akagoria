@@ -83,12 +83,13 @@ namespace akgr {
 
   static constexpr int CHOICE_COUNT = 3;
 
-  static constexpr float START_WIDTH = 200.0f;
+  static constexpr float START_WIDTH = 300.0f;
   static constexpr float START_HEIGHT = 100.0f;
   static constexpr float START_LEFT = 25.0f;
   static constexpr float START_PADDING = 10.0f;
   static constexpr unsigned START_SIZE = 20.0f;
   static constexpr float START_RADIUS = 5.0f;
+  static constexpr float START_POS = 2.0f;
 
   StartUI::StartUI()
   : m_currentChoice(0)
@@ -108,14 +109,14 @@ namespace akgr {
   void StartUI::render(sf::RenderWindow& window) {
     displaySplashMessage(window);
 
-    drawBox(window, 0, 0, START_WIDTH, START_HEIGHT);
+    drawBox(window, START_POS, START_POS, START_WIDTH, START_HEIGHT);
 
-    drawText(window, *m_font, START_LEFT, START_PADDING, START_SIZE, "Start new game");
-    drawText(window, *m_font, START_LEFT, START_PADDING + 1 * (START_SIZE + START_PADDING), START_SIZE, "Load game");
-    drawText(window, *m_font, START_LEFT, START_PADDING + 2 * (START_SIZE + START_PADDING), START_SIZE, "Quit");
+    drawText(window, *m_font, START_POS + START_LEFT, START_POS + START_PADDING, START_SIZE, "Start new adventure");
+    drawText(window, *m_font, START_POS + START_LEFT, START_POS + START_PADDING + 1 * (START_SIZE + START_PADDING), START_SIZE, "Load adventure");
+    drawText(window, *m_font, START_POS + START_LEFT, START_POS + START_PADDING + 2 * (START_SIZE + START_PADDING), START_SIZE, "Quit");
 
-    float x = START_LEFT / 2;
-    float y = START_PADDING + START_SIZE / 2 + m_currentChoice * (START_SIZE + START_PADDING);
+    float x = START_POS + START_LEFT / 2;
+    float y = START_POS + START_PADDING + 0.4f * START_SIZE + m_currentChoice * (START_SIZE + START_PADDING);
 
     sf::CircleShape pointer(START_RADIUS, 3);
     pointer.setOrigin(START_RADIUS, START_RADIUS);
@@ -125,7 +126,9 @@ namespace akgr {
     window.draw(pointer);
   }
 
-  void StartUI::displaySplashMessage(sf::RenderWindow& window) {
+  static constexpr float LOADING_PADDING = 60.0f;
+
+  void StartUI::displaySplashMessage(sf::RenderWindow& window, bool loading) {
     // define a splash message
     sf::Text text;
     text.setFont(*m_font);
@@ -142,6 +145,25 @@ namespace akgr {
 
     text.setPosition(x, y);
     window.draw(text);
+
+    if (loading) {
+      sf::Text loadingText;
+      loadingText.setFont(*m_font);
+      loadingText.setCharacterSize(20);
+      loadingText.setColor(sf::Color(0xFF, 0x80, 0x00));
+      loadingText.setString("Loading...");
+      loadingText.setStyle(sf::Text::Italic);
+
+      // put the splash screen in the center
+      sf::FloatRect loadingRect = loadingText.getLocalBounds();
+      loadingText.setOrigin(loadingRect.left, loadingRect.top);
+
+      float loadingX = gWindowGeometry().getXCentered(loadingRect.width);
+      float loadingY = y + LOADING_PADDING;
+
+      loadingText.setPosition(loadingX, loadingY);
+      window.draw(loadingText);
+    }
   }
 
 }

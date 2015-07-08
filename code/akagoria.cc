@@ -60,7 +60,6 @@ int main(int argc, char *argv[]) {
   game::SingletonStorage<game::EntityManager> storageForHeadsUpEntityManager(akgr::gHeadsUpEntityManager);
 
   game::SingletonStorage<akgr::DataManager> storageForDataManager(akgr::gDataManager);
-  akgr::gDataManager().load(GAME_DATADIR);
 
   game::SingletonStorage<akgr::PhysicsModel> storageForPhysicsModel(akgr::gPhysicsModel);
 
@@ -123,17 +122,94 @@ int main(int argc, char *argv[]) {
 
   game::Action upAction("Up");
   upAction.addKeyControl(sf::Keyboard::Up);
-  upAction.setContinuous();
   actions.addAction(upAction);
 
   game::Action downAction("Down");
   downAction.addKeyControl(sf::Keyboard::Down);
-  downAction.setContinuous();
   actions.addAction(downAction);
 
   game::Action useAction("Use");
   useAction.addKeyControl(sf::Keyboard::X);
   actions.addAction(useAction);
+
+  // load screen
+  game::Clock clock;
+
+  while (window.isOpen()) {
+    // input
+    sf::Event event;
+
+    while (window.pollEvent(event)) {
+      actions.update(event);
+      cameras.update(event);
+
+      akgr::gWindowGeometry().update(event);
+    }
+
+    if (closeWindowAction.isActive()) {
+      window.close();
+      return EXIT_SUCCESS;
+    }
+
+    if (fullscreenAction.isActive()) {
+      settings.toggleFullscreen();
+      settings.applyTo(window);
+      auto sz = window.getSize();
+
+      // fake resize event (not sent when going fullscreen before SFML 2.3.1)
+      sf::Event event;
+      event.type = sf::Event::Resized;
+      event.size.width = sz.x;
+      event.size.height = sz.y;
+      cameras.update(event);
+      akgr::gWindowGeometry().update(event);
+    }
+
+    if (upAction.isActive()) {
+      startUI.moveUp();
+    } else if (downAction.isActive()) {
+      startUI.moveDown();
+    }
+
+    if (useAction.isActive()) {
+      int choice = startUI.getCurrentChoice();
+
+      if (choice == akgr::StartUI::START_NEW_GAME) {
+
+        break;
+      }
+
+      if (choice == akgr::StartUI::LOAD_GAME) {
+        break;
+      }
+
+      if (choice == akgr::StartUI::QUIT) {
+        window.close();
+        return EXIT_SUCCESS;
+      }
+    }
+
+    // update
+    auto dt = clock.restart().asSeconds();
+    startUI.update(dt);
+
+    // render
+    window.clear(sf::Color::Black);
+
+    headsUpCamera.configure(window);
+    startUI.render(window);
+
+    window.display();
+
+    actions.reset();
+  }
+
+  window.clear(sf::Color::Black);
+  startUI.displaySplashMessage(window, true);
+  window.display();
+
+  // load data
+  akgr::gDataManager().load(GAME_DATADIR);
 
   // add entities
   game::ModelManager models;
@@ -168,6 +244,9 @@ int main(int argc, char *argv[]) {
     akgr::gPhysicsModel().loadMap(*map);
     akgr::gDataManager().loadMap(*map);
   }
+
+  upAction.setContinuous();
+  downAction.setContinuous();
 
 #if 0
 
@@ -218,8 +297,6 @@ int main(int argc, char *argv[]) {
   akgr::Story story;
 
   // main loop
-  game::Clock clock;
-
   while (window.isOpen()) {
     // input
     sf::Event event;
