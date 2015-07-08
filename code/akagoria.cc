@@ -48,6 +48,11 @@
 static constexpr unsigned INITIAL_WIDTH = 1024;
 static constexpr unsigned INITIAL_HEIGHT = 576;
 
+enum class StartMode {
+  MAIN,
+  LOAD,
+};
+
 int main(int argc, char *argv[]) {
   game::Log::setLevel(game::Log::INFO);
 
@@ -77,10 +82,10 @@ int main(int argc, char *argv[]) {
   window.setKeyRepeatEnabled(false);
 
   // splash screen
-  akgr::StartUI startUI;
+  akgr::SplashUI splashUI;
 
   window.clear(sf::Color::Black);
-  startUI.render(window);
+  splashUI.displaySplashMessage(window, true);
   window.display();
 
   // add cameras
@@ -132,7 +137,14 @@ int main(int argc, char *argv[]) {
   useAction.addKeyControl(sf::Keyboard::X);
   actions.addAction(useAction);
 
-  // load screen
+
+  // UI for start screen
+  akgr::StartUI startUI;
+  akgr::LoadUI loadUI;
+
+  StartMode startMode = StartMode::MAIN;
+
+  // start screen
   game::Clock clock;
 
   while (window.isOpen()) {
@@ -166,38 +178,57 @@ int main(int argc, char *argv[]) {
     }
 
     if (upAction.isActive()) {
-      startUI.moveUp();
+      if (startMode == StartMode::MAIN) {
+        startUI.moveUp();
+      } else {
+        loadUI.moveUp();
+      }
     } else if (downAction.isActive()) {
-      startUI.moveDown();
+      if (startMode == StartMode::MAIN) {
+        startUI.moveDown();
+      } else {
+        loadUI.moveDown();
+      }
     }
 
     if (useAction.isActive()) {
-      int choice = startUI.getCurrentChoice();
+      if (startMode == StartMode::MAIN) {
+        int choice = startUI.getCurrentChoice();
 
-      if (choice == akgr::StartUI::START_NEW_GAME) {
+        if (choice == akgr::StartUI::START_NEW_GAME) {
 
-        break;
-      }
+          break;
+        }
 
-      if (choice == akgr::StartUI::LOAD_GAME) {
-        break;
-      }
+        if (choice == akgr::StartUI::LOAD_GAME) {
+          startMode = StartMode::LOAD;
+        }
 
-      if (choice == akgr::StartUI::QUIT) {
-        window.close();
-        return EXIT_SUCCESS;
+        if (choice == akgr::StartUI::QUIT) {
+          window.close();
+          return EXIT_SUCCESS;
+        }
+      } else {
+        startMode = StartMode::MAIN;
       }
     }
 
     // update
     auto dt = clock.restart().asSeconds();
+    splashUI.update(dt);
     startUI.update(dt);
 
     // render
     window.clear(sf::Color::Black);
 
     headsUpCamera.configure(window);
-    startUI.render(window);
+    splashUI.render(window);
+
+    if (startMode == StartMode::MAIN) {
+      startUI.render(window);
+    } else {
+      loadUI.render(window);
+    }
 
     window.display();
 
@@ -205,7 +236,7 @@ int main(int argc, char *argv[]) {
   }
 
   window.clear(sf::Color::Black);
-  startUI.displaySplashMessage(window, true);
+  splashUI.displaySplashMessage(window, true);
   window.display();
 
   // load data

@@ -39,7 +39,51 @@ namespace akgr {
     const DialogData::Line *m_currentLine;
   };
 
-  class StartUI : public game::Entity {
+  class SplashUI : public game::Entity {
+  public:
+    SplashUI();
+
+    virtual void render(sf::RenderWindow& window) override;
+
+    void displaySplashMessage(sf::RenderWindow& window, bool loading = false);
+
+  private:
+    sf::Font *m_font;
+  };
+
+  class MenuUI : public game::Entity {
+  public:
+    MenuUI(int choiceCount)
+    : m_currentChoice(0)
+    , m_choiceCount(choiceCount)
+    {
+
+    }
+
+    int getCurrentChoice() const {
+      return m_currentChoice;
+    }
+
+    void moveDown();
+    void moveUp();
+
+  private:
+    int m_currentChoice;
+    int m_choiceCount;
+
+  };
+
+  class LoadUI : public MenuUI {
+  public:
+    LoadUI();
+
+    virtual void render(sf::RenderWindow& window) override;
+
+  private:
+    sf::Font *m_font;
+  };
+
+  class StartUI : public MenuUI {
   public:
     static constexpr int START_NEW_GAME = 0;
     static constexpr int LOAD_GAME = 1;
@@ -49,19 +93,10 @@ namespace akgr {
 
     virtual void render(sf::RenderWindow& window) override;
 
-    int getCurrentChoice() const {
-      return m_currentChoice;
-    }
-
-    void moveDown();
-    void moveUp();
-
-    void displaySplashMessage(sf::RenderWindow& window, bool loading = false);
-
   private:
     sf::Font *m_font;
-    int m_currentChoice;
   };
+
 }
 
 #endif // AKGR_UI_H

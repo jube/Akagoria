@@ -23,6 +23,8 @@
 
 namespace akgr {
 
+  static constexpr unsigned STANDARD_SIZE = 20;
+
   static void drawBox(sf::RenderWindow& window, float x, float y, float width, float height) {
     static const sf::Color fillColor(0x04, 0x08, 0x84, 0xC0);
 
@@ -48,7 +50,7 @@ namespace akgr {
   static constexpr float SPEAKER_HEIGHT = 25.0f;
   static constexpr float SPEAKER_PADDING = 5.0f;
 
-  static constexpr unsigned WORDS_SIZE = 20;
+  static constexpr unsigned WORDS_SIZE = STANDARD_SIZE;
   static constexpr float WORDS_WIDTH = 600.0f;
   static constexpr float WORDS_HEIGHT = 90.0f;
   static constexpr float WORDS_BOTTOM = 40.0f;
@@ -80,55 +82,18 @@ namespace akgr {
     drawText(window, *m_font, x + WORDS_PADDING, y + WORDS_PADDING, WORDS_SIZE, m_currentLine->words);
   }
 
-
-  static constexpr int CHOICE_COUNT = 3;
-
-  static constexpr float START_WIDTH = 300.0f;
-  static constexpr float START_HEIGHT = 100.0f;
-  static constexpr float START_LEFT = 25.0f;
-  static constexpr float START_PADDING = 10.0f;
-  static constexpr unsigned START_SIZE = 20.0f;
-  static constexpr float START_RADIUS = 5.0f;
-  static constexpr float START_POS = 2.0f;
-
-  StartUI::StartUI()
-  : m_currentChoice(0)
-  {
+  SplashUI::SplashUI() {
     m_font = gResourceManager().getFont("fonts/DejaVuSans.ttf");
     assert(m_font);
   }
 
-  void StartUI::moveDown() {
-    m_currentChoice = (m_currentChoice + 1) % CHOICE_COUNT;
-  }
-
-  void StartUI::moveUp() {
-    m_currentChoice = (m_currentChoice + CHOICE_COUNT - 1) % CHOICE_COUNT;
-  }
-
-  void StartUI::render(sf::RenderWindow& window) {
-    displaySplashMessage(window);
-
-    drawBox(window, START_POS, START_POS, START_WIDTH, START_HEIGHT);
-
-    drawText(window, *m_font, START_POS + START_LEFT, START_POS + START_PADDING, START_SIZE, "Start new adventure");
-    drawText(window, *m_font, START_POS + START_LEFT, START_POS + START_PADDING + 1 * (START_SIZE + START_PADDING), START_SIZE, "Load adventure");
-    drawText(window, *m_font, START_POS + START_LEFT, START_POS + START_PADDING + 2 * (START_SIZE + START_PADDING), START_SIZE, "Quit");
-
-    float x = START_POS + START_LEFT / 2;
-    float y = START_POS + START_PADDING + 0.4f * START_SIZE + m_currentChoice * (START_SIZE + START_PADDING);
-
-    sf::CircleShape pointer(START_RADIUS, 3);
-    pointer.setOrigin(START_RADIUS, START_RADIUS);
-    pointer.setPosition(x, y);
-    pointer.rotate(90);
-    pointer.setFillColor(sf::Color::White);
-    window.draw(pointer);
+  void SplashUI::render(sf::RenderWindow& window) {
+    displaySplashMessage(window, false);
   }
 
   static constexpr float LOADING_PADDING = 60.0f;
 
-  void StartUI::displaySplashMessage(sf::RenderWindow& window, bool loading) {
+  void SplashUI::displaySplashMessage(sf::RenderWindow& window, bool loading) {
     // define a splash message
     sf::Text text;
     text.setFont(*m_font);
@@ -165,5 +130,92 @@ namespace akgr {
       window.draw(loadingText);
     }
   }
+
+  static constexpr float MENU_POS = 2.0f;
+  static constexpr float MENU_LEFT = 25.0f;
+  static constexpr float MENU_POINTER = MENU_LEFT / 2;
+
+  void MenuUI::moveDown() {
+    m_currentChoice = (m_currentChoice + 1) % m_choiceCount;
+  }
+
+  void MenuUI::moveUp() {
+    m_currentChoice = (m_currentChoice + m_choiceCount - 1) % m_choiceCount;
+  }
+
+
+  static constexpr int LOAD_CHOICE_COUNT = 3;
+
+  static constexpr float LOAD_SLOT_HEIGHT = 70.0f;
+  static constexpr float LOAD_SLOT_PADDING = 5.0f;
+
+  static constexpr float LOAD_WIDTH = 300.0f;
+  static constexpr float LOAD_HEIGHT = LOAD_CHOICE_COUNT * LOAD_SLOT_HEIGHT + 50.0f;
+
+  static constexpr float LOAD_SLOT_WIDTH = LOAD_WIDTH - MENU_POS - MENU_LEFT - LOAD_SLOT_PADDING;
+
+  LoadUI::LoadUI()
+  : MenuUI(LOAD_CHOICE_COUNT + 1) // 3 slots + back to main
+  {
+    m_font = gResourceManager().getFont("fonts/DejaVuSans.ttf");
+    assert(m_font);
+  }
+
+  void LoadUI::render(sf::RenderWindow& window) {
+    drawBox(window, MENU_POS, MENU_POS, LOAD_WIDTH, LOAD_HEIGHT);
+
+    float x = MENU_POS + MENU_LEFT;
+    float y = MENU_POS + LOAD_SLOT_PADDING;
+
+    drawBox(window, x, y, LOAD_SLOT_WIDTH,  LOAD_SLOT_HEIGHT);
+    y += LOAD_SLOT_HEIGHT + LOAD_SLOT_PADDING;
+    drawBox(window, x, y, LOAD_SLOT_WIDTH,  LOAD_SLOT_HEIGHT);
+    y += LOAD_SLOT_HEIGHT + LOAD_SLOT_PADDING;
+    drawBox(window, x, y, LOAD_SLOT_WIDTH,  LOAD_SLOT_HEIGHT);
+
+    y += LOAD_SLOT_HEIGHT + 2 * LOAD_SLOT_PADDING;
+    drawText(window, *m_font, x, y, STANDARD_SIZE, "Back");
+
+  }
+
+
+  static constexpr int START_CHOICE_COUNT = 3;
+
+  static constexpr float START_WIDTH = 300.0f;
+  static constexpr float START_HEIGHT = 100.0f;
+  static constexpr float START_PADDING = 10.0f;
+  static constexpr unsigned START_SIZE = STANDARD_SIZE;
+  static constexpr float START_RADIUS = 5.0f;
+
+  StartUI::StartUI()
+  : MenuUI(START_CHOICE_COUNT)
+  {
+    m_font = gResourceManager().getFont("fonts/DejaVuSans.ttf");
+    assert(m_font);
+  }
+
+  void StartUI::render(sf::RenderWindow& window) {
+    drawBox(window, MENU_POS, MENU_POS, START_WIDTH, START_HEIGHT);
+
+    float x = MENU_POS + MENU_LEFT;
+    float y = MENU_POS + START_PADDING;
+
+    drawText(window, *m_font, x, y, START_SIZE, "Start new adventure");
+    y += START_SIZE + START_PADDING;
+    drawText(window, *m_font, x, y, START_SIZE, "Load adventure");
+    y += START_SIZE + START_PADDING;
+    drawText(window, *m_font, x, y, START_SIZE, "Quit");
+
+    float pointerX = MENU_POS + MENU_POINTER;
+    float pointerY = MENU_POS + START_PADDING + 0.4f * START_SIZE + getCurrentChoice() * (START_SIZE + START_PADDING);
+
+    sf::CircleShape pointer(START_RADIUS, 3);
+    pointer.setOrigin(START_RADIUS, START_RADIUS);
+    pointer.setPosition(pointerX, pointerY);
+    pointer.rotate(90);
+    pointer.setFillColor(sf::Color::White);
+    window.draw(pointer);
+  }
+
 
 }
