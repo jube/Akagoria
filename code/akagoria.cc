@@ -143,6 +143,7 @@ int main(int argc, char *argv[]) {
   akgr::LoadUI loadUI;
 
   StartMode startMode = StartMode::MAIN;
+  akgr::EntityUI *currentUI = &startUI;
 
   // start screen
   game::Clock clock;
@@ -178,17 +179,9 @@ int main(int argc, char *argv[]) {
     }
 
     if (upAction.isActive()) {
-      if (startMode == StartMode::MAIN) {
-        startUI.moveUp();
-      } else {
-        loadUI.moveUp();
-      }
+      currentUI->onUp();
     } else if (downAction.isActive()) {
-      if (startMode == StartMode::MAIN) {
-        startUI.moveDown();
-      } else {
-        loadUI.moveDown();
-      }
+      currentUI->onDown();
     }
 
     if (useAction.isActive()) {

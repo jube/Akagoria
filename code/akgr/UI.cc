@@ -25,6 +25,23 @@ namespace akgr {
 
   static constexpr unsigned STANDARD_SIZE = 20;
 
+  void EntityUI::onLeft() {
+    // nothing by default
+  }
+
+  void EntityUI::onRight() {
+    // nothing by default
+  }
+
+  void EntityUI::onUp() {
+    // nothing by default
+  }
+
+  void EntityUI::onDown() {
+    // nothing by default
+  }
+
+
   static void drawBox(sf::RenderWindow& window, float x, float y, float width, float height) {
     static const sf::Color fillColor(0x04, 0x08, 0x84, 0xC0);
 
@@ -135,14 +152,13 @@ namespace akgr {
   static constexpr float MENU_LEFT = 25.0f;
   static constexpr float MENU_POINTER = MENU_LEFT / 2;
 
-  void MenuUI::moveDown() {
-    m_currentChoice = (m_currentChoice + 1) % m_choiceCount;
-  }
-
-  void MenuUI::moveUp() {
+  void MenuUI::onUp() {
     m_currentChoice = (m_currentChoice + m_choiceCount - 1) % m_choiceCount;
   }
 
+  void MenuUI::onDown() {
+    m_currentChoice = (m_currentChoice + 1) % m_choiceCount;
+  }
 
   static constexpr int LOAD_CHOICE_COUNT = 3;
 

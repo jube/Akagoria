@@ -26,7 +26,15 @@
 
 namespace akgr {
 
-  class DialogUI : public game::Entity {
+  class EntityUI : public game::Entity {
+  public:
+    virtual void onLeft();
+    virtual void onRight();
+    virtual void onUp();
+    virtual void onDown();
+  };
+
+  class DialogUI : public EntityUI {
   public:
     DialogUI();
 
@@ -51,7 +59,7 @@ namespace akgr {
     sf::Font *m_font;
   };
 
-  class MenuUI : public game::Entity {
+  class MenuUI : public EntityUI {
   public:
     MenuUI(int choiceCount)
     : m_currentChoice(0)
@@ -64,8 +72,8 @@ namespace akgr {
       return m_currentChoice;
     }
 
-    void moveDown();
-    void moveUp();
+    virtual void onUp() override;
+    virtual void onDown() override;
 
   private:
     int m_currentChoice;
