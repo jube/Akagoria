@@ -39,6 +39,29 @@ namespace akgr {
     const DialogData::Line *m_currentLine;
   };
 
+  class StartUI : public game::Entity {
+  public:
+    static constexpr int START_NEW_GAME = 0;
+    static constexpr int LOAD_GAME = 1;
+    static constexpr int QUIT = 2;
+
+    StartUI();
+
+    virtual void render(sf::RenderWindow& window) override;
+
+    int getCurrentChoice() const {
+      return m_currentChoice;
+    }
+
+    void moveDown();
+    void moveUp();
+
+    void displaySplashMessage(sf::RenderWindow& window);
+
+  private:
+    sf::Font *m_font;
+    int m_currentChoice;
+  };
 }
 
 #endif // AKGR_UI_H

@@ -41,30 +41,12 @@
 #include "akgr/SpriteMap.h"
 #include "akgr/Story.h"
 #include "akgr/TileMap.h"
+#include "akgr/UI.h"
 
 #include "config.h"
 
 static constexpr unsigned INITIAL_WIDTH = 1024;
 static constexpr unsigned INITIAL_HEIGHT = 576;
-
-static void displaySplashMessage(sf::RenderWindow& window) {
-  // define a splash message
-  sf::Text text;
-  text.setFont(*akgr::gResourceManager().getFont("fonts/DejaVuSans.ttf"));
-  text.setCharacterSize(32);
-  text.setColor(sf::Color::Black);
-  text.setString("Akagoria, the revenge of Kalista");
-
-  // put the splash screen in the center
-  sf::FloatRect rect = text.getLocalBounds();
-  text.setOrigin(rect.left + rect.width / 2.0f, rect.top + rect.height / 2.0f);
-  text.setPosition(INITIAL_WIDTH / 2, INITIAL_HEIGHT / 2);
-  window.draw(text);
-
-  text.setColor(sf::Color(255, 127, 0));
-  text.move(-2.0f, -2.0f);
-  window.draw(text);
-}
 
 int main(int argc, char *argv[]) {
   game::Log::setLevel(game::Log::INFO);
@@ -96,8 +78,10 @@ int main(int argc, char *argv[]) {
   window.setKeyRepeatEnabled(false);
 
   // splash screen
-  window.clear(sf::Color::White);
-  displaySplashMessage(window);
+  akgr::StartUI startUI;
+
+  window.clear(sf::Color::Black);
+  startUI.render(window);
   window.display();
 
   // add cameras

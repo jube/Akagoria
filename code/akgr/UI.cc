@@ -81,5 +81,67 @@ namespace akgr {
   }
 
 
+  static constexpr int CHOICE_COUNT = 3;
+
+  static constexpr float START_WIDTH = 200.0f;
+  static constexpr float START_HEIGHT = 100.0f;
+  static constexpr float START_LEFT = 25.0f;
+  static constexpr float START_PADDING = 10.0f;
+  static constexpr unsigned START_SIZE = 20.0f;
+  static constexpr float START_RADIUS = 5.0f;
+
+  StartUI::StartUI()
+  : m_currentChoice(0)
+  {
+    m_font = gResourceManager().getFont("fonts/DejaVuSans.ttf");
+    assert(m_font);
+  }
+
+  void StartUI::moveDown() {
+    m_currentChoice = (m_currentChoice + 1) % CHOICE_COUNT;
+  }
+
+  void StartUI::moveUp() {
+    m_currentChoice = (m_currentChoice + CHOICE_COUNT - 1) % CHOICE_COUNT;
+  }
+
+  void StartUI::render(sf::RenderWindow& window) {
+    displaySplashMessage(window);
+
+    drawBox(window, 0, 0, START_WIDTH, START_HEIGHT);
+
+    drawText(window, *m_font, START_LEFT, START_PADDING, START_SIZE, "Start new game");
+    drawText(window, *m_font, START_LEFT, START_PADDING + 1 * (START_SIZE + START_PADDING), START_SIZE, "Load game");
+    drawText(window, *m_font, START_LEFT, START_PADDING + 2 * (START_SIZE + START_PADDING), START_SIZE, "Quit");
+
+    float x = START_LEFT / 2;
+    float y = START_PADDING + START_SIZE / 2 + m_currentChoice * (START_SIZE + START_PADDING);
+
+    sf::CircleShape pointer(START_RADIUS, 3);
+    pointer.setOrigin(START_RADIUS, START_RADIUS);
+    pointer.setPosition(x, y);
+    pointer.rotate(90);
+    pointer.setFillColor(sf::Color::White);
+    window.draw(pointer);
+  }
+
+  void StartUI::displaySplashMessage(sf::RenderWindow& window) {
+    // define a splash message
+    sf::Text text;
+    text.setFont(*m_font);
+    text.setCharacterSize(32);
+    text.setColor(sf::Color(0xFF, 0x80, 0x00));
+    text.setString("Akagoria, the revenge of Kalista");
+
+    // put the splash screen in the center
+    sf::FloatRect rect = text.getLocalBounds();
+    text.setOrigin(rect.left, rect.top);
+
+    float x = gWindowGeometry().getXCentered(rect.width);
+    float y = gWindowGeometry().getYCentered(rect.height);
+
+    text.setPosition(x, y);
+    window.draw(text);
+  }
 
 }
