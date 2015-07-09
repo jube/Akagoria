@@ -74,6 +74,8 @@ int main(int argc, char *argv[]) {
 
   game::SingletonStorage<game::WindowGeometry> storageForWindowGeometry(akgr::gWindowGeometry, INITIAL_WIDTH, INITIAL_HEIGHT);
 
+
+
   // initialize window
   game::WindowSettings settings(INITIAL_WIDTH, INITIAL_HEIGHT, "Akagoria (version " GAME_VERSION ")");
 
@@ -179,9 +181,11 @@ int main(int argc, char *argv[]) {
     }
 
     if (upAction.isActive()) {
-      currentUI->onUp();
+      currentUI->onVerticalAction(akgr::VerticalAction::UP);
     } else if (downAction.isActive()) {
-      currentUI->onDown();
+      currentUI->onVerticalAction(akgr::VerticalAction::DOWN);
+    } else {
+      currentUI->onVerticalAction(akgr::VerticalAction::NONE);
     }
 
     if (useAction.isActive()) {
@@ -272,16 +276,15 @@ int main(int argc, char *argv[]) {
   upAction.setContinuous();
   downAction.setContinuous();
 
-#if 0
-
-  akgr::gRequirementManager().addRequirement("IntroDialogReq"_id);
-
   // hero
   auto startLocation = akgr::gDataManager().getPointOfInterestDataFor("Start");
   assert(startLocation);
-  akgr::Hero hero(startLocation->loc);
-  akgr::gMainEntityManager().addEntity(hero);
-  hero.broadcastLocation();
+  game::SingletonStorage<akgr::Hero> storageForHero(akgr::gHero, startLocation->loc);
+  akgr::gMainEntityManager().addEntity(akgr::gHero());
+
+#if 0
+
+  akgr::gRequirementManager().addRequirement("IntroDialogReq"_id);
 
   // another character
   auto shagirLocation = akgr::gDataManager().getPointOfInterestDataFor("Shagir");
@@ -298,18 +301,15 @@ int main(int argc, char *argv[]) {
   }
 
 #else
-  akgr::Hero hero;
-  akgr::gMainEntityManager().addEntity(hero);
-
   {
     std::ifstream file("save.akgr");
     boost::archive::text_iarchive archive(file);
-    archive >> hero;
+    archive >> akgr::gHero();
     archive >> akgr::gRequirementManager();
     archive >> akgr::gCharacterManager();
   }
 
-  hero.broadcastLocation();
+  akgr::gHero().broadcastLocation();
   akgr::gCharacterManager().updateCharacterSearch();
 
 #endif
@@ -351,26 +351,26 @@ int main(int argc, char *argv[]) {
     }
 
     if (leftAction.isActive()) {
-      hero.turnLeft();
+      akgr::gHero().turnLeft();
     } else if (rightAction.isActive()) {
-      hero.turnRight();
+      akgr::gHero().turnRight();
     } else {
-      hero.stopTurning();
+      akgr::gHero().stopTurning();
     }
 
     if (upAction.isActive()) {
-      hero.walkForward();
+      akgr::gHero().walkForward();
     } else if (downAction.isActive()) {
-      hero.walkBackward();
+      akgr::gHero().walkBackward();
     } else {
-      hero.stopWalking();
+      akgr::gHero().stopWalking();
     }
 
     if (useAction.isActive()) {
       if (akgr::gDialogManager().hasNextLine()) {
         akgr::gDialogManager().showNextLine();
       } else {
-        hero.tryToTalk();
+        akgr::gHero().tryToTalk();
       }
     }
 

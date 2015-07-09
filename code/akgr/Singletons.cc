@@ -31,6 +31,7 @@ namespace akgr {
   game::Singleton<PhysicsModel> gPhysicsModel;
 
   game::Singleton<CharacterManager> gCharacterManager;
+  game::Singleton<Hero> gHero;
   game::Singleton<DialogManager> gDialogManager;
   game::Singleton<RequirementManager> gRequirementManager;
 
