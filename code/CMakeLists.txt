@@ -40,6 +40,7 @@ add_executable(akagoria
   akgr/Hero.cc
   akgr/PhysicsModel.cc
   akgr/RequirementManager.cc
+  akgr/SavePointManager.cc
   akgr/Singletons.cc
   akgr/SpriteMap.cc
   akgr/Story.cc
