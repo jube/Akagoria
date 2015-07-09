@@ -24,6 +24,7 @@
 namespace akgr {
 
   static constexpr unsigned STANDARD_SIZE = 20;
+  static constexpr float STANDARD_POINTER_RADIUS = 5.0f;
 
   void EntityUI::onHorizontalAction(HorizontalAction action) {
     switch (action) {
@@ -88,6 +89,15 @@ namespace akgr {
     text.setOrigin(rect.left, rect.top);
     text.setPosition(x, y);
     window.draw(text);
+  }
+
+  static void drawPointer(sf::RenderWindow& window, float x, float y) {
+    sf::CircleShape pointer(STANDARD_POINTER_RADIUS, 3);
+    pointer.setOrigin(STANDARD_POINTER_RADIUS, STANDARD_POINTER_RADIUS);
+    pointer.setPosition(x, y);
+    pointer.rotate(90);
+    pointer.setFillColor(sf::Color::White);
+    window.draw(pointer);
   }
 
   static constexpr unsigned SPEAKER_SIZE = 16;
@@ -190,13 +200,15 @@ namespace akgr {
 
   static constexpr int LOAD_CHOICE_COUNT = 3;
 
-  static constexpr float LOAD_SLOT_HEIGHT = 70.0f;
-  static constexpr float LOAD_SLOT_PADDING = 5.0f;
+  static constexpr float LOAD_SLOT_HEIGHT = 65.0f;
+  static constexpr float LOAD_SLOT_MARGIN = 5.0f;
+  static constexpr float LOAD_SLOT_PADDING = 10.0f;
+  static constexpr unsigned LOAD_SLOT_SIZE = 16;
 
   static constexpr float LOAD_WIDTH = 300.0f;
   static constexpr float LOAD_HEIGHT = LOAD_CHOICE_COUNT * LOAD_SLOT_HEIGHT + 50.0f;
 
-  static constexpr float LOAD_SLOT_WIDTH = LOAD_WIDTH - MENU_POS - MENU_LEFT - LOAD_SLOT_PADDING;
+  static constexpr float LOAD_SLOT_WIDTH = LOAD_WIDTH - MENU_POS - MENU_LEFT - LOAD_SLOT_MARGIN;
 
   LoadUI::LoadUI()
   : MenuUI(LOAD_CHOICE_COUNT + 1) // 3 slots + back to main
@@ -209,16 +221,44 @@ namespace akgr {
     drawBox(window, MENU_POS, MENU_POS, LOAD_WIDTH, LOAD_HEIGHT);
 
     float x = MENU_POS + MENU_LEFT;
-    float y = MENU_POS + LOAD_SLOT_PADDING;
+    float y = MENU_POS + LOAD_SLOT_MARGIN;
+
+    int choice = getCurrentChoice();
+    float pointerX = MENU_POS + MENU_POINTER;
 
     drawBox(window, x, y, LOAD_SLOT_WIDTH,  LOAD_SLOT_HEIGHT);
-    y += LOAD_SLOT_HEIGHT + LOAD_SLOT_PADDING;
-    drawBox(window, x, y, LOAD_SLOT_WIDTH,  LOAD_SLOT_HEIGHT);
-    y += LOAD_SLOT_HEIGHT + LOAD_SLOT_PADDING;
-    drawBox(window, x, y, LOAD_SLOT_WIDTH,  LOAD_SLOT_HEIGHT);
+    drawText(window, *m_font, x + LOAD_SLOT_PADDING, y + LOAD_SLOT_MARGIN, LOAD_SLOT_SIZE, gSavePointManager().getSlotInfo(0));
 
-    y += LOAD_SLOT_HEIGHT + 2 * LOAD_SLOT_PADDING;
+    if (choice == 0) {
+      float pointerY = y + LOAD_SLOT_HEIGHT / 2;
+      drawPointer(window, pointerX, pointerY);
+    }
+
+    y += LOAD_SLOT_HEIGHT + LOAD_SLOT_MARGIN;
+    drawBox(window, x, y, LOAD_SLOT_WIDTH,  LOAD_SLOT_HEIGHT);
+    drawText(window, *m_font, x + LOAD_SLOT_PADDING, y + LOAD_SLOT_MARGIN, LOAD_SLOT_SIZE, gSavePointManager().getSlotInfo(1));
+
+    if (choice == 1) {
+      float pointerY = y + LOAD_SLOT_HEIGHT / 2;
+      drawPointer(window, pointerX, pointerY);
+    }
+
+    y += LOAD_SLOT_HEIGHT + LOAD_SLOT_MARGIN;
+    drawBox(window, x, y, LOAD_SLOT_WIDTH,  LOAD_SLOT_HEIGHT);
+    drawText(window, *m_font, x + LOAD_SLOT_PADDING, y + LOAD_SLOT_MARGIN, LOAD_SLOT_SIZE, gSavePointManager().getSlotInfo(2));
+
+    if (choice == 2) {
+      float pointerY = y + LOAD_SLOT_HEIGHT / 2;
+      drawPointer(window, pointerX, pointerY);
+    }
+
+    y += LOAD_SLOT_HEIGHT + 2 * LOAD_SLOT_MARGIN;
     drawText(window, *m_font, x, y, STANDARD_SIZE, "Back");
+
+    if (choice == 3) {
+      float pointerY = y + 0.4 * STANDARD_SIZE;
+      drawPointer(window, pointerX, pointerY);
+    }
 
   }
 
@@ -229,7 +269,6 @@ namespace akgr {
   static constexpr float START_HEIGHT = 100.0f;
   static constexpr float START_PADDING = 10.0f;
   static constexpr unsigned START_SIZE = STANDARD_SIZE;
-  static constexpr float START_RADIUS = 5.0f;
 
   StartUI::StartUI()
   : MenuUI(START_CHOICE_COUNT)
@@ -252,13 +291,7 @@ namespace akgr {
 
     float pointerX = MENU_POS + MENU_POINTER;
     float pointerY = MENU_POS + START_PADDING + 0.4f * START_SIZE + getCurrentChoice() * (START_SIZE + START_PADDING);
-
-    sf::CircleShape pointer(START_RADIUS, 3);
-    pointer.setOrigin(START_RADIUS, START_RADIUS);
-    pointer.setPosition(pointerX, pointerY);
-    pointer.rotate(90);
-    pointer.setFillColor(sf::Color::White);
-    window.draw(pointer);
+    drawPointer(window, pointerX, pointerY);
   }
 
 

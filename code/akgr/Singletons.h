@@ -33,6 +33,7 @@
 #include "DialogManager.h"
 #include "Hero.h"
 #include "RequirementManager.h"
+#include "SavePointManager.h"
 
 namespace akgr {
 
@@ -49,6 +50,7 @@ namespace akgr {
   extern game::Singleton<Hero> gHero;
   extern game::Singleton<DialogManager> gDialogManager;
   extern game::Singleton<RequirementManager> gRequirementManager;
+  extern game::Singleton<SavePointManager> gSavePointManager;
 
   extern game::Singleton<game::WindowGeometry> gWindowGeometry;
 

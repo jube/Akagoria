@@ -125,18 +125,19 @@ namespace akgr {
   std::string SavePointManager::getSlotInfo(int slot) const {
     if (slot < SLOT_MIN || slot > SLOT_MAX) {
       game::Log::warning(game::Log::GENERAL, "Wrong saving slot: %i\n", slot);
-      return "(forbidden slot)";
+      return "(forbidden slot)\n-\n-";
     }
 
     auto path = getSlotFilename(slot);
 
     if (!boost::filesystem::exists(path)) {
-      return "(empty)";
+      return "(empty)\n-\n-";
     }
 
     std::string info = "slot#" + std::to_string(slot) + '\n';
 
     // TODO: add region name
+    info += "<region>\n";
 
     auto time = boost::filesystem::last_write_time(path);
     std::array<char, TIME_INFO_SIZE> timeInfo;

@@ -100,6 +100,8 @@ namespace akgr {
 
   class LoadUI : public MenuUI {
   public:
+    static constexpr int BACK = 3;
+
     LoadUI();
 
     virtual void render(sf::RenderWindow& window) override;

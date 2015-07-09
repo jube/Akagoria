@@ -71,6 +71,7 @@ int main(int argc, char *argv[]) {
   game::SingletonStorage<akgr::CharacterManager> storageForCharacterManager(akgr::gCharacterManager);
   game::SingletonStorage<akgr::DialogManager> storageForDialogManager(akgr::gDialogManager);
   game::SingletonStorage<akgr::RequirementManager> storageForRequirementManager(akgr::gRequirementManager);
+  game::SingletonStorage<akgr::SavePointManager> storageForSavePointManager(akgr::gSavePointManager);
 
   game::SingletonStorage<game::WindowGeometry> storageForWindowGeometry(akgr::gWindowGeometry, INITIAL_WIDTH, INITIAL_HEIGHT);
 
@@ -143,6 +144,7 @@ int main(int argc, char *argv[]) {
   // UI for start screen
   akgr::StartUI startUI;
   akgr::LoadUI loadUI;
+  int slotToLoad = -1; // -1 means new game
 
   StartMode startMode = StartMode::MAIN;
   akgr::EntityUI *currentUI = &startUI;
@@ -193,12 +195,12 @@ int main(int argc, char *argv[]) {
         int choice = startUI.getCurrentChoice();
 
         if (choice == akgr::StartUI::START_NEW_GAME) {
-
           break;
         }
 
         if (choice == akgr::StartUI::LOAD_GAME) {
           startMode = StartMode::LOAD;
+          currentUI = &loadUI;
         }
 
         if (choice == akgr::StartUI::QUIT) {
@@ -206,7 +208,18 @@ int main(int argc, char *argv[]) {
           return EXIT_SUCCESS;
         }
       } else {
-        startMode = StartMode::MAIN;
+        assert(startMode == StartMode::LOAD);
+        int choice = loadUI.getCurrentChoice();
+
+        if (choice == akgr::LoadUI::BACK) {
+          startMode = StartMode::MAIN;
+          currentUI = &startUI;
+        } else {
+          if (akgr::gSavePointManager().hasSlot(choice)) {
+            slotToLoad = choice;
+            break;
+          }
+        }
       }
     }
 
@@ -282,37 +295,21 @@ int main(int argc, char *argv[]) {
   game::SingletonStorage<akgr::Hero> storageForHero(akgr::gHero, startLocation->loc);
   akgr::gMainEntityManager().addEntity(akgr::gHero());
 
-#if 0
 
-  akgr::gRequirementManager().addRequirement("IntroDialogReq"_id);
+  if (slotToLoad != -1) {
+    akgr::gSavePointManager().loadFromSlot(slotToLoad);
+  } else {
+    akgr::gRequirementManager().addRequirement("IntroDialogReq"_id);
 
-  // another character
-  auto shagirLocation = akgr::gDataManager().getPointOfInterestDataFor("Shagir");
-  assert(shagirLocation);
-  auto shagirCharacter = akgr::gCharacterManager().addCharacter("Shagir", shagirLocation->loc, 0.5f);
-  shagirCharacter->attachDialog("ShagirConversation0");
-
-  {
-    std::ofstream file("save.akgr");
-    boost::archive::text_oarchive archive(file);
-    archive << hero;
-    archive << akgr::gRequirementManager();
-    archive << akgr::gCharacterManager();
-  }
-
-#else
-  {
-    std::ifstream file("save.akgr");
-    boost::archive::text_iarchive archive(file);
-    archive >> akgr::gHero();
-    archive >> akgr::gRequirementManager();
-    archive >> akgr::gCharacterManager();
+    // another character
+    auto shagirLocation = akgr::gDataManager().getPointOfInterestDataFor("Shagir");
+    assert(shagirLocation);
+    auto shagirCharacter = akgr::gCharacterManager().addCharacter("Shagir", shagirLocation->loc, 0.5f);
+    shagirCharacter->attachDialog("ShagirConversation0");
   }
 
   akgr::gHero().broadcastLocation();
   akgr::gCharacterManager().updateCharacterSearch();
-
-#endif
 
   akgr::gMainEntityManager().addEntity(akgr::gCharacterManager());
 
