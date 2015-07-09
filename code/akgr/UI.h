@@ -26,10 +26,27 @@
 
 namespace akgr {
 
+  enum class HorizontalAction {
+    LEFT,
+    NONE,
+    RIGHT,
+  };
+
+  enum class VerticalAction {
+    UP,
+    NONE,
+    DOWN,
+  };
+
   class EntityUI : public game::Entity {
   public:
+
+    virtual void onHorizontalAction(HorizontalAction action);
     virtual void onLeft();
     virtual void onRight();
+
+
+    virtual void onVerticalAction(VerticalAction action);
     virtual void onUp();
     virtual void onDown();
   };

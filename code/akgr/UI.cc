@@ -25,12 +25,40 @@ namespace akgr {
 
   static constexpr unsigned STANDARD_SIZE = 20;
 
+  void EntityUI::onHorizontalAction(HorizontalAction action) {
+    switch (action) {
+      case HorizontalAction::LEFT:
+        onLeft();
+        break;
+      case HorizontalAction::RIGHT:
+        onRight();
+        break;
+      case HorizontalAction::NONE:
+        // nothing
+        break;
+    }
+  }
+
   void EntityUI::onLeft() {
     // nothing by default
   }
 
   void EntityUI::onRight() {
     // nothing by default
+  }
+
+  void EntityUI::onVerticalAction(VerticalAction action) {
+    switch (action) {
+      case VerticalAction::UP:
+        onUp();
+        break;
+      case VerticalAction::DOWN:
+        onDown();
+        break;
+      case VerticalAction::NONE:
+        // nothing;
+        break;
+    }
   }
 
   void EntityUI::onUp() {
