@@ -10,3 +10,6 @@ Tree:
 Well:
   type: circle
   radius: 32
+TomoTemple:
+  type: circle
+  radius: 62
