@@ -4,12 +4,12 @@ Ball:
 Bush:
   type: circle
   radius: 28
+TomoShrine:
+  type: circle
+  radius: 62
 Tree:
   type: circle
   radius: 32
 Well:
   type: circle
   radius: 32
-TomoTemple:
-  type: circle
-  radius: 62

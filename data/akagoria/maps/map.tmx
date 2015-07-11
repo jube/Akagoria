@@ -846,7 +846,7 @@
   <object id="105" name="Tree" gid="539" x="3830" y="3912"/>
   <object id="106" name="Tree" gid="540" x="4022" y="3908"/>
   <object id="107" name="Well" gid="546" x="3808" y="4136"/>
-  <object id="115" name="TomoTemple" gid="547" x="3101.33" y="4224.36"/>
+  <object id="115" name="TomoShrine" gid="547" x="3101.33" y="4224.36"/>
  </objectgroup>
  <objectgroup name="POI">
   <properties>
