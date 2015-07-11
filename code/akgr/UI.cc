@@ -137,6 +137,36 @@ namespace akgr {
     drawText(window, *m_font, x + WORDS_PADDING, y + WORDS_PADDING, WORDS_SIZE, m_currentLine->words);
   }
 
+
+  void HeroUI::onHorizontalAction(HorizontalAction action) {
+    switch (action) {
+      case HorizontalAction::LEFT:
+        akgr::gHero().turnLeft();
+        break;
+      case HorizontalAction::RIGHT:
+        akgr::gHero().turnRight();
+        break;
+      case HorizontalAction::NONE:
+        akgr::gHero().stopTurning();
+        break;
+    }
+  }
+
+  void HeroUI::onVerticalAction(VerticalAction action) {
+    switch (action) {
+      case VerticalAction::UP:
+        akgr::gHero().walkForward();
+        break;
+      case VerticalAction::DOWN:
+        akgr::gHero().walkBackward();
+        break;
+      case VerticalAction::NONE:
+        akgr::gHero().stopWalking();
+        break;
+    }
+  }
+
+
   SplashUI::SplashUI() {
     m_font = gResourceManager().getFont("fonts/DejaVuSans.ttf");
     assert(m_font);

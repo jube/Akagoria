@@ -64,6 +64,12 @@ namespace akgr {
     const DialogData::Line *m_currentLine;
   };
 
+  class HeroUI : public EntityUI {
+  public:
+    virtual void onHorizontalAction(HorizontalAction action) override;
+    virtual void onVerticalAction(VerticalAction action) override;
+  };
+
   class SplashUI : public game::Entity {
   public:
     SplashUI();

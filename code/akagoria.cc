@@ -317,6 +317,9 @@ int main(int argc, char *argv[]) {
 
   akgr::Story story;
 
+  akgr::HeroUI heroUI;
+  currentUI = &heroUI;
+
   // main loop
   while (window.isOpen()) {
     // input
@@ -348,19 +351,19 @@ int main(int argc, char *argv[]) {
     }
 
     if (leftAction.isActive()) {
-      akgr::gHero().turnLeft();
+      currentUI->onHorizontalAction(akgr::HorizontalAction::LEFT);
     } else if (rightAction.isActive()) {
-      akgr::gHero().turnRight();
+      currentUI->onHorizontalAction(akgr::HorizontalAction::RIGHT);
     } else {
-      akgr::gHero().stopTurning();
+      currentUI->onHorizontalAction(akgr::HorizontalAction::NONE);
     }
 
     if (upAction.isActive()) {
-      akgr::gHero().walkForward();
+      currentUI->onVerticalAction(akgr::VerticalAction::UP);
     } else if (downAction.isActive()) {
-      akgr::gHero().walkBackward();
+      currentUI->onVerticalAction(akgr::VerticalAction::DOWN);
     } else {
-      akgr::gHero().stopWalking();
+      currentUI->onVerticalAction(akgr::VerticalAction::NONE);
     }
 
     if (useAction.isActive()) {
