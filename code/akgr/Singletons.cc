@@ -21,6 +21,7 @@
 
 namespace akgr {
 
+  game::Singleton<game::Random> gRandom;
   game::Singleton<game::ResourceManager> gResourceManager;
   game::Singleton<game::EventManager> gEventManager;
   game::Singleton<game::EntityManager> gMainEntityManager;

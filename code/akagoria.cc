@@ -57,6 +57,7 @@ int main(int argc, char *argv[]) {
   game::Log::setLevel(game::Log::INFO);
 
   // singletons
+  game::SingletonStorage<game::Random> storageForRandom(akgr::gRandom);
   game::SingletonStorage<game::ResourceManager> storageForResourceManager(akgr::gResourceManager);
   akgr::gResourceManager().addSearchDir(GAME_DATADIR);
 

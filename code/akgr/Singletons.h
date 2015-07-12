@@ -22,6 +22,7 @@
 
 #include <game/EntityManager.h>
 #include <game/EventManager.h>
+#include <game/Random.h>
 #include <game/ResourceManager.h>
 #include <game/Singleton.h>
 #include <game/WindowGeometry.h>
@@ -37,6 +38,7 @@
 
 namespace akgr {
 
+  extern game::Singleton<game::Random> gRandom;
   extern game::Singleton<game::ResourceManager> gResourceManager;
   extern game::Singleton<game::EventManager> gEventManager;
   extern game::Singleton<game::EntityManager> gMainEntityManager;
