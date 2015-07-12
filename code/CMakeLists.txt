@@ -41,6 +41,7 @@ add_executable(akagoria
   akgr/PhysicsModel.cc
   akgr/RequirementManager.cc
   akgr/SavePointManager.cc
+  akgr/ShrineParticles.cc
   akgr/Singletons.cc
   akgr/SpriteMap.cc
   akgr/Story.cc

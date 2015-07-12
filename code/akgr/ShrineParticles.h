@@ -17,27 +17,46 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "Singletons.h"
+#ifndef AKGR_SHRINE_PARTICLES_H
+#define AKGR_SHRINE_PARTICLES_H
+
+#include <array>
+#include <vector>
+
+#include <game/Entity.h>
 
 namespace akgr {
 
-  game::Singleton<game::Random> gRandom;
-  game::Singleton<game::ResourceManager> gResourceManager;
-  game::Singleton<game::EventManager> gEventManager;
-  game::Singleton<game::EntityManager> gMainEntityManager;
-  game::Singleton<game::EntityManager> gHeadsUpEntityManager;
+  class ShrineParticles : public game::Entity {
+  public:
+    ShrineParticles();
 
-  game::Singleton<DataManager> gDataManager;
+    void addShrineParticles(const sf::Vector2f& center, sf::Color color);
 
-  game::Singleton<PhysicsModel> gPhysicsModel;
+    virtual void update(float dt) override;
+    virtual void render(sf::RenderWindow& window) override;
 
-  game::Singleton<CharacterManager> gCharacterManager;
-  game::Singleton<Hero> gHero;
-  game::Singleton<DialogManager> gDialogManager;
-  game::Singleton<RequirementManager> gRequirementManager;
-  game::Singleton<SavePointManager> gSavePointManager;
-  game::Singleton<ShrineParticles> gShrineParticles;
+  private:
+    struct Particle {
+      float velocity;
+      float amplitude;
+      float theta;
+      float n;
+      float e;
+      bool clockwise;
+    };
 
-  game::Singleton<game::WindowGeometry> gWindowGeometry;
+    struct ParticleSystem {
+      sf::Vector2f center;
+      sf::Color color;
+      std::vector<Particle> particles;
+    };
+
+    std::vector<ParticleSystem> m_particles_systems;
+
+  };
 
 }
+
+
+#endif // AKGR_SHRINE_PARTICLES_H

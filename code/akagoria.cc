@@ -45,8 +45,8 @@
 
 #include "config.h"
 
-static constexpr unsigned INITIAL_WIDTH = 1024;
-static constexpr unsigned INITIAL_HEIGHT = 576;
+static constexpr unsigned INITIAL_WIDTH = 1280;
+static constexpr unsigned INITIAL_HEIGHT = 720;
 
 enum class StartMode {
   MAIN,
@@ -73,6 +73,7 @@ int main(int argc, char *argv[]) {
   game::SingletonStorage<akgr::DialogManager> storageForDialogManager(akgr::gDialogManager);
   game::SingletonStorage<akgr::RequirementManager> storageForRequirementManager(akgr::gRequirementManager);
   game::SingletonStorage<akgr::SavePointManager> storageForSavePointManager(akgr::gSavePointManager);
+  game::SingletonStorage<akgr::ShrineParticles> storageForShrineParticles(akgr::gShrineParticles);
 
   game::SingletonStorage<game::WindowGeometry> storageForWindowGeometry(akgr::gWindowGeometry, INITIAL_WIDTH, INITIAL_HEIGHT);
 
@@ -313,6 +314,7 @@ int main(int argc, char *argv[]) {
   akgr::gCharacterManager().updateCharacterSearch();
 
   akgr::gMainEntityManager().addEntity(akgr::gCharacterManager());
+  akgr::gMainEntityManager().addEntity(akgr::gShrineParticles());
 
   akgr::gHeadsUpEntityManager().addEntity(akgr::gDialogManager());
 

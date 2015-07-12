@@ -109,15 +109,18 @@ namespace akgr {
           m_spriteMap.addSprite(sprite);
           count++;
 
-          auto collisionData = gDataManager().getCollisionDataFor(name);
-
-          if (!collisionData) {
-            continue;
-          }
-
           float x = sprite.pos.x + rect.width / 2;
           float y = sprite.pos.y + rect.height / 2;
-          gPhysicsModel().addMapItem(x, y, floor, collisionData);
+
+          if (name == "TomoShrine") {
+            gShrineParticles().addShrineParticles({ x, y }, sf::Color::Cyan);
+          }
+
+          auto collisionData = gDataManager().getCollisionDataFor(name);
+
+          if (collisionData) {
+            gPhysicsModel().addMapItem(x, y, floor, collisionData);
+          }
         }
 
         game::Log::info(game::Log::GRAPHICS, "\tSprites loaded: %u\n", count);
