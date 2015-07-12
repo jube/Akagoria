@@ -6,7 +6,7 @@ Bush:
   radius: 28
 TomoShrine:
   type: circle
-  radius: 62
+  radius: 12
 Tree:
   type: circle
   radius: 32

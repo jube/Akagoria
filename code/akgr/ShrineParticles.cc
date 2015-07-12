@@ -22,7 +22,7 @@
 #include "Singletons.h"
 
 namespace akgr {
-  static constexpr std::size_t PARTICLES_COUNT = 10;
+  static constexpr std::size_t PARTICLES_COUNT = 20;
   static constexpr float MIN_RADIUS = 30.0f;
   static constexpr float PI = 3.1415926f;
 
