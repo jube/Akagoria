@@ -32,10 +32,10 @@ namespace akgr {
 
   }
 
-  void ShrineParticles::addShrineParticles(const sf::Vector2f& center, sf::Color color) {
+  void ShrineParticles::addShrineParticles(const sf::Vector2f& center, ShrineKind shrine) {
     ParticleSystem system;
     system.center = center;
-    system.color = color;
+    system.shrine = shrine;
     system.particles.resize(PARTICLES_COUNT);
 
     for (std::size_t i = 0; i < PARTICLES_COUNT; ++i) {
@@ -68,7 +68,16 @@ namespace akgr {
   void ShrineParticles::render(sf::RenderWindow& window) {
     for (const auto& system : m_particles_systems) {
       sf::CircleShape shape(1.5f);
-      shape.setFillColor(system.color);
+      shape.setOutlineThickness(0.5f);
+
+      switch (system.shrine) {
+        case ShrineKind::TOMO:
+          shape.setFillColor(sf::Color(0x00, 0xFF, 0xFF));
+          shape.setOutlineColor(sf::Color(0x00, 0xC0, 0xC0));
+          break;
+        default:
+          break;
+      }
 
       for (std::size_t i = 0; i < PARTICLES_COUNT; ++i) {
         const auto& particle = system.particles[i];

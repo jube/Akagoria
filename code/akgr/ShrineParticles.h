@@ -27,11 +27,18 @@
 
 namespace akgr {
 
+  enum class ShrineKind {
+    MOLI,
+    PONA,
+    SEWI,
+    TOMO,
+  };
+
   class ShrineParticles : public game::Entity {
   public:
     ShrineParticles();
 
-    void addShrineParticles(const sf::Vector2f& center, sf::Color color);
+    void addShrineParticles(const sf::Vector2f& center, ShrineKind shrine);
 
     virtual void update(float dt) override;
     virtual void render(sf::RenderWindow& window) override;
@@ -48,7 +55,7 @@ namespace akgr {
 
     struct ParticleSystem {
       sf::Vector2f center;
-      sf::Color color;
+      ShrineKind shrine;
       std::vector<Particle> particles;
     };
 

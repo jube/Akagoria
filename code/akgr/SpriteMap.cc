@@ -113,7 +113,7 @@ namespace akgr {
           float y = sprite.pos.y + rect.height / 2;
 
           if (name == "TomoShrine") {
-            gShrineParticles().addShrineParticles({ x, y }, sf::Color::Cyan);
+            gShrineParticles().addShrineParticles({ x, y }, ShrineKind::TOMO);
           }
 
           auto collisionData = gDataManager().getCollisionDataFor(name);
