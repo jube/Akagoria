@@ -25,6 +25,7 @@
 
 #include "Data.h"
 #include "GameEvents.h"
+#include "Maths.h"
 #include "Singletons.h"
 
 namespace akgr {
@@ -57,8 +58,6 @@ namespace akgr {
   void Character::update(float dt) {
 
   }
-
-  static constexpr float PI_2 = 1.57079632679489661923f;
 
   void Character::render(sf::RenderWindow& window) {
     auto pos = m_body.getPosition();
@@ -130,11 +129,6 @@ namespace akgr {
     for (auto& c : m_characters) {
       c.render(window);
     }
-  }
-
-  static float squareDistance(const sf::Vector2f& lhs, const sf::Vector2f& rhs) {
-    auto d = lhs - rhs;
-    return d.x * d.x + d.y * d.y;
   }
 
   static constexpr float DIALOG_DISTANCE = 100.0f;

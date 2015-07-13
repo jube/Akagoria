@@ -19,22 +19,23 @@
  */
 #include "ShrineParticles.h"
 
+#include "GameEvents.h"
+#include "Maths.h"
 #include "Singletons.h"
 
 namespace akgr {
   static constexpr std::size_t PARTICLES_COUNT = 20;
   static constexpr float MIN_RADIUS = 30.0f;
-  static constexpr float PI = 3.1415926f;
 
   ShrineParticles::ShrineParticles()
   : game::Entity(30)
   {
-
+    gEventManager().registerHandler<UseEvent>(&ShrineParticles::onUse, this);
   }
 
-  void ShrineParticles::addShrineParticles(const sf::Vector2f& center, ShrineKind shrine) {
+  void ShrineParticles::addShrineParticles(const Location& loc, ShrineKind shrine) {
     ParticleSystem system;
-    system.center = center;
+    system.loc = loc;
     system.shrine = shrine;
     system.particles.resize(PARTICLES_COUNT);
 
@@ -79,17 +80,44 @@ namespace akgr {
           break;
       }
 
+      const sf::Vector2f& center = system.loc.pos;
+
       for (std::size_t i = 0; i < PARTICLES_COUNT; ++i) {
         const auto& particle = system.particles[i];
 
         float rho = particle.amplitude * (1.0f + particle.e * std::cos(particle.n * particle.theta));
-        float x = system.center.x + rho * std::cos(particle.theta);
-        float y = system.center.y + rho * std::sin(particle.theta);
+        float x = center.x + rho * std::cos(particle.theta);
+        float y = center.y + rho * std::sin(particle.theta);
 
         shape.setPosition(x, y);
         window.draw(shape);
       }
     }
+  }
+
+  static constexpr float SHRINE_DISTANCE = 70;
+
+  game::EventStatus ShrineParticles::onUse(game::EventType type, game::Event *event) {
+    auto useEvent = static_cast<UseEvent *>(event);
+
+    for (const auto& system : m_particles_systems) {
+      if (system.loc.floor == useEvent->loc.floor) {
+        float d2 = squareDistance(system.loc.pos, useEvent->loc.pos);
+//         game::Log::info(game::Log::GENERAL, "Distance: %f\n", std::sqrt(d2));
+
+        if (d2 < SHRINE_DISTANCE * SHRINE_DISTANCE) {
+          switch (system.shrine) {
+            case ShrineKind::TOMO:
+              useEvent->kind = UseEvent::SAVE;
+              break;
+            default:
+              break;
+          }
+        }
+      }
+    }
+
+    return game::EventStatus::KEEP;
   }
 
 }

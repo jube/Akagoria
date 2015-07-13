@@ -47,7 +47,7 @@ namespace akgr {
 
     virtual void update(float dt) override;
 
-    void addMapItem(float x, float y, int floor, const CollisionData *data);
+    void addMapItem(const Location& loc, const CollisionData *data);
 
     Body createHeroBody(const Location& loc, const CollisionData *data);
     Body createCharacterBody(const Location& loc, const CollisionData *data);

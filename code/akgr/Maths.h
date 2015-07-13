@@ -17,48 +17,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_GAME_EVENTS_H
-#define AKGR_GAME_EVENTS_H
-
-#include <string>
-
-#include <game/Event.h>
-
-#include "Location.h"
+#ifndef AKGR_MATHS_H
+#define AKGR_MATHS_H
 
 namespace akgr {
 
-  struct HeroLocationEvent : public game::Event {
-    static const game::EventType type = "HeroLocation"_type;
+  constexpr float PI = 3.141592653589793f;
+  constexpr float PI_2 = 1.57079632679489661923f;
 
-    Location loc;
-  };
+  template<typename T>
+  constexpr T square(T val) {
+    return val * val;
+  }
 
-  struct DialogEndEvent : public game::Event {
-    static const game::EventType type = "DialogEndEvent"_type;
+  constexpr float squareDistance(const sf::Vector2f& lhs, const sf::Vector2f& rhs) {
+    return square(lhs.x - rhs.x) + square(lhs.y - rhs.y);
+  }
 
-    std::string name;
-  };
-
-  struct TalkEvent : public game::Event {
-    static const game::EventType type = "TalkEvent"_type;
-
-    Location loc;
-    bool isTalking;
-  };
-
-  struct UseEvent : public game::Event {
-    static const game::EventType type = "UseEvent"_type;
-
-    enum Kind {
-      NONE,
-      SAVE,
-    };
-
-    Location loc;
-    Kind kind;
-  };
 
 }
 
-#endif // AKGR_GAME_EVENTS_H
+#endif // AKGR_MATHS_H

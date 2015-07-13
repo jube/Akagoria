@@ -24,6 +24,9 @@
 #include <vector>
 
 #include <game/Entity.h>
+#include <game/Event.h>
+
+#include "Location.h"
 
 namespace akgr {
 
@@ -38,7 +41,7 @@ namespace akgr {
   public:
     ShrineParticles();
 
-    void addShrineParticles(const sf::Vector2f& center, ShrineKind shrine);
+    void addShrineParticles(const Location& loc, ShrineKind shrine);
 
     virtual void update(float dt) override;
     virtual void render(sf::RenderWindow& window) override;
@@ -54,12 +57,15 @@ namespace akgr {
     };
 
     struct ParticleSystem {
-      sf::Vector2f center;
+      Location loc;
       ShrineKind shrine;
       std::vector<Particle> particles;
     };
 
     std::vector<ParticleSystem> m_particles_systems;
+
+  private:
+    game::EventStatus onUse(game::EventType type, game::Event *event);
 
   };
 

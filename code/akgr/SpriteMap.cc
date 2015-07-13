@@ -109,17 +109,19 @@ namespace akgr {
           m_spriteMap.addSprite(sprite);
           count++;
 
-          float x = sprite.pos.x + rect.width / 2;
-          float y = sprite.pos.y + rect.height / 2;
+          Location loc;
+          loc.floor = floor;
+          loc.pos.x = sprite.pos.x + rect.width / 2;
+          loc.pos.y = sprite.pos.y + rect.height / 2;
 
           if (name == "TomoShrine") {
-            gShrineParticles().addShrineParticles({ x, y }, ShrineKind::TOMO);
+            gShrineParticles().addShrineParticles(loc, ShrineKind::TOMO);
           }
 
           auto collisionData = gDataManager().getCollisionDataFor(name);
 
           if (collisionData) {
-            gPhysicsModel().addMapItem(x, y, floor, collisionData);
+            gPhysicsModel().addMapItem(loc, collisionData);
           }
         }
 
