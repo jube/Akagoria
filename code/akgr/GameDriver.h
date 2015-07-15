@@ -56,6 +56,7 @@ namespace akgr {
     game::Action& m_downAction;
 
     HeroUI m_heroUI;
+    SelectSlotUI m_selectSlotUI;
     EntityUI *m_currentUI;
 
   private:

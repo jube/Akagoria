@@ -52,8 +52,19 @@ namespace akgr {
           event.kind = UseEvent::NONE;
           gEventManager().triggerEvent(&event);
 
-          if (event.kind == UseEvent::TALK) {
-            m_mode = Mode::TALK;
+          switch (event.kind) {
+            case UseEvent::TALK:
+              m_mode = Mode::TALK;
+              break;
+
+            case UseEvent::SAVE:
+              m_mode = Mode::SAVE;
+              m_currentUI = &m_selectSlotUI;
+              setArrowActionsInstantaneous();
+              break;
+
+            default:
+              break;
           }
         }
         break;
@@ -64,8 +75,22 @@ namespace akgr {
         }
         break;
 
-      case Mode::SAVE:
+      case Mode::SAVE: {
+          int choice = m_selectSlotUI.getCurrentChoice();
 
+          switch (choice) {
+            case SelectSlotUI::CHOICE_BACK:
+              m_mode = Mode::WALK;
+              m_currentUI = &m_heroUI;
+              setArrowActionsContinuous();
+              break;
+
+            default:
+              assert(0 <= SelectSlotUI::CHOICE_SLOT0 && choice <= SelectSlotUI::CHOICE_SLOT2);
+              gSavePointManager().saveToSlot(choice);
+              break;
+          }
+        }
         break;
     }
   }
