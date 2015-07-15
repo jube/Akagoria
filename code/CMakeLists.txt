@@ -44,6 +44,7 @@ add_executable(akagoria
   akgr/ShrineParticles.cc
   akgr/Singletons.cc
   akgr/SpriteMap.cc
+  akgr/StartDriver.cc
   akgr/Story.cc
   akgr/TileMap.cc
   akgr/UI.cc

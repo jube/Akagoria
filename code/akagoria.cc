@@ -39,6 +39,7 @@
 #include "akgr/Hero.h"
 #include "akgr/Singletons.h"
 #include "akgr/SpriteMap.h"
+#include "akgr/StartDriver.h"
 #include "akgr/Story.h"
 #include "akgr/TileMap.h"
 #include "akgr/UI.h"
@@ -144,12 +145,7 @@ int main(int argc, char *argv[]) {
 
 
   // UI for start screen
-  akgr::StartUI startUI;
-  akgr::LoadUI loadUI;
-  int slotToLoad = -1; // -1 means new game
-
-  StartMode startMode = StartMode::MAIN;
-  akgr::EntityUI *currentUI = &startUI;
+  akgr::StartDriver startDriver;
 
   // start screen
   game::Clock clock;
@@ -185,62 +181,36 @@ int main(int argc, char *argv[]) {
     }
 
     if (upAction.isActive()) {
-      currentUI->onVerticalAction(akgr::VerticalAction::UP);
+      startDriver.onVerticalAction(akgr::VerticalAction::UP);
     } else if (downAction.isActive()) {
-      currentUI->onVerticalAction(akgr::VerticalAction::DOWN);
+      startDriver.onVerticalAction(akgr::VerticalAction::DOWN);
     } else {
-      currentUI->onVerticalAction(akgr::VerticalAction::NONE);
+      startDriver.onVerticalAction(akgr::VerticalAction::NONE);
     }
 
     if (useAction.isActive()) {
-      if (startMode == StartMode::MAIN) {
-        int choice = startUI.getCurrentChoice();
+      auto result = startDriver.onUse();
 
-        if (choice == akgr::StartUI::START_NEW_GAME) {
-          break;
-        }
+      if (result == akgr::StartChoice::START_NEW_GAME || result == akgr::StartChoice::LOAD_SLOT) {
+        break;
+      }
 
-        if (choice == akgr::StartUI::LOAD_GAME) {
-          startMode = StartMode::LOAD;
-          currentUI = &loadUI;
-        }
-
-        if (choice == akgr::StartUI::QUIT) {
-          window.close();
-          return EXIT_SUCCESS;
-        }
-      } else {
-        assert(startMode == StartMode::LOAD);
-        int choice = loadUI.getCurrentChoice();
-
-        if (choice == akgr::LoadUI::BACK) {
-          startMode = StartMode::MAIN;
-          currentUI = &startUI;
-        } else {
-          if (akgr::gSavePointManager().hasSlot(choice)) {
-            slotToLoad = choice;
-            break;
-          }
-        }
+      if (result == akgr::StartChoice::QUIT) {
+        window.close();
+        return EXIT_FAILURE;
       }
     }
 
     // update
     auto dt = clock.restart().asSeconds();
-    splashUI.update(dt);
-    startUI.update(dt);
+    startDriver.update(dt);
 
     // render
     window.clear(sf::Color::Black);
 
     headsUpCamera.configure(window);
     splashUI.render(window);
-
-    if (startMode == StartMode::MAIN) {
-      startUI.render(window);
-    } else {
-      loadUI.render(window);
-    }
+    startDriver.render(window);
 
     window.display();
 
@@ -294,9 +264,11 @@ int main(int argc, char *argv[]) {
   // hero
   auto startLocation = akgr::gDataManager().getPointOfInterestDataFor("Start");
   assert(startLocation);
+
   game::SingletonStorage<akgr::Hero> storageForHero(akgr::gHero, startLocation->loc);
   akgr::gMainEntityManager().addEntity(akgr::gHero());
 
+  int slotToLoad = startDriver.getSlotToLoad();
 
   if (slotToLoad != -1) {
     akgr::gSavePointManager().loadFromSlot(slotToLoad);
@@ -321,7 +293,7 @@ int main(int argc, char *argv[]) {
   akgr::Story story;
 
   akgr::HeroUI heroUI;
-  currentUI = &heroUI;
+  akgr::EntityUI *currentUI = &heroUI;
 
   // main loop
   while (window.isOpen()) {

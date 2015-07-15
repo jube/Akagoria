@@ -106,7 +106,10 @@ namespace akgr {
 
   class LoadUI : public MenuUI {
   public:
-    static constexpr int BACK = 3;
+    static constexpr int CHOICE_SLOT0 = 0;
+    static constexpr int CHOICE_SLOT1 = 1;
+    static constexpr int CHOICE_SLOT2 = 2;
+    static constexpr int CHOICE_BACK = 3;
 
     LoadUI();
 
@@ -118,9 +121,9 @@ namespace akgr {
 
   class StartUI : public MenuUI {
   public:
-    static constexpr int START_NEW_GAME = 0;
-    static constexpr int LOAD_GAME = 1;
-    static constexpr int QUIT = 2;
+    static constexpr int CHOICE_NEW = 0;
+    static constexpr int CHOICE_LOAD = 1;
+    static constexpr int CHOICE_QUIT = 2;
 
     StartUI();
 
