@@ -35,6 +35,7 @@
 #include "game/ResourceManager.h"
 #include "game/WindowSettings.h"
 
+#include "akgr/GameDriver.h"
 #include "akgr/GameEvents.h"
 #include "akgr/Hero.h"
 #include "akgr/Singletons.h"
@@ -292,8 +293,7 @@ int main(int argc, char *argv[]) {
 
   akgr::Story story;
 
-  akgr::HeroUI heroUI;
-  akgr::EntityUI *currentUI = &heroUI;
+  akgr::GameDriver gameDriver(upAction, downAction);
 
   // main loop
   while (window.isOpen()) {
@@ -326,27 +326,23 @@ int main(int argc, char *argv[]) {
     }
 
     if (leftAction.isActive()) {
-      currentUI->onHorizontalAction(akgr::HorizontalAction::LEFT);
+      gameDriver.onHorizontalAction(akgr::HorizontalAction::LEFT);
     } else if (rightAction.isActive()) {
-      currentUI->onHorizontalAction(akgr::HorizontalAction::RIGHT);
+      gameDriver.onHorizontalAction(akgr::HorizontalAction::RIGHT);
     } else {
-      currentUI->onHorizontalAction(akgr::HorizontalAction::NONE);
+      gameDriver.onHorizontalAction(akgr::HorizontalAction::NONE);
     }
 
     if (upAction.isActive()) {
-      currentUI->onVerticalAction(akgr::VerticalAction::UP);
+      gameDriver.onVerticalAction(akgr::VerticalAction::UP);
     } else if (downAction.isActive()) {
-      currentUI->onVerticalAction(akgr::VerticalAction::DOWN);
+      gameDriver.onVerticalAction(akgr::VerticalAction::DOWN);
     } else {
-      currentUI->onVerticalAction(akgr::VerticalAction::NONE);
+      gameDriver.onVerticalAction(akgr::VerticalAction::NONE);
     }
 
     if (useAction.isActive()) {
-      if (akgr::gDialogManager().hasNextLine()) {
-        akgr::gDialogManager().showNextLine();
-      } else {
-        akgr::gHero().tryToTalk();
-      }
+      gameDriver.onUse();
     }
 
     // update
@@ -354,6 +350,7 @@ int main(int argc, char *argv[]) {
 
     models.update(dt);
 
+    gameDriver.update(dt);
     akgr::gMainEntityManager().update(dt);
     akgr::gHeadsUpEntityManager().update(dt);
 
@@ -365,7 +362,7 @@ int main(int argc, char *argv[]) {
 
     headsUpCamera.configure(window);
     akgr::gHeadsUpEntityManager().render(window);
-
+    gameDriver.render(window);
     window.display();
 
     actions.reset();

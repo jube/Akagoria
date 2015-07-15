@@ -39,6 +39,10 @@ namespace akgr {
       return m_body.getPosition();
     }
 
+    Location getLocation() const {
+      return m_body.getLocation();
+    }
+
     void stopWalking() {
       m_linear = Linear::STOP;
     }
@@ -62,8 +66,6 @@ namespace akgr {
     void turnRight() {
       m_angular = Angular::RIGHT;
     }
-
-    void tryToTalk();
 
     void broadcastLocation();
 
@@ -89,20 +91,10 @@ namespace akgr {
 
     Angular m_angular;
 
-    enum class Mode {
-      WALK,
-      TALK,
-    };
-
-    Mode m_mode;
-
     game::Animation m_staticAnimation;
     game::Animation m_forwardAnimation;
     game::Animation m_backwardAnimation;
     game::Animation *m_currentAnimation;
-
-  private:
-    game::EventStatus onDialogEnd(game::EventType type, game::Event *event);
 
   private:
     friend class boost::serialization::access;

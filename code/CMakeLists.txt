@@ -36,6 +36,7 @@ add_executable(akagoria
   akgr/Character.cc
   akgr/DataManager.cc
   akgr/DialogManager.cc
+  akgr/GameDriver.cc
   akgr/GridMap.cc
   akgr/Hero.cc
   akgr/PhysicsModel.cc
