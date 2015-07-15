@@ -61,12 +61,12 @@ namespace akgr {
 
   void Hero::tryToTalk() {
     if (m_mode == Mode::WALK) {
-      TalkEvent event;
+      UseEvent event;
       event.loc = m_body.getLocation();
-      event.isTalking = false;
+      event.kind = UseEvent::NONE;
       gEventManager().triggerEvent(&event);
 
-      if (event.isTalking) {
+      if (event.kind == UseEvent::TALK) {
         m_mode = Mode::TALK;
       }
     }

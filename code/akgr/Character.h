@@ -90,7 +90,7 @@ namespace akgr {
     std::map<std::string, std::size_t> m_nameToCharacters;
 
   private:
-    game::EventStatus onTalk(game::EventType type, game::Event *event);
+    game::EventStatus onUse(game::EventType type, game::Event *event);
 
   private:
     friend class boost::serialization::access;

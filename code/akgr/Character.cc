@@ -83,7 +83,7 @@ namespace akgr {
 
 
   CharacterManager::CharacterManager() {
-    gEventManager().registerHandler<TalkEvent>(&CharacterManager::onTalk, this);
+    gEventManager().registerHandler<UseEvent>(&CharacterManager::onUse, this);
   }
 
   Character *CharacterManager::addCharacter(std::string name, const Location& loc, float angle) {
@@ -133,8 +133,8 @@ namespace akgr {
 
   static constexpr float DIALOG_DISTANCE = 100.0f;
 
-  game::EventStatus CharacterManager::onTalk(game::EventType type, game::Event *event) {
-    auto talkEvent = static_cast<TalkEvent *>(event);
+  game::EventStatus CharacterManager::onUse(game::EventType type, game::Event *event) {
+    auto useEvent = static_cast<UseEvent *>(event);
 
     for (auto& c : m_characters) {
       if (!c.hasDialog()) {
@@ -143,12 +143,12 @@ namespace akgr {
 
       Location loc = c.getLocation();
 
-      if (loc.floor == talkEvent->loc.floor) {
-        float d2 = squareDistance(loc.pos, talkEvent->loc.pos);
+      if (loc.floor == useEvent->loc.floor) {
+        float d2 = squareDistance(loc.pos, useEvent->loc.pos);
 //         game::Log::info(game::Log::GENERAL, "Distance: %f\n", std::sqrt(d2));
 
         if (d2 < DIALOG_DISTANCE * DIALOG_DISTANCE) {
-          talkEvent->isTalking = true;
+          useEvent->kind = UseEvent::TALK;
           gDialogManager().start(c.getDialogName());
         }
       }

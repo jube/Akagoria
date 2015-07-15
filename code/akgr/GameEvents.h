@@ -40,18 +40,12 @@ namespace akgr {
     std::string name;
   };
 
-  struct TalkEvent : public game::Event {
-    static const game::EventType type = "TalkEvent"_type;
-
-    Location loc;
-    bool isTalking;
-  };
-
   struct UseEvent : public game::Event {
     static const game::EventType type = "UseEvent"_type;
 
     enum Kind {
       NONE,
+      TALK,
       SAVE,
     };
 
