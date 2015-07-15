@@ -54,7 +54,7 @@ namespace akgr {
     Mode m_mode;
 
     StartUI m_startUI;
-    LoadUI m_loadUI;
+    SelectSlotUI m_selectSlotUI;
     EntityUI *m_currentUI;
 
     int m_slotToLoad;

@@ -228,61 +228,61 @@ namespace akgr {
     m_currentChoice = (m_currentChoice + 1) % m_choiceCount;
   }
 
-  static constexpr int LOAD_CHOICE_COUNT = 3;
+  static constexpr int SELECT_CHOICE_COUNT = 3;
 
-  static constexpr float LOAD_SLOT_HEIGHT = 65.0f;
-  static constexpr float LOAD_SLOT_MARGIN = 5.0f;
-  static constexpr float LOAD_SLOT_PADDING = 10.0f;
-  static constexpr unsigned LOAD_SLOT_SIZE = 16;
+  static constexpr float SELECT_SLOT_HEIGHT = 65.0f;
+  static constexpr float SELECT_SLOT_MARGIN = 5.0f;
+  static constexpr float SELECT_SLOT_PADDING = 10.0f;
+  static constexpr unsigned SELECT_SLOT_SIZE = 16;
 
-  static constexpr float LOAD_WIDTH = 300.0f;
-  static constexpr float LOAD_HEIGHT = LOAD_CHOICE_COUNT * LOAD_SLOT_HEIGHT + 50.0f;
+  static constexpr float SELECT_WIDTH = 300.0f;
+  static constexpr float SELECT_HEIGHT = SELECT_CHOICE_COUNT * SELECT_SLOT_HEIGHT + 50.0f;
 
-  static constexpr float LOAD_SLOT_WIDTH = LOAD_WIDTH - MENU_POS - MENU_LEFT - LOAD_SLOT_MARGIN;
+  static constexpr float SELECT_SLOT_WIDTH = SELECT_WIDTH - MENU_POS - MENU_LEFT - SELECT_SLOT_MARGIN;
 
-  LoadUI::LoadUI()
-  : MenuUI(LOAD_CHOICE_COUNT + 1) // 3 slots + back to main
+  SelectSlotUI::SelectSlotUI()
+  : MenuUI(SELECT_CHOICE_COUNT + 1) // 3 slots + back to main
   {
     m_font = gResourceManager().getFont("fonts/DejaVuSans.ttf");
     assert(m_font);
   }
 
-  void LoadUI::render(sf::RenderWindow& window) {
-    drawBox(window, MENU_POS, MENU_POS, LOAD_WIDTH, LOAD_HEIGHT);
+  void SelectSlotUI::render(sf::RenderWindow& window) {
+    drawBox(window, MENU_POS, MENU_POS, SELECT_WIDTH, SELECT_HEIGHT);
 
     float x = MENU_POS + MENU_LEFT;
-    float y = MENU_POS + LOAD_SLOT_MARGIN;
+    float y = MENU_POS + SELECT_SLOT_MARGIN;
 
     int choice = getCurrentChoice();
     float pointerX = MENU_POS + MENU_POINTER;
 
-    drawBox(window, x, y, LOAD_SLOT_WIDTH,  LOAD_SLOT_HEIGHT);
-    drawText(window, *m_font, x + LOAD_SLOT_PADDING, y + LOAD_SLOT_MARGIN, LOAD_SLOT_SIZE, gSavePointManager().getSlotInfo(0));
+    drawBox(window, x, y, SELECT_SLOT_WIDTH,  SELECT_SLOT_HEIGHT);
+    drawText(window, *m_font, x + SELECT_SLOT_PADDING, y + SELECT_SLOT_MARGIN, SELECT_SLOT_SIZE, gSavePointManager().getSlotInfo(0));
 
     if (choice == 0) {
-      float pointerY = y + LOAD_SLOT_HEIGHT / 2;
+      float pointerY = y + SELECT_SLOT_HEIGHT / 2;
       drawPointer(window, pointerX, pointerY);
     }
 
-    y += LOAD_SLOT_HEIGHT + LOAD_SLOT_MARGIN;
-    drawBox(window, x, y, LOAD_SLOT_WIDTH,  LOAD_SLOT_HEIGHT);
-    drawText(window, *m_font, x + LOAD_SLOT_PADDING, y + LOAD_SLOT_MARGIN, LOAD_SLOT_SIZE, gSavePointManager().getSlotInfo(1));
+    y += SELECT_SLOT_HEIGHT + SELECT_SLOT_MARGIN;
+    drawBox(window, x, y, SELECT_SLOT_WIDTH,  SELECT_SLOT_HEIGHT);
+    drawText(window, *m_font, x + SELECT_SLOT_PADDING, y + SELECT_SLOT_MARGIN, SELECT_SLOT_SIZE, gSavePointManager().getSlotInfo(1));
 
     if (choice == 1) {
-      float pointerY = y + LOAD_SLOT_HEIGHT / 2;
+      float pointerY = y + SELECT_SLOT_HEIGHT / 2;
       drawPointer(window, pointerX, pointerY);
     }
 
-    y += LOAD_SLOT_HEIGHT + LOAD_SLOT_MARGIN;
-    drawBox(window, x, y, LOAD_SLOT_WIDTH,  LOAD_SLOT_HEIGHT);
-    drawText(window, *m_font, x + LOAD_SLOT_PADDING, y + LOAD_SLOT_MARGIN, LOAD_SLOT_SIZE, gSavePointManager().getSlotInfo(2));
+    y += SELECT_SLOT_HEIGHT + SELECT_SLOT_MARGIN;
+    drawBox(window, x, y, SELECT_SLOT_WIDTH,  SELECT_SLOT_HEIGHT);
+    drawText(window, *m_font, x + SELECT_SLOT_PADDING, y + SELECT_SLOT_MARGIN, SELECT_SLOT_SIZE, gSavePointManager().getSlotInfo(2));
 
     if (choice == 2) {
-      float pointerY = y + LOAD_SLOT_HEIGHT / 2;
+      float pointerY = y + SELECT_SLOT_HEIGHT / 2;
       drawPointer(window, pointerX, pointerY);
     }
 
-    y += LOAD_SLOT_HEIGHT + 2 * LOAD_SLOT_MARGIN;
+    y += SELECT_SLOT_HEIGHT + 2 * SELECT_SLOT_MARGIN;
     drawText(window, *m_font, x, y, STANDARD_SIZE, "Back");
 
     if (choice == 3) {

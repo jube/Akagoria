@@ -104,14 +104,14 @@ namespace akgr {
 
   };
 
-  class LoadUI : public MenuUI {
+  class SelectSlotUI : public MenuUI {
   public:
     static constexpr int CHOICE_SLOT0 = 0;
     static constexpr int CHOICE_SLOT1 = 1;
     static constexpr int CHOICE_SLOT2 = 2;
     static constexpr int CHOICE_BACK = 3;
 
-    LoadUI();
+    SelectSlotUI();
 
     virtual void render(sf::RenderWindow& window) override;
 

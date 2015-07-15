@@ -46,7 +46,7 @@ namespace akgr {
 
           case StartUI::CHOICE_LOAD:
             m_mode = Mode::LOAD;
-            m_currentUI = &m_loadUI;
+            m_currentUI = &m_selectSlotUI;
             break;
 
           case StartUI::CHOICE_QUIT:
@@ -59,15 +59,15 @@ namespace akgr {
       break;
 
       case Mode::LOAD: {
-        int choice = m_loadUI.getCurrentChoice();
+        int choice = m_selectSlotUI.getCurrentChoice();
         switch (choice) {
-          case LoadUI::CHOICE_BACK:
+          case SelectSlotUI::CHOICE_BACK:
             m_mode = Mode::MAIN;
             m_currentUI = &m_startUI;
             break;
 
           default:
-            assert(0 <= LoadUI::CHOICE_SLOT0 && choice <= LoadUI::CHOICE_SLOT2);
+            assert(0 <= SelectSlotUI::CHOICE_SLOT0 && choice <= SelectSlotUI::CHOICE_SLOT2);
             if (gSavePointManager().hasSlot(choice)) {
               m_slotToLoad = choice;
               return StartChoice::LOAD_SLOT;
