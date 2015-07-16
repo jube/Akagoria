@@ -33,6 +33,7 @@ namespace akgr {
 
   game::Singleton<CharacterManager> gCharacterManager;
   game::Singleton<Hero> gHero;
+  game::Singleton<HeroAttributes> gHeroAttributes;
   game::Singleton<DialogManager> gDialogManager;
   game::Singleton<RequirementManager> gRequirementManager;
   game::Singleton<SavePointManager> gSavePointManager;

@@ -21,6 +21,7 @@
 #define AKGR_HERO_H
 
 #include <boost/serialization/serialization.hpp>
+#include <boost/serialization/version.hpp>
 
 #include <game/Animation.h>
 #include <game/Event.h>
@@ -105,8 +106,6 @@ namespace akgr {
     }
   };
 
-
 }
-
 
 #endif // AKGR_HERO_H

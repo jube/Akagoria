@@ -100,6 +100,7 @@ namespace akgr {
 
     boost::archive::text_iarchive archive(file);
     archive >> gHero();
+    archive >> gHeroAttributes();
     archive >> gRequirementManager();
     archive >> gCharacterManager();
   }
@@ -116,6 +117,7 @@ namespace akgr {
 
     boost::archive::text_oarchive archive(file);
     archive << gHero();
+    archive << gHeroAttributes();
     archive << gRequirementManager();
     archive << gCharacterManager();
   }

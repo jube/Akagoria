@@ -39,6 +39,7 @@ add_executable(akagoria
   akgr/GameDriver.cc
   akgr/GridMap.cc
   akgr/Hero.cc
+  akgr/HeroAttributes.cc
   akgr/PhysicsModel.cc
   akgr/RequirementManager.cc
   akgr/SavePointManager.cc

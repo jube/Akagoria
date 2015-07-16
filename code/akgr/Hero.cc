@@ -28,6 +28,7 @@
 #include "Singletons.h"
 
 namespace akgr {
+
   Hero::Hero(const Location& loc)
   : game::Entity(1)
   , m_linear(Linear::STOP), m_angular(Angular::STOP)
