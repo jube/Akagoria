@@ -76,7 +76,7 @@ int main(int argc, char *argv[]) {
   game::SingletonStorage<akgr::HeroAttributes> storageForHeroAttributes(akgr::gHeroAttributes);
   game::SingletonStorage<akgr::RequirementManager> storageForRequirementManager(akgr::gRequirementManager);
   game::SingletonStorage<akgr::SavePointManager> storageForSavePointManager(akgr::gSavePointManager);
-  game::SingletonStorage<akgr::ShrineParticles> storageForShrineParticles(akgr::gShrineParticles);
+  game::SingletonStorage<akgr::ShrineManager> storageForShrineManager(akgr::gShrineManager);
 
   game::SingletonStorage<game::WindowGeometry> storageForWindowGeometry(akgr::gWindowGeometry, INITIAL_WIDTH, INITIAL_HEIGHT);
 
@@ -288,7 +288,7 @@ int main(int argc, char *argv[]) {
   akgr::gCharacterManager().updateCharacterSearch();
 
   akgr::gMainEntityManager().addEntity(akgr::gCharacterManager());
-  akgr::gMainEntityManager().addEntity(akgr::gShrineParticles());
+  akgr::gMainEntityManager().addEntity(akgr::gShrineManager());
 
   akgr::gHeadsUpEntityManager().addEntity(akgr::gDialogManager());
   akgr::gHeadsUpEntityManager().addEntity(akgr::gHeroAttributes());

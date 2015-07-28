@@ -37,7 +37,7 @@ namespace akgr {
   game::Singleton<DialogManager> gDialogManager;
   game::Singleton<RequirementManager> gRequirementManager;
   game::Singleton<SavePointManager> gSavePointManager;
-  game::Singleton<ShrineParticles> gShrineParticles;
+  game::Singleton<ShrineManager> gShrineManager;
 
   game::Singleton<game::WindowGeometry> gWindowGeometry;
 

@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "ShrineParticles.h"
+#include "ShrineManager.h"
 
 #include "GameEvents.h"
 #include "Maths.h"
@@ -27,13 +27,13 @@ namespace akgr {
   static constexpr std::size_t PARTICLES_COUNT = 20;
   static constexpr float MIN_RADIUS = 30.0f;
 
-  ShrineParticles::ShrineParticles()
+  ShrineManager::ShrineManager()
   : game::Entity(30)
   {
-    gEventManager().registerHandler<UseEvent>(&ShrineParticles::onUse, this);
+    gEventManager().registerHandler<UseEvent>(&ShrineManager::onUse, this);
   }
 
-  void ShrineParticles::addShrineParticles(const Location& loc, ShrineKind shrine) {
+  void ShrineManager::addShrineManager(const Location& loc, ShrineKind shrine) {
     ParticleSystem system;
     system.loc = loc;
     system.shrine = shrine;
@@ -52,7 +52,7 @@ namespace akgr {
     m_particles_systems.emplace_back(std::move(system));
   }
 
-  void ShrineParticles::update(float dt) {
+  void ShrineManager::update(float dt) {
     for (auto& system : m_particles_systems) {
       for (std::size_t i = 0; i < PARTICLES_COUNT; ++i) {
         auto& particle = system.particles[i];
@@ -66,7 +66,7 @@ namespace akgr {
     }
   }
 
-  void ShrineParticles::render(sf::RenderWindow& window) {
+  void ShrineManager::render(sf::RenderWindow& window) {
     for (const auto& system : m_particles_systems) {
       sf::CircleShape shape(1.5f);
       shape.setOutlineThickness(0.7f);
@@ -103,7 +103,7 @@ namespace akgr {
 
   static constexpr float SHRINE_DISTANCE = 70;
 
-  game::EventStatus ShrineParticles::onUse(game::EventType type, game::Event *event) {
+  game::EventStatus ShrineManager::onUse(game::EventType type, game::Event *event) {
     auto useEvent = static_cast<UseEvent *>(event);
 
     for (const auto& system : m_particles_systems) {

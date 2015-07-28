@@ -17,8 +17,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef AKGR_SHRINE_PARTICLES_H
-#define AKGR_SHRINE_PARTICLES_H
+#ifndef AKGR_SHRINE_MANAGER_H
+#define AKGR_SHRINE_MANAGER_H
 
 #include <array>
 #include <vector>
@@ -37,11 +37,11 @@ namespace akgr {
     TOMO,
   };
 
-  class ShrineParticles : public game::Entity {
+  class ShrineManager : public game::Entity {
   public:
-    ShrineParticles();
+    ShrineManager();
 
-    void addShrineParticles(const Location& loc, ShrineKind shrine);
+    void addShrineManager(const Location& loc, ShrineKind shrine);
 
     virtual void update(float dt) override;
     virtual void render(sf::RenderWindow& window) override;
@@ -72,4 +72,4 @@ namespace akgr {
 }
 
 
-#endif // AKGR_SHRINE_PARTICLES_H
+#endif // AKGR_SHRINE_MANAGER_H

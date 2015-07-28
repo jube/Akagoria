@@ -36,7 +36,7 @@
 #include "HeroAttributes.h"
 #include "RequirementManager.h"
 #include "SavePointManager.h"
-#include "ShrineParticles.h"
+#include "ShrineManager.h"
 
 namespace akgr {
 
@@ -56,7 +56,7 @@ namespace akgr {
   extern game::Singleton<DialogManager> gDialogManager;
   extern game::Singleton<RequirementManager> gRequirementManager;
   extern game::Singleton<SavePointManager> gSavePointManager;
-  extern game::Singleton<ShrineParticles> gShrineParticles;
+  extern game::Singleton<ShrineManager> gShrineManager;
 
   extern game::Singleton<game::WindowGeometry> gWindowGeometry;
 
