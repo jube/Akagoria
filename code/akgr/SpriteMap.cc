@@ -116,10 +116,10 @@ namespace akgr {
 
           switch (game::Hash(name)) {
             case "TomoShrine"_id:
-              gShrineManager().addShrineManager(loc, ShrineKind::TOMO);
+              gShrineManager().addShrineManager(loc, Shrine::TOMO);
               break;
             case "PonaShrine"_id:
-              gShrineManager().addShrineManager(loc, ShrineKind::PONA);
+              gShrineManager().addShrineManager(loc, Shrine::PONA);
               break;
             default:
               break;

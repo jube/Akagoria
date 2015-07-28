@@ -30,7 +30,7 @@
 
 namespace akgr {
 
-  enum class ShrineKind {
+  enum class Shrine {
     MOLI,
     PONA,
     SEWI,
@@ -41,7 +41,7 @@ namespace akgr {
   public:
     ShrineManager();
 
-    void addShrineManager(const Location& loc, ShrineKind shrine);
+    void addShrineManager(const Location& loc, Shrine shrine);
 
     virtual void update(float dt) override;
     virtual void render(sf::RenderWindow& window) override;
@@ -58,7 +58,7 @@ namespace akgr {
 
     struct ParticleSystem {
       Location loc;
-      ShrineKind shrine;
+      Shrine shrine;
       std::vector<Particle> particles;
     };
 

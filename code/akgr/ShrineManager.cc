@@ -33,7 +33,7 @@ namespace akgr {
     gEventManager().registerHandler<UseEvent>(&ShrineManager::onUse, this);
   }
 
-  void ShrineManager::addShrineManager(const Location& loc, ShrineKind shrine) {
+  void ShrineManager::addShrineManager(const Location& loc, Shrine shrine) {
     ParticleSystem system;
     system.loc = loc;
     system.shrine = shrine;
@@ -72,11 +72,11 @@ namespace akgr {
       shape.setOutlineThickness(0.7f);
 
       switch (system.shrine) {
-        case ShrineKind::PONA:
+        case Shrine::PONA:
           shape.setFillColor(sf::Color(0xFF, 0x00, 0x00));
           shape.setOutlineColor(sf::Color(0xC0, 0x00, 0x00));
           break;
-        case ShrineKind::TOMO:
+        case Shrine::TOMO:
 //           shape.setFillColor(sf::Color(0x00, 0xFF, 0xFF));
 //           shape.setOutlineColor(sf::Color(0x00, 0xC0, 0xC0));
           shape.setFillColor(sf::Color(0x00, 0xC0, 0xC0));
@@ -113,10 +113,10 @@ namespace akgr {
 
         if (d2 < SHRINE_DISTANCE * SHRINE_DISTANCE) {
           switch (system.shrine) {
-            case ShrineKind::PONA:
+            case Shrine::PONA:
               gHeroAttributes().increaseHP(0.1f);
               break;
-            case ShrineKind::TOMO:
+            case Shrine::TOMO:
               useEvent->kind = UseEvent::SAVE;
               break;
             default:
