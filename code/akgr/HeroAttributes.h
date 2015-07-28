@@ -34,20 +34,28 @@ namespace akgr {
       m_healthPointsMax = healthPoints;
     }
 
+    void increaseHP(float percent);
+
     void setMaxMP(int magicPoints) {
       m_magicPointsMax = magicPoints;
     }
+
+    void increaseMP(float percent);
 
     virtual void update(float dt) override;
     virtual void render(sf::RenderWindow& window) override;
 
   private:
     sf::Font *m_font;
-    
+
+    float m_timeForHP;
     int m_healthPoints;
     int m_healthPointsMax;
+
+    float m_timeForMP;
     int m_magicPoints;
     int m_magicPointsMax;
+
 
   private:
     friend class boost::serialization::access;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="512" height="512" tilewidth="32" tileheight="32" nextobjectid="117">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="512" height="512" tilewidth="32" tileheight="32" nextobjectid="118">
  <tileset firstgid="1" name="Biomes" tilewidth="32" tileheight="32" spacing="2" margin="1">
   <image source="biomes.png" width="782" height="782"/>
   <terraintypes>
@@ -524,7 +524,7 @@
   <image source="trees.png" width="1024" height="1024"/>
  </tileset>
  <tileset firstgid="546" name="Sprites 128" tilewidth="128" tileheight="128">
-  <image source="sprites-128.png" width="1024" height="1024"/>
+  <image source="sprites-128.png" width="1024" height="1008"/>
  </tileset>
  <layer name="Ground Floor" width="512" height="512">
   <properties>
@@ -832,6 +832,7 @@
    <property name="kind" value="low_sprite"/>
   </properties>
   <object id="116" name="TomoShrine" gid="547" x="3189" y="4251"/>
+  <object id="117" name="PonaShrine" gid="548" x="3478.42" y="4627.64"/>
  </objectgroup>
  <objectgroup name="High Sprite">
   <properties>

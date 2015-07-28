@@ -27,15 +27,46 @@ namespace akgr {
   static constexpr int INITIAL_MP = 100;
 
   HeroAttributes::HeroAttributes()
-  : m_healthPoints(0.75 * INITIAL_HP), m_healthPointsMax(INITIAL_HP)
-  , m_magicPoints(0.5 * INITIAL_MP), m_magicPointsMax(INITIAL_MP)
+  : m_timeForHP(0.0f), m_healthPoints(0.75 * INITIAL_HP), m_healthPointsMax(INITIAL_HP)
+  , m_timeForMP(0.0f), m_magicPoints(0.5 * INITIAL_MP), m_magicPointsMax(INITIAL_MP)
   {
     m_font = gResourceManager().getFont("fonts/DejaVuSansMono-Bold.ttf");
     assert(m_font);
   }
 
-  void HeroAttributes::update(float dt) {
+  void HeroAttributes::increaseHP(float percent) {
+    int points = static_cast<int>(percent * m_healthPointsMax);
+    m_healthPoints = std::min(m_healthPoints + points, m_healthPointsMax);
+  }
 
+  void HeroAttributes::increaseMP(float percent) {
+    int points = static_cast<int>(percent * m_magicPointsMax);
+    m_magicPoints = std::min(m_magicPoints + points, m_magicPointsMax);
+  }
+
+  static constexpr float TIME_FOR_HP = 11.0f;
+  static constexpr float TIME_FOR_MP = 29.0f;
+
+  void HeroAttributes::update(float dt) {
+    m_timeForHP += dt;
+
+    if (m_timeForHP > TIME_FOR_HP) {
+      if (m_healthPoints < m_healthPointsMax) {
+        m_healthPoints++;
+      }
+
+      m_timeForHP -= TIME_FOR_HP;
+    }
+
+    m_timeForMP += dt;
+
+    if (m_timeForMP > TIME_FOR_MP) {
+      if (m_magicPoints < m_magicPointsMax) {
+        m_magicPoints++;
+      }
+
+      m_timeForMP -= TIME_FOR_MP;
+    }
   }
 
   static constexpr float ATTR_MARGIN_X = 10.0f;

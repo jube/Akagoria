@@ -4,6 +4,9 @@ Ball:
 Bush:
   type: circle
   radius: 28
+PonaShrine:
+  type: circle
+  radius: 12
 TomoShrine:
   type: circle
   radius: 12

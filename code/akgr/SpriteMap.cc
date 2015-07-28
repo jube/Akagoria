@@ -114,8 +114,15 @@ namespace akgr {
           loc.pos.x = sprite.pos.x + rect.width / 2;
           loc.pos.y = sprite.pos.y + rect.height / 2;
 
-          if (name == "TomoShrine") {
-            gShrineParticles().addShrineParticles(loc, ShrineKind::TOMO);
+          switch (game::Hash(name)) {
+            case "TomoShrine"_id:
+              gShrineParticles().addShrineParticles(loc, ShrineKind::TOMO);
+              break;
+            case "PonaShrine"_id:
+              gShrineParticles().addShrineParticles(loc, ShrineKind::PONA);
+              break;
+            default:
+              break;
           }
 
           auto collisionData = gDataManager().getCollisionDataFor(name);
