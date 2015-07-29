@@ -188,7 +188,7 @@ namespace akgr {
 
   class PhysicsListener : public b2ContactListener {
   public:
-    void addEventZone(int floor, const std::string& name, const tmx::Object *object, const std::string& event, std::vector<std::string> requirementList) {
+    void addEventZone(int floor, const std::string& name, const tmx::Object *object, const std::string& id, std::vector<std::string> requirementList) {
       auto fixture = createFixtureFromObject(gPhysicsModel().getWorld(), object, floor, true);
 
       if (fixture == nullptr) {
@@ -196,14 +196,14 @@ namespace akgr {
         return;
       }
 
-      auto type = game::Hash(event);
+      auto eventType = game::Hash(id);
       std::vector<game::Id> requirementIds;
       std::transform(requirementList.begin(), requirementList.end(), std::back_inserter(requirementIds), [](const std::string& str) {
         return game::Hash(str);
       });
 
-      m_eventZones[fixture] = Zone{ type, std::move(requirementIds) };
-      m_eventNames[type] = event;
+      m_eventZones[fixture] = Zone{ eventType, std::move(requirementIds) };
+      m_eventNames[eventType] = id;
     }
 
     void addCollisionZone(int floor, const std::string& name, const tmx::Object *object) {
@@ -289,18 +289,22 @@ namespace akgr {
           const std::string& name = obj->getName();
 
           if (obj->getType() == "event") {
-            if (!obj->hasProperty("type")) {
-              game::Log::warning(game::Log::PHYSICS, "No event type for the object: '%s'\n", name.c_str());
+            if (!obj->hasProperty("id")) {
+              game::Log::warning(game::Log::PHYSICS, "No event id for the object: '%s'\n", name.c_str());
               continue;
             }
 
-            const std::string& type = obj->getProperty("type", "");
+            const std::string& id = obj->getProperty("id", "");
 
             std::string requirements = obj->getProperty("requirements", "");
             std::vector<std::string> requirementList;
             boost::algorithm::split(requirementList, requirements, boost::algorithm::is_any_of(", "), boost::algorithm::token_compress_on);
 
-            m_listener.addEventZone(floor, name, obj, type, std::move(requirementList));
+            requirementList.erase(std::remove_if(requirementList.begin(), requirementList.end(), [](const std::string& req) {
+              return req.empty();
+            }), requirementList.end());
+
+            m_listener.addEventZone(floor, name, obj, id, std::move(requirementList));
             eventCount++;
           } else if (obj->getType() == "collision") {
             m_listener.addCollisionZone(floor, name, obj);

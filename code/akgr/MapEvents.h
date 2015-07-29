@@ -25,19 +25,35 @@
 namespace akgr {
 
   struct ViewUpEvent : public game::Event {
-    static const game::EventType type = "ViewUp"_type;
+    static const game::EventType type = "ViewUpEvent"_type;
   };
 
   struct ViewDownEvent : public game::Event {
-    static const game::EventType type = "ViewDown"_type;
+    static const game::EventType type = "ViewDownEvent"_type;
   };
 
   struct ViewInsideEvent : public game::Event {
-    static const game::EventType type = "ViewInside"_type;
+    static const game::EventType type = "ViewInsideEvent"_type;
   };
 
   struct ViewOutsideEvent : public game::Event {
-    static const game::EventType type = "ViewOutside"_type;
+    static const game::EventType type = "ViewOutsideEvent"_type;
+  };
+
+  struct MoveUpEvent : public game::Event {
+    static const game::EventType type = "MoveUpEvent"_type;
+  };
+
+  struct MoveDownEvent : public game::Event {
+    static const game::EventType type = "MoveDownEvent"_type;
+  };
+
+  struct MoveInsideEvent : public game::Event {
+    static const game::EventType type = "MoveInsideEvent"_type;
+  };
+
+  struct MoveOutsideEvent : public game::Event {
+    static const game::EventType type = "MoveOutsideEvent"_type;
   };
 
 }

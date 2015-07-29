@@ -29,7 +29,7 @@
 namespace akgr {
 
   struct HeroLocationEvent : public game::Event {
-    static const game::EventType type = "HeroLocation"_type;
+    static const game::EventType type = "HeroLocationEvent"_type;
 
     Location loc;
   };
