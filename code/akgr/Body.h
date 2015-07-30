@@ -49,6 +49,11 @@ namespace akgr {
 
     void setAngleAndVelocity(float angle, float velocity);
 
+    void moveUp();
+    void moveDown();
+    void moveInside();
+    void moveOutside();
+
   private:
     int m_floor;
     b2Body *m_body;

@@ -21,6 +21,8 @@
 
 #include <cassert>
 
+#include <game/Log.h>
+
 #include "PhysicsModel.h"
 
 namespace akgr {
@@ -67,6 +69,73 @@ namespace akgr {
     vel = b2Mul(rot, vel);
 
     m_body->SetLinearVelocity(vel);
+  }
+
+  static constexpr int MAX_FLOOR = 7;
+  static constexpr int MIN_FLOOR = -6;
+
+  void Body::moveUp() {
+    if (m_floor > MAX_FLOOR - 2) {
+      game::Log::error(game::Log::PHYSICS, "Trying to go above the maximum floor: %d\n", m_floor);
+    }
+
+    for (b2Fixture *fixture = m_body->GetFixtureList(); fixture != nullptr; fixture = fixture->GetNext()) {
+      b2Filter filter = fixture->GetFilterData();
+      assert(filter.categoryBits == filter.maskBits);
+      filter.categoryBits <<= 2;
+      filter.maskBits <<= 2;
+      fixture->SetFilterData(filter);
+    }
+
+    m_floor += 2;
+  }
+
+  void Body::moveDown() {
+    if (m_floor < MIN_FLOOR - 2) {
+      game::Log::error(game::Log::PHYSICS, "Trying to go below the minimum floor: %d\n", m_floor);
+    }
+
+    for (b2Fixture *fixture = m_body->GetFixtureList(); fixture != nullptr; fixture = fixture->GetNext()) {
+      b2Filter filter = fixture->GetFilterData();
+      assert(filter.categoryBits == filter.maskBits);
+      filter.categoryBits >>= 2;
+      filter.maskBits >>= 2;
+      fixture->SetFilterData(filter);
+    }
+
+    m_floor -= 2;
+  }
+
+  void Body::moveInside() {
+    if (m_floor % 2 != 0) {
+      game::Log::error(game::Log::PHYSICS, "Trying to go inside while not ouside: %d\n", m_floor);
+    }
+
+    for (b2Fixture *fixture = m_body->GetFixtureList(); fixture != nullptr; fixture = fixture->GetNext()) {
+      b2Filter filter = fixture->GetFilterData();
+      assert(filter.categoryBits == filter.maskBits);
+      filter.categoryBits <<= 1;
+      filter.maskBits <<= 1;
+      fixture->SetFilterData(filter);
+    }
+
+    m_floor += 1;
+  }
+
+  void Body::moveOutside() {
+    if (m_floor % 2 != 1) {
+      game::Log::error(game::Log::PHYSICS, "Trying to go outside while not inside: %d\n", m_floor);
+    }
+
+    for (b2Fixture *fixture = m_body->GetFixtureList(); fixture != nullptr; fixture = fixture->GetNext()) {
+      b2Filter filter = fixture->GetFilterData();
+      assert(filter.categoryBits == filter.maskBits);
+      filter.categoryBits >>= 1;
+      filter.maskBits >>= 1;
+      fixture->SetFilterData(filter);
+    }
+
+    m_floor -= 1;
   }
 
 }
