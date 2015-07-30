@@ -98,6 +98,12 @@ namespace akgr {
     game::Animation *m_currentAnimation;
 
   private:
+    game::EventStatus onMoveUp(game::EventType type, game::Event *event);
+    game::EventStatus onMoveDown(game::EventType type, game::Event *event);
+    game::EventStatus onMoveInside(game::EventType type, game::Event *event);
+    game::EventStatus onMoveOutside(game::EventType type, game::Event *event);
+
+  private:
     friend class boost::serialization::access;
 
     template<class Archive>

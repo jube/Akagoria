@@ -25,6 +25,7 @@
 
 #include "Data.h"
 #include "GameEvents.h"
+#include "MapEvents.h"
 #include "Singletons.h"
 
 namespace akgr {
@@ -55,6 +56,11 @@ namespace akgr {
     m_backwardAnimation.addFrame(texture, { 128, 0, 64, 64 }, 0.30f);
     m_backwardAnimation.addFrame(texture, {   0, 0, 64, 64 }, 0.20f);
     m_backwardAnimation.addFrame(texture, {  64, 0, 64, 64 }, 0.30f);
+
+    gEventManager().registerHandler<MoveUpEvent>(&Hero::onMoveUp, this);
+    gEventManager().registerHandler<MoveDownEvent>(&Hero::onMoveDown, this);
+    gEventManager().registerHandler<MoveInsideEvent>(&Hero::onMoveInside, this);
+    gEventManager().registerHandler<MoveOutsideEvent>(&Hero::onMoveOutside, this);
   }
 
   void Hero::broadcastLocation() {
@@ -112,5 +118,38 @@ namespace akgr {
   void Hero::render(sf::RenderWindow& window) {
     m_currentAnimation->renderAt(window, getPosition(), m_body.getAngle() / PI_2 * 90.0f);
   }
+
+  game::EventStatus Hero::onMoveUp(game::EventType type, game::Event *event) {
+    assert(type == MoveUpEvent::type);
+    m_body.moveUp();
+    ViewUpEvent viewEvent;
+    gEventManager().triggerEvent(&viewEvent);
+    return game::EventStatus::KEEP;
+  }
+
+  game::EventStatus Hero::onMoveDown(game::EventType type, game::Event *event) {
+    assert(type == MoveDownEvent::type);
+    m_body.moveDown();
+    ViewDownEvent viewEvent;
+    gEventManager().triggerEvent(&viewEvent);
+    return game::EventStatus::KEEP;
+  }
+
+  game::EventStatus Hero::onMoveInside(game::EventType type, game::Event *event) {
+    assert(type == MoveInsideEvent::type);
+    m_body.moveInside();
+    ViewInsideEvent viewEvent;
+    gEventManager().triggerEvent(&viewEvent);
+    return game::EventStatus::KEEP;
+  }
+
+  game::EventStatus Hero::onMoveOutside(game::EventType type, game::Event *event) {
+    assert(type == MoveOutsideEvent::type);
+    m_body.moveOutside();
+    ViewOutsideEvent viewEvent;
+    gEventManager().triggerEvent(&viewEvent);
+    return game::EventStatus::KEEP;
+  }
+
 
 }
