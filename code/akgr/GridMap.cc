@@ -79,7 +79,7 @@ namespace akgr {
   }
 
   game::EventStatus BaseMap::onViewUp(game::EventType type, game::Event *event) {
-    assert(type == ViewDownEvent::type);
+    assert(type == ViewUpEvent::type);
     m_floor += 2;
     setDirty();
     return game::EventStatus::KEEP;
