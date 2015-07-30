@@ -151,5 +151,4 @@ namespace akgr {
     return game::EventStatus::KEEP;
   }
 
-
 }

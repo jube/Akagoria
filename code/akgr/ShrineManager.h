@@ -62,10 +62,12 @@ namespace akgr {
       std::vector<Particle> particles;
     };
 
-    std::vector<ParticleSystem> m_particles_systems;
+    int m_currentFloor;
+    std::vector<ParticleSystem> m_particlesSystems;
 
   private:
     game::EventStatus onUse(game::EventType type, game::Event *event);
+    game::EventStatus onView(game::EventType type, game::Event *event);
 
   };
 

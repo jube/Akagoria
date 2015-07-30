@@ -20,6 +20,7 @@
 #include "ShrineManager.h"
 
 #include "GameEvents.h"
+#include "MapEvents.h"
 #include "Maths.h"
 #include "Singletons.h"
 
@@ -29,8 +30,13 @@ namespace akgr {
 
   ShrineManager::ShrineManager()
   : game::Entity(30)
+  , m_currentFloor(0)
   {
     gEventManager().registerHandler<UseEvent>(&ShrineManager::onUse, this);
+    gEventManager().registerHandler<ViewUpEvent>(&ShrineManager::onView, this);
+    gEventManager().registerHandler<ViewDownEvent>(&ShrineManager::onView, this);
+    gEventManager().registerHandler<ViewInsideEvent>(&ShrineManager::onView, this);
+    gEventManager().registerHandler<ViewOutsideEvent>(&ShrineManager::onView, this);
   }
 
   void ShrineManager::addShrineManager(const Location& loc, Shrine shrine) {
@@ -49,11 +55,15 @@ namespace akgr {
       particle.clockwise = (i % 2 == 0);
     }
 
-    m_particles_systems.emplace_back(std::move(system));
+    m_particlesSystems.emplace_back(std::move(system));
   }
 
   void ShrineManager::update(float dt) {
-    for (auto& system : m_particles_systems) {
+    for (auto& system : m_particlesSystems) {
+      if (system.loc.floor != m_currentFloor) {
+        continue;
+      }
+
       for (std::size_t i = 0; i < PARTICLES_COUNT; ++i) {
         auto& particle = system.particles[i];
 
@@ -67,7 +77,11 @@ namespace akgr {
   }
 
   void ShrineManager::render(sf::RenderWindow& window) {
-    for (const auto& system : m_particles_systems) {
+    for (const auto& system : m_particlesSystems) {
+      if (system.loc.floor != m_currentFloor) {
+        continue;
+      }
+
       sf::CircleShape shape(1.5f);
       shape.setOutlineThickness(0.7f);
 
@@ -106,7 +120,7 @@ namespace akgr {
   game::EventStatus ShrineManager::onUse(game::EventType type, game::Event *event) {
     auto useEvent = static_cast<UseEvent *>(event);
 
-    for (const auto& system : m_particles_systems) {
+    for (const auto& system : m_particlesSystems) {
       if (system.loc.floor == useEvent->loc.floor) {
         float d2 = squareDistance(system.loc.pos, useEvent->loc.pos);
 //         game::Log::info(game::Log::GENERAL, "Distance: %f\n", std::sqrt(d2));
@@ -124,6 +138,28 @@ namespace akgr {
           }
         }
       }
+    }
+
+    return game::EventStatus::KEEP;
+  }
+
+  game::EventStatus ShrineManager::onView(game::EventType type, game::Event *event) {
+    switch (type) {
+      case ViewUpEvent::type:
+        m_currentFloor += 2;
+        break;
+      case ViewDownEvent::type:
+        m_currentFloor -= 2;
+        break;
+      case ViewInsideEvent::type:
+        m_currentFloor += 1;
+        break;
+      case ViewOutsideEvent::type:
+        m_currentFloor -= 1;
+        break;
+      default:
+        assert(false);
+        break;
     }
 
     return game::EventStatus::KEEP;

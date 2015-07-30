@@ -28,6 +28,7 @@ namespace akgr {
 
   struct Sprite {
     int floor;
+    float angle;
     sf::Vector2f pos;
     sf::IntRect rect;
     sf::Texture *texture;

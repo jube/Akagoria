@@ -96,8 +96,22 @@ namespace akgr {
 
           sprite.floor = floor;
 
-          sprite.pos.x = tile->getX();
-          sprite.pos.y = tile->getY() - tileset->getTileHeight();
+          auto angle = tile->getRotation();
+
+          sf::Vector2f center;
+          center.x = tile->getX();
+          center.y = tile->getY();
+
+          sf::Transform transform;
+          transform.rotate(angle, center);
+
+          sprite.angle = angle;
+
+          sf::Vector2f pos;
+          pos.x = tile->getX() + rect.width / 2;
+          pos.y = tile->getY() - tileset->getTileHeight() + rect.height / 2;
+
+          sprite.pos = transform.transformPoint(pos);
 
           sprite.rect.left = rect.x;
           sprite.rect.top = rect.y;
@@ -111,8 +125,7 @@ namespace akgr {
 
           Location loc;
           loc.floor = floor;
-          loc.pos.x = sprite.pos.x + rect.width / 2;
-          loc.pos.y = sprite.pos.y + rect.height / 2;
+          loc.pos = sprite.pos;
 
           switch (game::Hash(name)) {
             case "TomoShrine"_id:
@@ -182,6 +195,8 @@ namespace akgr {
     for (auto spriteData : m_sprites) {
       sf::Sprite sprite(*spriteData->texture, spriteData->rect);
       sprite.setPosition(spriteData->pos);
+      sprite.setOrigin(spriteData->rect.width / 2, spriteData->rect.height / 2);
+      sprite.setRotation(spriteData->angle);
       window.draw(sprite);
     }
   }

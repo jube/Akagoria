@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="512" height="512" tilewidth="32" tileheight="32" nextobjectid="124">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="512" height="512" tilewidth="32" tileheight="32" nextobjectid="126">
  <tileset firstgid="1" name="Biomes" tilewidth="32" tileheight="32" spacing="2" margin="1">
   <image source="biomes.png" width="782" height="782"/>
   <terraintypes>
@@ -526,7 +526,7 @@
  <tileset firstgid="546" name="Sprites 128" tilewidth="128" tileheight="128">
   <image source="sprites-128.png" width="1024" height="1008"/>
  </tileset>
- <layer name="First Basement" width="512" height="512">
+ <layer name="First Basement Outside" width="512" height="512">
   <properties>
    <property name="floor" value="-2"/>
    <property name="kind" value="ground"/>
@@ -535,7 +535,7 @@
    eJzt3csKwjAQBdDpTvz/H/WBgg8wpQRENFZQbKdnceg2u3udTOs6ItYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADM3qHouojrBM4CAPxWzf1jea6Kc+gBAJDdLobcfxTd/88GAPyG/AeAZeln/3XuL/8BYBle/faX/wCQVyv/+z1AO4AAkE8r/80AACCnfbGN59l/Ki4TOCMA8H32/wFgeV7lv/t/AMjr3Q6gbwECQD6tHYDHHlDpAwAwf2M6gLsBAMjn0w5gPxAAcqi7AP27f2PuBMwAAGD++hnAJob3/sfuBegAAJBL7QOtHqADAEBO72YBdgEAIKdWB5D/AJDXs28F+Z8AAMit7gPck/0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMD03+2Q93w==
   </data>
  </layer>
- <objectgroup color="#00c0c0" name="No Trespassing Lines (First Basement)">
+ <objectgroup color="#00c0c0" name="No Trespassing Lines (First Basement Outside)" visible="0">
   <properties>
    <property name="floor" value="-2"/>
    <property name="kind" value="zone"/>
@@ -544,7 +544,7 @@
    <polygon points="0,0 0,29.3333 -31.3333,62 -32,97.3333 16.6667,144 48,146 80,176.667 174.667,176 223.333,224.667 222.667,256 318.667,353.333 319.333,416 272,464 144,465.333 129.333,447.333 127.333,416.667 48,336.667 16.6667,337.333 -46.6667,273.333 -80,304 -110.667,304.667 -128,288 -128,258 -225.333,162 -224,64 -256,32.6667 -255.333,-64 -223.333,-96.6667 -224,-158.667 -208,-175.333 -177.333,-175.333 -144.667,-206 -111.333,-206 -80,-176.667 -48,-174.667 -34,-160.667 -32.6667,-30"/>
   </object>
  </objectgroup>
- <objectgroup color="#ff0000" name="Events (First Basement)">
+ <objectgroup color="#ff0000" name="Events (First Basement Outside)" visible="0">
   <properties>
    <property name="floor" value="-2"/>
    <property name="kind" value="zone"/>
@@ -561,6 +561,13 @@
    </properties>
    <polygon points="0,0 -89.3333,169.333 -22.6667,190.667 32,70.6667"/>
   </object>
+ </objectgroup>
+ <objectgroup name="Low Sprite (First Basement Outside)" visible="0">
+  <properties>
+   <property name="floor" value="-2"/>
+   <property name="kind" value="low_sprite"/>
+  </properties>
+  <object id="125" name="PonaShrine" gid="548" x="4618" y="4532" width="128" height="128" rotation="-152.89"/>
  </objectgroup>
  <layer name="Ground Floor" width="512" height="512">
   <properties>
@@ -852,7 +859,7 @@
    <polygon points="0,0 -16,16 0,32 16,48 32,64 48,48 64,32 80,16 64,0 48,-16 32,-32 16,-16"/>
   </object>
  </objectgroup>
- <objectgroup color="#ff0000" name="Events">
+ <objectgroup color="#ff0000" name="Events" visible="0">
   <properties>
    <property name="kind" value="zone"/>
   </properties>
