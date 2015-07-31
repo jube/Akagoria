@@ -41,14 +41,15 @@ namespace akgr {
     }
 
     void attachDialog(std::string dialogName);
+    void attachQuestDialog(std::string dialogName);
     void detachDialog();
 
     bool hasDialog() const {
-      return !m_dialog.empty();
+      return m_dialogKind != Dialog::NONE;
     }
 
     const std::string& getDialogName() const {
-      return m_dialog;
+      return m_dialogName;
     }
 
     Location getLocation() {
@@ -59,9 +60,18 @@ namespace akgr {
     void render(sf::RenderWindow& window);
 
   private:
+    enum class Dialog : uint8_t {
+      NONE    = 0,
+      SIMPLE  = 1,
+      QUEST   = 2,
+    };
+
     std::string m_name;
     Body m_body;
-    std::string m_dialog;
+
+
+    Dialog m_dialogKind;
+    std::string m_dialogName;
 
   private:
     friend class boost::serialization::access;
@@ -70,7 +80,8 @@ namespace akgr {
     void serialize(Archive & ar, const unsigned int file_version) {
       ar & m_name;
       ar & m_body;
-      ar & m_dialog;
+      ar & m_dialogKind;
+      ar & m_dialogName;
     }
   };
 

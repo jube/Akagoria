@@ -38,6 +38,7 @@ namespace akgr {
 
   Character::Character(std::string name, const Location& loc, float angle)
   : m_name(std::move(name))
+  , m_dialogKind(Dialog::NONE)
   {
     CollisionData data;
     data.shape = CollisionShape::RECTANGLE;
@@ -48,11 +49,17 @@ namespace akgr {
   }
 
   void Character::attachDialog(std::string dialogName) {
-    m_dialog = std::move(dialogName);
+    m_dialogKind = Dialog::SIMPLE;
+    m_dialogName = std::move(dialogName);
+  }
+
+  void Character::attachQuestDialog(std::string dialogName) {
+    m_dialogKind = Dialog::QUEST;
+    m_dialogName = std::move(dialogName);
   }
 
   void Character::detachDialog() {
-    m_dialog.clear();
+    m_dialogKind = Dialog::NONE;
   }
 
   void Character::update(float dt) {
@@ -64,10 +71,25 @@ namespace akgr {
     auto angle = m_body.getAngle() / PI_2 * 90.0f;
 
     if (hasDialog()) {
+
+      sf::Color color;
+
+      switch (m_dialogKind) {
+        case Dialog::SIMPLE:
+          color = sf::Color(0xFF, 0x00, 0x00, 0x80);
+          break;
+        case Dialog::QUEST:
+          color = sf::Color(0xFF, 0xFF, 0x00, 0x80);
+          break;
+        default:
+          assert(false);
+          break;
+      }
+
       sf::CircleShape circleShape(DIALOG_RADIUS);
       circleShape.setFillColor(sf::Color::Transparent);
       circleShape.setOutlineThickness(DIALOG_THICKNESS);
-      circleShape.setOutlineColor(sf::Color(0xFF, 0xFF, 0x60, 0x80));
+      circleShape.setOutlineColor(color);
       circleShape.setOrigin(DIALOG_RADIUS, DIALOG_RADIUS);
       circleShape.setPosition(pos);
       window.draw(circleShape);
