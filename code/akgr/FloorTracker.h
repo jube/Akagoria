@@ -36,6 +36,7 @@ namespace akgr {
     int m_floor;
 
   private:
+    game::EventStatus onHeroLocation(game::EventType type, game::Event *event);
     game::EventStatus onView(game::EventType type, game::Event *event);
   };
 

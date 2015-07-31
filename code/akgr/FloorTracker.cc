@@ -19,6 +19,7 @@
  */
 #include "FloorTracker.h"
 
+#include "GameEvents.h"
 #include "MapEvents.h"
 #include "Singletons.h"
 
@@ -27,10 +28,17 @@ namespace akgr {
   FloorTracker::FloorTracker()
   : m_floor(0)
   {
+    gEventManager().registerHandler<HeroLocationEvent>(&FloorTracker::onHeroLocation, this);
     gEventManager().registerHandler<ViewUpEvent>(&FloorTracker::onView, this);
     gEventManager().registerHandler<ViewDownEvent>(&FloorTracker::onView, this);
     gEventManager().registerHandler<ViewInsideEvent>(&FloorTracker::onView, this);
     gEventManager().registerHandler<ViewOutsideEvent>(&FloorTracker::onView, this);
+  }
+
+  game::EventStatus FloorTracker::onHeroLocation(game::EventType type, game::Event *event) {
+    assert(type == HeroLocationEvent::type);
+    m_floor = static_cast<HeroLocationEvent *>(event)->loc.floor;
+    return game::EventStatus::DIE; // we only need it once for initialization
   }
 
   game::EventStatus FloorTracker::onView(game::EventType type, game::Event *event) {
