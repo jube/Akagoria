@@ -26,6 +26,7 @@
 #include <game/Entity.h>
 #include <game/Event.h>
 
+#include "FloorTracker.h"
 #include "Location.h"
 
 namespace akgr {
@@ -62,12 +63,11 @@ namespace akgr {
       std::vector<Particle> particles;
     };
 
-    int m_currentFloor;
+    FloorTracker m_tracker;
     std::vector<ParticleSystem> m_particlesSystems;
 
   private:
     game::EventStatus onUse(game::EventType type, game::Event *event);
-    game::EventStatus onView(game::EventType type, game::Event *event);
 
   };
 

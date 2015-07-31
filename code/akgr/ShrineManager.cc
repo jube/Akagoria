@@ -30,13 +30,8 @@ namespace akgr {
 
   ShrineManager::ShrineManager()
   : game::Entity(30)
-  , m_currentFloor(0)
   {
     gEventManager().registerHandler<UseEvent>(&ShrineManager::onUse, this);
-    gEventManager().registerHandler<ViewUpEvent>(&ShrineManager::onView, this);
-    gEventManager().registerHandler<ViewDownEvent>(&ShrineManager::onView, this);
-    gEventManager().registerHandler<ViewInsideEvent>(&ShrineManager::onView, this);
-    gEventManager().registerHandler<ViewOutsideEvent>(&ShrineManager::onView, this);
   }
 
   void ShrineManager::addShrineManager(const Location& loc, Shrine shrine) {
@@ -59,8 +54,10 @@ namespace akgr {
   }
 
   void ShrineManager::update(float dt) {
+    int floor = m_tracker.getFloor();
+
     for (auto& system : m_particlesSystems) {
-      if (system.loc.floor != m_currentFloor) {
+      if (system.loc.floor != floor) {
         continue;
       }
 
@@ -77,8 +74,10 @@ namespace akgr {
   }
 
   void ShrineManager::render(sf::RenderWindow& window) {
+    int floor = m_tracker.getFloor();
+
     for (const auto& system : m_particlesSystems) {
-      if (system.loc.floor != m_currentFloor) {
+      if (system.loc.floor != floor) {
         continue;
       }
 
@@ -138,28 +137,6 @@ namespace akgr {
           }
         }
       }
-    }
-
-    return game::EventStatus::KEEP;
-  }
-
-  game::EventStatus ShrineManager::onView(game::EventType type, game::Event *event) {
-    switch (type) {
-      case ViewUpEvent::type:
-        m_currentFloor += 2;
-        break;
-      case ViewDownEvent::type:
-        m_currentFloor -= 2;
-        break;
-      case ViewInsideEvent::type:
-        m_currentFloor += 1;
-        break;
-      case ViewOutsideEvent::type:
-        m_currentFloor -= 1;
-        break;
-      default:
-        assert(false);
-        break;
     }
 
     return game::EventStatus::KEEP;

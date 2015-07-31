@@ -120,13 +120,25 @@ namespace akgr {
   }
 
   void CharacterManager::update(float dt) {
+    int floor = m_tracker.getFloor();
+
     for (auto& c : m_characters) {
+      if (c.getLocation().floor != floor) {
+        continue;
+      }
+
       c.update(dt);
     }
   }
 
   void CharacterManager::render(sf::RenderWindow& window) {
+    int floor = m_tracker.getFloor();
+
     for (auto& c : m_characters) {
+      if (c.getLocation().floor != floor) {
+        continue;
+      }
+
       c.render(window);
     }
   }

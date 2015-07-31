@@ -28,6 +28,7 @@
 #include <boost/serialization/vector.hpp>
 
 #include "Body.h"
+#include "FloorTracker.h"
 
 namespace akgr {
 
@@ -87,6 +88,7 @@ namespace akgr {
     virtual void render(sf::RenderWindow& window) override;
 
   private:
+    FloorTracker m_tracker;
     std::vector<Character> m_characters;
     std::map<std::string, std::size_t> m_nameToCharacters;
 
