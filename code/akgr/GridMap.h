@@ -77,8 +77,6 @@ namespace akgr {
 
   private:
     game::EventStatus onHeroLocation(game::EventType type, game::Event *event);
-    game::EventStatus onViewDown(game::EventType type, game::Event *event);
-    game::EventStatus onViewUp(game::EventType type, game::Event *event);
 
   private:
     unsigned m_grid_width;

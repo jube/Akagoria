@@ -29,8 +29,6 @@ namespace akgr {
     : game::Entity(priority)
     , m_grid_width(0), m_grid_height(0), m_grid_unit(0), m_focus_x(0), m_focus_y(0), m_floor(0), m_dirty(true) {
     gEventManager().registerHandler<HeroLocationEvent>(&BaseMap::onHeroLocation, this);
-    gEventManager().registerHandler<ViewDownEvent>(&BaseMap::onViewDown, this);
-    gEventManager().registerHandler<ViewUpEvent>(&BaseMap::onViewUp, this);
   }
 
   void BaseMap::initialize(unsigned grid_width, unsigned grid_height, unsigned grid_unit) {
@@ -54,13 +52,13 @@ namespace akgr {
   game::EventStatus BaseMap::onHeroLocation(game::EventType type, game::Event *event) {
     assert(type == HeroLocationEvent::type);
 
-    sf::Vector2f pos = static_cast<HeroLocationEvent *>(event)->loc.pos;
+    Location loc = static_cast<HeroLocationEvent *>(event)->loc;
 
-    assert(pos.x >= 0.0f);
-    assert(pos.y >= 0.0f);
+    assert(loc.pos.x >= 0.0f);
+    assert(loc.pos.y >= 0.0f);
 
-    unsigned x = pos.x / m_grid_unit;
-    unsigned y = pos.y / m_grid_unit;
+    unsigned x = loc.pos.x / m_grid_unit;
+    unsigned y = loc.pos.y / m_grid_unit;
 
     if (x != m_focus_x || y != m_focus_y) {
       m_focus_x = x;
@@ -68,23 +66,13 @@ namespace akgr {
       setDirty();
     }
 
+    if (loc.floor != m_floor) {
+      m_floor = loc.floor;
+      setDirty();
+    }
+
     return game::EventStatus::KEEP;
   }
-
-  game::EventStatus BaseMap::onViewDown(game::EventType type, game::Event *event) {
-    assert(type == ViewDownEvent::type);
-    m_floor -= 2;
-    setDirty();
-    return game::EventStatus::KEEP;
-  }
-
-  game::EventStatus BaseMap::onViewUp(game::EventType type, game::Event *event) {
-    assert(type == ViewUpEvent::type);
-    m_floor += 2;
-    setDirty();
-    return game::EventStatus::KEEP;
-  }
-
 
   unsigned BaseMap::computeGridSize(unsigned map_size, unsigned grid_unit) {
     if (map_size % grid_unit == 0) {
