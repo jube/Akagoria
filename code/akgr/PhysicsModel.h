@@ -20,6 +20,8 @@
 #ifndef AKGR_PHYSICS_MODEL_H
 #define AKGR_PHYSICS_MODEL_H
 
+#include <cinttypes>
+
 #include <Box2D/Box2D.h>
 #include <tmx/Map.h>
 
@@ -29,6 +31,8 @@
 #include "Data.h"
 
 namespace akgr {
+  uint16_t bitsFromFloor(int floor);
+
   class PhysicsListener;
 
   class PhysicsModel : public game::Model {

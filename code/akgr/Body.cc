@@ -138,4 +138,17 @@ namespace akgr {
     m_floor -= 1;
   }
 
+  void Body::updateFloor() {
+    assert(MIN_FLOOR <= m_floor && m_floor <= MAX_FLOOR);
+
+    auto floorBits = bitsFromFloor(m_floor);
+
+    for (b2Fixture *fixture = m_body->GetFixtureList(); fixture != nullptr; fixture = fixture->GetNext()) {
+      b2Filter filter = fixture->GetFilterData();
+      filter.categoryBits = floorBits;
+      filter.maskBits = floorBits;
+      fixture->SetFilterData(filter);
+    }
+  }
+
 }

@@ -64,9 +64,11 @@ namespace akgr {
     template<class Archive>
     void save(Archive & ar, const unsigned int version) const {
       ar << m_floor;
+
       b2Vec2 pos = m_body->GetPosition();
       ar << pos.x;
       ar << pos.y;
+
       float32 angle = m_body->GetAngle();
       ar << angle;
     }
@@ -74,13 +76,18 @@ namespace akgr {
     template<class Archive>
     void load(Archive & ar, const unsigned int version) {
       ar >> m_floor;
+      updateFloor();
+
       b2Vec2 pos;
       ar >> pos.x;
       ar >> pos.y;
+
       float32 angle;
       ar >> angle;
       m_body->SetTransform(pos, angle);
     }
+
+    void updateFloor();
 
     template<class Archive>
     void serialize(Archive & ar, const unsigned int file_version) {

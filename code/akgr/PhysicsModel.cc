@@ -19,7 +19,6 @@
  */
 #include "PhysicsModel.h"
 
-#include <cinttypes>
 #include <algorithm>
 #include <iterator>
 
@@ -51,7 +50,7 @@ namespace akgr {
   static constexpr uint16_t THIRD_BASEMENT_INSIDE    = 0x0008;
   static constexpr uint16_t THIRD_BASEMENT_OUTSIDE   = 0x0004;
 
-  static uint16_t bitsFromFloor(int floor) {
+  uint16_t bitsFromFloor(int floor) {
     switch (floor) {
       case 7:
         return THIRD_FLOOR_INSIDE;

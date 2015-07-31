@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="512" height="512" tilewidth="32" tileheight="32" nextobjectid="126">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="512" height="512" tilewidth="32" tileheight="32" nextobjectid="127">
  <tileset firstgid="1" name="Biomes" tilewidth="32" tileheight="32" spacing="2" margin="1">
   <image source="biomes.png" width="782" height="782"/>
   <terraintypes>
@@ -544,7 +544,7 @@
    <polygon points="0,0 0,29.3333 -31.3333,62 -32,97.3333 16.6667,144 48,146 80,176.667 174.667,176 223.333,224.667 222.667,256 318.667,353.333 319.333,416 272,464 144,465.333 129.333,447.333 127.333,416.667 48,336.667 16.6667,337.333 -46.6667,273.333 -80,304 -110.667,304.667 -128,288 -128,258 -225.333,162 -224,64 -256,32.6667 -255.333,-64 -223.333,-96.6667 -224,-158.667 -208,-175.333 -177.333,-175.333 -144.667,-206 -111.333,-206 -80,-176.667 -48,-174.667 -34,-160.667 -32.6667,-30"/>
   </object>
  </objectgroup>
- <objectgroup color="#ff0000" name="Events (First Basement Outside)" visible="0">
+ <objectgroup color="#ff0000" name="Events (First Basement Outside)">
   <properties>
    <property name="floor" value="-2"/>
    <property name="kind" value="zone"/>
@@ -555,21 +555,16 @@
    </properties>
    <polygon points="-8.66667,-0.666667 -242.667,-2 -166,-52.6667 -88.6667,-51.3333"/>
   </object>
-  <object id="122" name="South Exit" type="event" x="5032" y="4893.33">
-   <properties>
-    <property name="id" value="MoveUpEvent"/>
-   </properties>
-   <polygon points="0,0 -89.3333,169.333 -22.6667,190.667 32,70.6667"/>
-  </object>
  </objectgroup>
- <objectgroup name="Low Sprite (First Basement Outside)" visible="0">
+ <objectgroup name="Low Sprite (First Basement Outside)">
   <properties>
    <property name="floor" value="-2"/>
    <property name="kind" value="low_sprite"/>
   </properties>
   <object id="125" name="PonaShrine" gid="548" x="4618" y="4532" width="128" height="128" rotation="-152.89"/>
+  <object id="126" name="TomoShrine" gid="547" x="4804" y="4880" width="128" height="128"/>
  </objectgroup>
- <layer name="Ground Floor" width="512" height="512">
+ <layer name="Ground Floor" width="512" height="512" visible="0">
   <properties>
    <property name="kind" value="ground"/>
   </properties>
@@ -876,14 +871,14 @@
    <polygon points="14.6667,17.3333 142.667,17.3333 142.667,40 14.6667,40.6667"/>
   </object>
  </objectgroup>
- <objectgroup name="Low Sprite">
+ <objectgroup name="Low Sprite" visible="0">
   <properties>
    <property name="kind" value="low_sprite"/>
   </properties>
   <object id="116" name="TomoShrine" gid="547" x="3189" y="4251" width="128" height="128"/>
   <object id="117" name="PonaShrine" gid="548" x="3478.42" y="4627.64" width="128" height="128"/>
  </objectgroup>
- <objectgroup name="High Sprite">
+ <objectgroup name="High Sprite" visible="0">
   <properties>
    <property name="kind" value="high_sprite"/>
   </properties>
