@@ -67,6 +67,10 @@ namespace akgr {
     std::vector<Line> content;
   };
 
+  struct MessageData {
+    std::string message;
+  };
+
 }
 
 #endif // AKGR_DATA_H

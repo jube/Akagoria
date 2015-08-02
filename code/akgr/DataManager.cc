@@ -231,6 +231,37 @@ namespace akgr {
     }
   }
 
+  static void loadMessageData(std::map<std::string, MessageData>& messages, const std::string& path) {
+    try {
+      YAML::Node node = YAML::LoadFile(path);
+
+      assert(node.IsMap());
+
+      for (const auto& entry : node) {
+        std::string name = entry.first.as<std::string>();
+        auto properties = entry.second;
+
+        MessageData data;
+
+        assert(properties.IsMap());
+
+        auto messageNode = properties["message"];
+
+        if (!messageNode) {
+          game::Log::warning(game::Log::RESOURCES, "Missing message for entry: '%s'\n", name.c_str());
+          continue;
+        }
+
+        data.message = messageNode.as<std::string>();
+
+        messages.emplace(std::move(name), std::move(data));
+      }
+    } catch (std::exception& ex) {
+      game::Log::error(game::Log::RESOURCES, "Error when loading item database: %s\n", ex.what());
+      return;
+    }
+  }
+
   void DataManager::load(const boost::filesystem::path& basedir) {
     game::Log::info(game::Log::RESOURCES, "Loading data\n");
 
@@ -249,6 +280,10 @@ namespace akgr {
     boost::filesystem::path dialoguesPath = basedir / "data/dialogues.yml";
     loadDialogData(m_dialogues, dialoguesPath.string());
     game::Log::info(game::Log::RESOURCES, "\tDialog data: %zu\n", m_dialogues.size());
+
+    boost::filesystem::path messagesPath = basedir / "data/messages.yml";
+    loadMessageData(m_messages, messagesPath.string());
+    game::Log::info(game::Log::RESOURCES, "\tMessage data: %zu\n", m_messages.size());
   }
 
   namespace {
@@ -359,6 +394,17 @@ namespace akgr {
 
     if (it == m_dialogues.end()) {
       game::Log::warning(game::Log::RESOURCES, "Could not find dialogue data for '%s'\n", name.c_str());
+      return nullptr;
+    }
+
+    return &it->second;
+  }
+
+  const MessageData *DataManager::getMessageDataFor(const std::string& name) const {
+    auto it = m_messages.find(name);
+
+    if (it == m_messages.end()) {
+      game::Log::warning(game::Log::RESOURCES, "Could not find message data for '%s'\n", name.c_str());
       return nullptr;
     }
 

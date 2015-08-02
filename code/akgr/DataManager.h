@@ -47,12 +47,15 @@ namespace akgr {
 
     const DialogData *getDialogDataFor(const std::string& name) const;
 
+    const MessageData *getMessageDataFor(const std::string& name) const;
+
   private:
     std::map<std::string, CollisionData> m_collisions;
     std::map<std::string, SpriteData> m_sprites;
     std::map<std::string, ItemData> m_items;
     std::map<std::string, PointOfInterestData> m_pois;
     std::map<std::string, DialogData> m_dialogues;
+    std::map<std::string, MessageData> m_messages;
   };
 
 
