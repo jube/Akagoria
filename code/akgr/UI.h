@@ -64,6 +64,19 @@ namespace akgr {
     const DialogData::Line *m_currentLine;
   };
 
+  class MessageUI : public EntityUI {
+  public:
+    MessageUI();
+
+    void setMessage(const MessageData& message);
+
+    virtual void render(sf::RenderWindow& window) override;
+
+  private:
+    sf::Font *m_font;
+    const MessageData *m_currentMessage;
+  };
+
   class HeroUI : public EntityUI {
   public:
     virtual void onHorizontalAction(HorizontalAction action) override;

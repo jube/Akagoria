@@ -138,6 +138,33 @@ namespace akgr {
   }
 
 
+  static constexpr unsigned MESSAGE_SIZE = STANDARD_SIZE;
+
+  static constexpr float MESSAGE_WIDTH = 600.0f;
+  static constexpr float MESSAGE_HEIGHT = 90.0f;
+  static constexpr float MESSAGE_PADDING = 10.0f;
+  static constexpr float MESSAGE_TOP = 40.0f;
+
+  MessageUI::MessageUI()
+  : m_currentMessage(nullptr)
+  {
+    m_font = gResourceManager().getFont("fonts/DejaVuSans.ttf");
+    assert(m_font);
+  }
+
+  void MessageUI::setMessage(const MessageData& message) {
+    m_currentMessage = &message;
+  }
+
+  void MessageUI::render(sf::RenderWindow& window) {
+    assert(m_currentMessage);
+
+    float x = gWindowGeometry().getXCentered(MESSAGE_WIDTH);
+    drawBox(window, x, MESSAGE_TOP, MESSAGE_WIDTH, MESSAGE_HEIGHT);
+    drawText(window, *m_font, x + MESSAGE_PADDING, MESSAGE_TOP + MESSAGE_PADDING, MESSAGE_SIZE, m_currentMessage->message);
+  }
+
+
   void HeroUI::onHorizontalAction(HorizontalAction action) {
     switch (action) {
       case HorizontalAction::LEFT:
