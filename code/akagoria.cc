@@ -264,6 +264,8 @@ int main(int argc, char *argv[]) {
   upAction.setContinuous();
   downAction.setContinuous();
 
+  akgr::Story story;
+
   // hero
   auto startLocation = akgr::gDataManager().getPointOfInterestDataFor("Start");
   assert(startLocation);
@@ -276,15 +278,7 @@ int main(int argc, char *argv[]) {
   if (slotToLoad != -1) {
     akgr::gSavePointManager().loadFromSlot(slotToLoad);
   } else {
-    akgr::gRequirementManager().addRequirement("IntroDialogReq"_id);
-
-    // another character
-    auto shagirLocation = akgr::gDataManager().getPointOfInterestDataFor("Shagir");
-    assert(shagirLocation);
-    auto shagirCharacter = akgr::gCharacterManager().addCharacter("Shagir", shagirLocation->loc, 0.5f);
-    shagirCharacter->attachDialog("ShagirConversation0");
-
-    akgr::gMessageManager().postMessage("Welcome", 10.0f);
+    story.start();
   }
 
   akgr::gHero().broadcastLocation();
@@ -297,7 +291,6 @@ int main(int argc, char *argv[]) {
   akgr::gHeadsUpEntityManager().addEntity(akgr::gMessageManager());
   akgr::gHeadsUpEntityManager().addEntity(akgr::gHeroAttributes());
 
-  akgr::Story story;
 
   akgr::GameDriver gameDriver(upAction, downAction);
 

@@ -34,6 +34,18 @@ namespace akgr {
     gEventManager().registerHandler<DialogEndEvent>(&Story::onDialogEnd, this);
   }
 
+  void Story::start() {
+    akgr::gRequirementManager().addRequirement("IntroDialogReq"_id);
+
+    // another character
+    auto shagirLocation = akgr::gDataManager().getPointOfInterestDataFor("Shagir");
+    assert(shagirLocation);
+    auto shagirCharacter = akgr::gCharacterManager().addCharacter("Shagir", shagirLocation->loc, 0.5f);
+    shagirCharacter->attachDialog("ShagirConversation0");
+
+    akgr::gMessageManager().postMessage("Welcome", 10.0f);
+  }
+
   game::EventStatus Story::onIntroDialog(game::EventType type, game::Event *event) {
     gDialogManager().start("Intro");
     return game::EventStatus::DIE;
