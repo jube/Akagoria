@@ -34,6 +34,7 @@
 #include "DialogManager.h"
 #include "Hero.h"
 #include "HeroAttributes.h"
+#include "MessageManager.h"
 #include "RequirementManager.h"
 #include "SavePointManager.h"
 #include "ShrineManager.h"
@@ -54,6 +55,7 @@ namespace akgr {
   extern game::Singleton<Hero> gHero;
   extern game::Singleton<HeroAttributes> gHeroAttributes;
   extern game::Singleton<DialogManager> gDialogManager;
+  extern game::Singleton<MessageManager> gMessageManager;
   extern game::Singleton<RequirementManager> gRequirementManager;
   extern game::Singleton<SavePointManager> gSavePointManager;
   extern game::Singleton<ShrineManager> gShrineManager;

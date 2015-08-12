@@ -17,29 +17,44 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include "MessageManager.h"
+
 #include "Singletons.h"
 
 namespace akgr {
 
-  game::Singleton<game::Random> gRandom;
-  game::Singleton<game::ResourceManager> gResourceManager;
-  game::Singleton<game::EventManager> gEventManager;
-  game::Singleton<game::EntityManager> gMainEntityManager;
-  game::Singleton<game::EntityManager> gHeadsUpEntityManager;
 
-  game::Singleton<DataManager> gDataManager;
+  void MessageManager::postMessage(const std::string& name, float time) {
+    auto data = gDataManager().getMessageDataFor(name);
 
-  game::Singleton<PhysicsModel> gPhysicsModel;
+    if (data == nullptr) {
+      return;
+    }
 
-  game::Singleton<CharacterManager> gCharacterManager;
-  game::Singleton<Hero> gHero;
-  game::Singleton<HeroAttributes> gHeroAttributes;
-  game::Singleton<DialogManager> gDialogManager;
-  game::Singleton<MessageManager> gMessageManager;
-  game::Singleton<RequirementManager> gRequirementManager;
-  game::Singleton<SavePointManager> gSavePointManager;
-  game::Singleton<ShrineManager> gShrineManager;
+    m_items.push_back({ time, data });
+  }
 
-  game::Singleton<game::WindowGeometry> gWindowGeometry;
+  void MessageManager::update(float dt)  {
+    if (m_items.empty()) {
+      return;
+    }
+
+    auto& currentItem = m_items.front();
+    currentItem.remainingTime -= dt;
+
+    if (currentItem.remainingTime < 0) {
+      m_items.pop_front();
+    }
+  }
+
+  void MessageManager::render(sf::RenderWindow& window)  {
+    if (m_items.empty()) {
+      return;
+    }
+
+    auto& currentItem = m_items.front();
+    m_ui.setMessage(*currentItem.data);
+    m_ui.render(window);
+  }
 
 }

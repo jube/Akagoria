@@ -41,6 +41,7 @@ add_executable(akagoria
   akgr/GridMap.cc
   akgr/Hero.cc
   akgr/HeroAttributes.cc
+  akgr/MessageManager.cc
   akgr/PhysicsModel.cc
   akgr/RequirementManager.cc
   akgr/SavePointManager.cc

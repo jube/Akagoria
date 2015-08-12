@@ -143,7 +143,7 @@ namespace akgr {
   static constexpr float MESSAGE_WIDTH = 600.0f;
   static constexpr float MESSAGE_HEIGHT = 90.0f;
   static constexpr float MESSAGE_PADDING = 10.0f;
-  static constexpr float MESSAGE_TOP = 40.0f;
+  static constexpr float MESSAGE_TOP = 80.0f;
 
   MessageUI::MessageUI()
   : m_currentMessage(nullptr)

@@ -74,6 +74,7 @@ int main(int argc, char *argv[]) {
   game::SingletonStorage<akgr::CharacterManager> storageForCharacterManager(akgr::gCharacterManager);
   game::SingletonStorage<akgr::DialogManager> storageForDialogManager(akgr::gDialogManager);
   game::SingletonStorage<akgr::HeroAttributes> storageForHeroAttributes(akgr::gHeroAttributes);
+  game::SingletonStorage<akgr::MessageManager> storageForMessageManager(akgr::gMessageManager);
   game::SingletonStorage<akgr::RequirementManager> storageForRequirementManager(akgr::gRequirementManager);
   game::SingletonStorage<akgr::SavePointManager> storageForSavePointManager(akgr::gSavePointManager);
   game::SingletonStorage<akgr::ShrineManager> storageForShrineManager(akgr::gShrineManager);
@@ -282,6 +283,8 @@ int main(int argc, char *argv[]) {
     assert(shagirLocation);
     auto shagirCharacter = akgr::gCharacterManager().addCharacter("Shagir", shagirLocation->loc, 0.5f);
     shagirCharacter->attachDialog("ShagirConversation0");
+
+    akgr::gMessageManager().postMessage("Welcome", 10.0f);
   }
 
   akgr::gHero().broadcastLocation();
@@ -291,6 +294,7 @@ int main(int argc, char *argv[]) {
   akgr::gMainEntityManager().addEntity(akgr::gShrineManager());
 
   akgr::gHeadsUpEntityManager().addEntity(akgr::gDialogManager());
+  akgr::gHeadsUpEntityManager().addEntity(akgr::gMessageManager());
   akgr::gHeadsUpEntityManager().addEntity(akgr::gHeroAttributes());
 
   akgr::Story story;
@@ -298,6 +302,8 @@ int main(int argc, char *argv[]) {
   akgr::GameDriver gameDriver(upAction, downAction);
 
   // main loop
+  clock.restart();
+
   while (window.isOpen()) {
     // input
     sf::Event event;
