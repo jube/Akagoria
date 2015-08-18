@@ -30,6 +30,10 @@
 
 #include <game/Log.h>
 
+#include "Character.h"
+#include "Hero.h"
+#include "HeroAttributes.h"
+#include "RequirementManager.h"
 #include "Singletons.h"
 
 namespace akgr {

@@ -26,6 +26,7 @@
 #include "Data.h"
 #include "GameEvents.h"
 #include "MapEvents.h"
+#include "PhysicsModel.h"
 #include "Singletons.h"
 
 namespace akgr {

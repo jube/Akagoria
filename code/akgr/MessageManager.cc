@@ -19,6 +19,7 @@
  */
 #include "MessageManager.h"
 
+#include "DataManager.h"
 #include "Singletons.h"
 
 namespace akgr {

@@ -31,6 +31,7 @@
 #include <game/Event.h>
 #include <game/Log.h>
 
+#include "RequirementManager.h"
 #include "Singletons.h"
 
 namespace akgr {

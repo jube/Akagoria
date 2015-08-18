@@ -19,7 +19,10 @@
  */
 #include "GameDriver.h"
 
+#include "DialogManager.h"
 #include "GameEvents.h"
+#include "Hero.h"
+#include "SavePointManager.h"
 #include "Singletons.h"
 
 namespace akgr {

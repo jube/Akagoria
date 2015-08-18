@@ -25,7 +25,10 @@
 
 #include <game/Log.h>
 
+#include "DataManager.h"
+#include "ShrineManager.h"
 #include "Singletons.h"
+#include "PhysicsModel.h"
 
 namespace akgr {
 

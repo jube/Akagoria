@@ -24,8 +24,10 @@
 #include <game/Log.h>
 
 #include "Data.h"
+#include "DialogManager.h"
 #include "GameEvents.h"
 #include "Maths.h"
+#include "PhysicsModel.h"
 #include "Singletons.h"
 
 namespace akgr {

@@ -21,6 +21,7 @@
 
 #include <cassert>
 
+#include "SavePointManager.h"
 #include "Singletons.h"
 
 namespace akgr {

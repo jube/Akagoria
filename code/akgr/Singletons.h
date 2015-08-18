@@ -27,25 +27,24 @@
 #include <game/Singleton.h>
 #include <game/WindowGeometry.h>
 
-#include "PhysicsModel.h"
-
-#include "Character.h"
-#include "DataManager.h"
-#include "DialogManager.h"
-#include "Hero.h"
-#include "HeroAttributes.h"
-#include "MessageManager.h"
-#include "RequirementManager.h"
-#include "SavePointManager.h"
-#include "ShrineManager.h"
-
 namespace akgr {
-
   extern game::Singleton<game::Random> gRandom;
   extern game::Singleton<game::ResourceManager> gResourceManager;
   extern game::Singleton<game::EventManager> gEventManager;
   extern game::Singleton<game::EntityManager> gMainEntityManager;
   extern game::Singleton<game::EntityManager> gHeadsUpEntityManager;
+
+  class DataManager;
+  class PhysicsModel;
+  class CharacterManager;
+  class Hero;
+  class HeroAttributes;
+  class DialogManager;
+  class MessageManager;
+  class RequirementManager;
+  class SavePointManager;
+  class ShrineManager;
+  class WindowGeometry;
 
   extern game::Singleton<DataManager> gDataManager;
 

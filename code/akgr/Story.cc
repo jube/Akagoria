@@ -23,7 +23,12 @@
 
 #include <game/Log.h>
 
+#include "Character.h"
+#include "DataManager.h"
+#include "DialogManager.h"
 #include "GameEvents.h"
+#include "MessageManager.h"
+#include "RequirementManager.h"
 #include "Singletons.h"
 
 namespace akgr {

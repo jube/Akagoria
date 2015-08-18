@@ -20,6 +20,7 @@
 #include "ShrineManager.h"
 
 #include "GameEvents.h"
+#include "HeroAttributes.h"
 #include "MapEvents.h"
 #include "Maths.h"
 #include "Singletons.h"
