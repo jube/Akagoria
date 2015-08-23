@@ -1,7 +1,7 @@
 Intro:
   content:
     - { speaker: 'Kalista', words: "Ouch! What a terrible headache!\nWhere am I? Why am I here?\nI am sooo hungry, I must find something to eat..." }
-    - { speaker: 'Kalista', words: "I think there is a village not so far from here,\nI can see some smoke in the south...\nLet's go!" }
+    - { speaker: 'Kalista', words: "I think there is a village not so far from here.\nI can see some smoke in the south...\nLet's go!" }
 ShagirConversation0:
   content:
     - { speaker: 'Kalista', words: "Hi! Can you help me?\nI am looking for a village nearby.\nAm I in the right direction?" }

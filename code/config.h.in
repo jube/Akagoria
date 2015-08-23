@@ -1,7 +1,8 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#define GAME_VERSION "@PROJECT_VERSION@"
-#define GAME_DATADIR "@CMAKE_INSTALL_PREFIX@/share/games/akagoria"
+#define GAME_VERSION    "@PROJECT_VERSION@"
+#define GAME_DATADIR    "@CMAKE_INSTALL_FULL_DATAROOTDIR@/games/akagoria"
+#define GAME_LOCALEDIR  "@CMAKE_INSTALL_FULL_LOCALEDIR@"
 
 #endif // CONFIG_H

@@ -1,0 +1,52 @@
+#: Akagoria/data/akagoria/data/dialogues.yml:3
+msgid ""
+"Ouch! What a terrible headache!\n"
+"Where am I? Why am I here?\n"
+"I am sooo hungry, I must find something to eat..."
+msgstr ""
+
+#: Akagoria/data/akagoria/data/dialogues.yml:4
+msgid ""
+"I think there is a village not so far from here.\n"
+"I can see some smoke in the south...\n"
+"Let's go!"
+msgstr ""
+
+#: Akagoria/data/akagoria/data/dialogues.yml:7
+msgid ""
+"Hi! Can you help me?\n"
+"I am looking for a village nearby.\n"
+"Am I in the right direction?"
+msgstr ""
+
+#: Akagoria/data/akagoria/data/dialogues.yml:8
+msgid ""
+"Hummm... Yes!\n"
+"You seem to be lost, you should be carefull!\n"
+"It is said that an evil sorceress is haunting the woods..."
+msgstr ""
+
+#: Akagoria/data/akagoria/data/dialogues.yml:9
+msgid ""
+"Ho really?\n"
+"(Gniak! Gniark!)\n"
+"Thanks for the advice. Goodbye!"
+msgstr ""
+
+#: Akagoria/data/akagoria/data/dialogues.yml:12
+msgid ""
+"Where do I have to go to find the village?\n"
+"I do not remember what you told me."
+msgstr ""
+
+#: Akagoria/data/akagoria/data/dialogues.yml:13
+msgid "Go south, you will find a lovely place called Arabband."
+msgstr ""
+
+#: Akagoria/data/akagoria/data/messages.yml:2
+msgid "Welcome to Akagoria!"
+msgstr ""
+
+#: Akagoria/data/akagoria/data/messages.yml:4
+msgid "A Pona Shrine gives you some health"
+msgstr ""

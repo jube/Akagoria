@@ -21,8 +21,7 @@
 #include <cstdio>
 #include <fstream>
 
-#include <boost/archive/text_iarchive.hpp>
-#include <boost/archive/text_oarchive.hpp>
+#include <boost/locale.hpp>
 
 #include <tmx/Map.h>
 
@@ -65,7 +64,14 @@ enum class StartMode {
 };
 
 int main(int argc, char *argv[]) {
+  boost::locale::generator localeGenerator;
+  localeGenerator.add_messages_path(GAME_LOCALEDIR);
+  localeGenerator.add_messages_domain("akagoria");
+  std::locale::global(localeGenerator(""));
+
   game::Log::setLevel(game::Log::INFO);
+
+  game::Log::info(game::Log::GENERAL, "Locale is: %s\n", std::locale("").name().c_str());
 
   // singletons
   game::SingletonStorage<game::Random> storageForRandom(akgr::gRandom);

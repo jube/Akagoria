@@ -1,0 +1,114 @@
+# Akagoria, the revenge of Kalista
+# a single-player RPG in an open world with a top-down view.
+#
+# Copyright (c) 2013-2015, Julien Bernard
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Julien Bernard <julien.bernard@univ-fcomte.fr>, 2015.
+msgid ""
+msgstr ""
+"Project-Id-Version: Akagoria 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-08-23 17:54+0200\n"
+"PO-Revision-Date: 2015-08-23 14:07+0200\n"
+"Last-Translator: Julien Bernard <julien.bernard@univ-fcomte.fr>\n"
+"Language-Team: French\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: Akagoria/data/akagoria/data/dialogues.yml:3
+msgid ""
+"Ouch! What a terrible headache!\n"
+"Where am I? Why am I here?\n"
+"I am sooo hungry, I must find something to eat..."
+msgstr ""
+"Aïe ! Quel horrible mal de tête !\n"
+"Où suis-je ? Pourquoi suis-je ici ?\n"
+"J'ai teeellement faim, je dois trouver à manger..."
+
+#: Akagoria/data/akagoria/data/dialogues.yml:4
+msgid ""
+"I think there is a village not so far from here,\n"
+"I can see some smoke in the south...\n"
+"Let's go!"
+msgstr ""
+"Je pense qu'il y a un village non loin d'ici.\n"
+"Je peux voir de la fumée au sud...\n"
+"Allons-y !"
+
+#: Akagoria/data/akagoria/data/dialogues.yml:4
+msgid ""
+"I think there is a village not so far from here.\n"
+"I can see some smoke in the south...\n"
+"Let's go!"
+msgstr ""
+"Je pense qu'il y a un village non loin d'ici.\n"
+"Je peux voir de la fumée au sud...\n"
+"Allons-y !"
+
+#: Akagoria/data/akagoria/data/dialogues.yml:7
+msgid ""
+"Hi! Can you help me?\n"
+"I am looking for a village nearby.\n"
+"Am I in the right direction?"
+msgstr ""
+"Bonjour ! Pouvez-vous m'aider ?\n"
+"Je recherche un village non-loin.\n"
+"Suis-je dans la bonne direction ?"
+
+#: Akagoria/data/akagoria/data/dialogues.yml:8
+msgid ""
+"Hummm... Yes!\n"
+"You seem to be lost, you should be carefull!\n"
+"It is said that an evil sorceress is haunting the woods..."
+msgstr ""
+"Hummm... Oui !\n"
+"Vous semblez être perdu, vous devriez faire attention !\n"
+"On dit qu'une sorcière maléfique hante ces bois..."
+
+#: Akagoria/data/akagoria/data/dialogues.yml:9
+msgid ""
+"Ho really?\n"
+"(Gniak! Gniark!)\n"
+"Thanks for the advice. Goodbye!"
+msgstr ""
+"Ho vraiment?\n"
+"(Niark, Niark !)\n"
+"Merci pour le conseil. Au revoir !"
+
+#: Akagoria/data/akagoria/data/dialogues.yml:12
+msgid ""
+"Where do I have to go to find the village?\n"
+"I do not remember what you told me."
+msgstr ""
+"Où dois-je aller pour trouver le village ?\n"
+"Je ne me souviens plus de ce que vous m'avez dit."
+
+#: Akagoria/data/akagoria/data/dialogues.yml:13
+msgid "Go south, you will find a lovely place called Arabband."
+msgstr ""
+"Allez au sud, vous trouverez un charmant village appelé\n"
+"Arabband."
+
+#: Akagoria/data/akagoria/data/messages.yml:2
+msgid "Welcome to Akagoria!"
+msgstr "Bienvenue à Akagoria !"
+
+#: Akagoria/data/akagoria/data/messages.yml:4
+msgid "A Pona Shrine gives you some health"
+msgstr "Un Temple Pona vous donne de la santé"

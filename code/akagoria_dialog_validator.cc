@@ -26,7 +26,10 @@
 #include <vector>
 
 #include <boost/filesystem.hpp>
+#include <boost/locale.hpp>
+
 #include <SFML/Graphics.hpp>
+
 #include <yaml-cpp/yaml.h>
 
 #include "config.h"
@@ -39,6 +42,18 @@ struct DialogData {
 
   std::vector<Line> content;
 };
+
+static sf::String convertString(const std::string& str) {
+  std::basic_string<sf::Uint32> u32String;
+  u32String.reserve(str.size());
+  sf::Utf8::toUtf32(str.begin(), str.end(), std::back_inserter(u32String));
+  return sf::String(u32String);
+}
+
+static sf::String convertLocalString(const std::string& str) {
+  std::string translatedString = boost::locale::gettext(str.c_str());
+  return convertString(translatedString);
+}
 
 static void loadDialogData(std::map<std::string, DialogData>& dialogues, const std::string& path) {
   try {
@@ -66,11 +81,11 @@ static void loadDialogData(std::map<std::string, DialogData>& dialogues, const s
       for (const auto& lineNode : contentNode) {
         auto speakerNode = lineNode["speaker"];
         assert(speakerNode);
-        std::string speaker = speakerNode.as<std::string>();
+        auto speaker = convertString(speakerNode.as<std::string>());
 
         auto wordsNode = lineNode["words"];
         assert(wordsNode);
-        std::string words = wordsNode.as<std::string>();
+        auto words = convertLocalString(wordsNode.as<std::string>());
 
         data.content.push_back({ std::move(speaker), std::move(words) });
       }
@@ -99,20 +114,30 @@ static constexpr float WORDS_MAX_HEIGHT = WORDS_HEIGHT - 2 * WORDS_PADDING;
 static constexpr float SPEAKER_MAX_WIDTH = SPEAKER_WIDTH - 2 * SPEAKER_PADDING;
 static constexpr float SPEAKER_MAX_HEIGHT = SPEAKER_HEIGHT - 2 * SPEAKER_PADDING;
 
-std::string extractBeginning(const std::string& str) {
+std::string extractBeginning(const sf::String& str) {
   static constexpr std::size_t EXTRACT_MAX = 20;
 
-  auto pos = str.find_first_of('\n');
+  auto end = std::find(str.begin(), str.end(), sf::Uint32('\n'));
+  std::size_t size = end - str.begin();
+  size = std::min(size, EXTRACT_MAX);
 
-  if (pos == std::string::npos) {
-    pos = str.size();
+  std::string u8str;
+
+  for (std::size_t i = 0; i < size; ++i) {
+    sf::Utf32::toUtf8(str.getData() + i, str.getData() + i + 1, std::back_inserter(u8str));
   }
 
-  pos = std::min(pos, EXTRACT_MAX);
-  return str.substr(0, pos);
+  return u8str;
 }
 
 int main() {
+  boost::locale::generator localeGenerator;
+  localeGenerator.add_messages_path(GAME_LOCALEDIR);
+  localeGenerator.add_messages_domain("akagoria");
+  std::locale::global(localeGenerator(""));
+
+  std::printf("Locale is: %s\n", std::locale("").name().c_str());
+
   boost::filesystem::path basedir = GAME_DATADIR;
 
   boost::filesystem::path dialogsPath = basedir / "data/dialogues.yml";

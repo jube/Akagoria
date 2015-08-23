@@ -1,0 +1,14 @@
+set(AKAGORIA_LANGUAGES
+  fr
+)
+
+gettext_merge("akagoria.pot"
+  ALL
+  LANGUAGES ${AKAGORIA_LANGUAGES}
+)
+
+gettext_fmt("akagoria"
+  ALL
+  LANGUAGES ${AKAGORIA_LANGUAGES}
+  INSTALL_DESTINATION "${CMAKE_INSTALL_LOCALEDIR}"
+)

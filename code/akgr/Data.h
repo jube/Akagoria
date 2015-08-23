@@ -60,15 +60,15 @@ namespace akgr {
 
   struct DialogData {
     struct Line {
-      std::string speaker;
-      std::string words;
+      sf::String speaker;
+      sf::String words;
     };
 
     std::vector<Line> content;
   };
 
   struct MessageData {
-    std::string message;
+    sf::String message;
   };
 
 }

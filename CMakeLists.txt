@@ -11,7 +11,7 @@ set(CMAKE_MODULE_PATH
   ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules")
 
 find_package(Threads)
-find_package(Boost REQUIRED COMPONENTS filesystem serialization system)
+find_package(Boost REQUIRED COMPONENTS filesystem locale serialization system)
 find_package(Box2D REQUIRED)
 
 find_package(PkgConfig REQUIRED)
@@ -28,3 +28,10 @@ install(
   DIRECTORY "${CMAKE_SOURCE_DIR}/data/akagoria"
   DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/games"
 )
+
+find_package(Gettext)
+
+if (GETTEXT_FOUND)
+  include(GettextHandling)
+  add_subdirectory(data/akagoria/l10n)
+endif (GETTEXT_FOUND)

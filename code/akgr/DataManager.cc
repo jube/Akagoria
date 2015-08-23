@@ -19,12 +19,26 @@
  */
 #include "DataManager.h"
 
+#include <boost/locale.hpp>
+
 #include <tmx/ObjectLayer.h>
 #include <yaml-cpp/yaml.h>
 
 #include <game/Log.h>
 
 namespace akgr {
+
+  static sf::String convertString(const std::string& str) {
+    std::basic_string<sf::Uint32> u32String;
+    u32String.reserve(str.size());
+    sf::Utf8::toUtf32(str.begin(), str.end(), std::back_inserter(u32String));
+    return sf::String(u32String);
+  }
+
+  static sf::String convertLocalString(const std::string& str) {
+    std::string translatedString = boost::locale::gettext(str.c_str());
+    return convertString(translatedString);
+  }
 
   static void loadCollisionData(std::map<std::string, CollisionData>& collisions, const std::string& path) {
     try {
@@ -214,11 +228,11 @@ namespace akgr {
         for (const auto& lineNode : contentNode) {
           auto speakerNode = lineNode["speaker"];
           assert(speakerNode);
-          std::string speaker = speakerNode.as<std::string>();
+          auto speaker = convertString(speakerNode.as<std::string>());
 
           auto wordsNode = lineNode["words"];
           assert(wordsNode);
-          std::string words = wordsNode.as<std::string>();
+          auto words = convertLocalString(wordsNode.as<std::string>());
 
           data.content.push_back({ std::move(speaker), std::move(words) });
         }
@@ -252,7 +266,7 @@ namespace akgr {
           continue;
         }
 
-        data.message = messageNode.as<std::string>();
+        data.message = convertLocalString(messageNode.as<std::string>());
 
         messages.emplace(std::move(name), std::move(data));
       }

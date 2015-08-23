@@ -86,7 +86,7 @@ namespace akgr {
     window.draw(boxShape);
   }
 
-  static void drawText(sf::RenderWindow& window, sf::Font& font, float x, float y, unsigned size, const std::string& str) {
+  static void drawText(sf::RenderWindow& window, sf::Font& font, float x, float y, unsigned size, const sf::String& str) {
     sf::Text text(str, font, size);
     auto rect = text.getLocalBounds();
     text.setColor(sf::Color::White);
