@@ -92,6 +92,8 @@ namespace akgr {
     void displaySplashMessage(sf::RenderWindow& window, bool loading = false);
 
   private:
+    sf::String m_titleString;
+    sf::String m_loadingString;
     sf::Font *m_font;
   };
 
@@ -129,6 +131,7 @@ namespace akgr {
     virtual void render(sf::RenderWindow& window) override;
 
   private:
+    sf::String m_backString;
     sf::Font *m_font;
   };
 
@@ -143,6 +146,9 @@ namespace akgr {
     virtual void render(sf::RenderWindow& window) override;
 
   private:
+    sf::String m_newString;
+    sf::String m_loadString;
+    sf::String m_quitString;
     sf::Font *m_font;
   };
 

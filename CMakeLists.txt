@@ -29,9 +29,8 @@ install(
   DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/games"
 )
 
-find_package(Gettext)
+find_package(L10N)
 
-if (GETTEXT_FOUND)
-  include(GettextHandling)
+if(L10N_FOUND)
   add_subdirectory(data/akagoria/l10n)
-endif (GETTEXT_FOUND)
+endif()

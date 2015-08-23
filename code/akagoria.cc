@@ -96,7 +96,8 @@ int main(int argc, char *argv[]) {
 
   game::SingletonStorage<game::WindowGeometry> storageForWindowGeometry(akgr::gWindowGeometry, INITIAL_WIDTH, INITIAL_HEIGHT);
 
-
+  // load data
+  akgr::gDataManager().load(GAME_DATADIR);
 
   // initialize window
   game::WindowSettings settings(INITIAL_WIDTH, INITIAL_HEIGHT, "Akagoria (version " GAME_VERSION ")");
@@ -238,9 +239,6 @@ int main(int argc, char *argv[]) {
   window.clear(sf::Color::Black);
   splashUI.displaySplashMessage(window, true);
   window.display();
-
-  // load data
-  akgr::gDataManager().load(GAME_DATADIR);
 
   // add entities
   game::ModelManager models;

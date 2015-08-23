@@ -1,52 +1,95 @@
-#: Akagoria/data/akagoria/data/dialogues.yml:3
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-08-23 19:14+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../data/dialogues.yml:3
 msgid ""
 "Ouch! What a terrible headache!\n"
 "Where am I? Why am I here?\n"
 "I am sooo hungry, I must find something to eat..."
 msgstr ""
 
-#: Akagoria/data/akagoria/data/dialogues.yml:4
+#: ../data/dialogues.yml:4
 msgid ""
 "I think there is a village not so far from here.\n"
 "I can see some smoke in the south...\n"
 "Let's go!"
 msgstr ""
 
-#: Akagoria/data/akagoria/data/dialogues.yml:7
+#: ../data/dialogues.yml:7
 msgid ""
 "Hi! Can you help me?\n"
 "I am looking for a village nearby.\n"
 "Am I in the right direction?"
 msgstr ""
 
-#: Akagoria/data/akagoria/data/dialogues.yml:8
+#: ../data/dialogues.yml:8
 msgid ""
 "Hummm... Yes!\n"
 "You seem to be lost, you should be carefull!\n"
 "It is said that an evil sorceress is haunting the woods..."
 msgstr ""
 
-#: Akagoria/data/akagoria/data/dialogues.yml:9
+#: ../data/dialogues.yml:9
 msgid ""
 "Ho really?\n"
 "(Gniak! Gniark!)\n"
 "Thanks for the advice. Goodbye!"
 msgstr ""
 
-#: Akagoria/data/akagoria/data/dialogues.yml:12
+#: ../data/dialogues.yml:12
 msgid ""
 "Where do I have to go to find the village?\n"
 "I do not remember what you told me."
 msgstr ""
 
-#: Akagoria/data/akagoria/data/dialogues.yml:13
+#: ../data/dialogues.yml:13
 msgid "Go south, you will find a lovely place called Arabband."
 msgstr ""
 
-#: Akagoria/data/akagoria/data/messages.yml:2
+#: ../data/messages.yml:4
+msgid "Akagoria, the revenge of Kalista"
+msgstr ""
+
+#: ../data/messages.yml:6
+msgid "Loading..."
+msgstr ""
+
+#: ../data/messages.yml:8
+msgid "Start an adventure"
+msgstr ""
+
+#: ../data/messages.yml:10
+msgid "Load an adventure"
+msgstr ""
+
+#: ../data/messages.yml:12
+msgid "Quit"
+msgstr ""
+
+#: ../data/messages.yml:14
+msgid "Back"
+msgstr ""
+
+#: ../data/messages.yml:19
 msgid "Welcome to Akagoria!"
 msgstr ""
 
-#: Akagoria/data/akagoria/data/messages.yml:4
+#: ../data/messages.yml:21
 msgid "A Pona Shrine gives you some health"
 msgstr ""

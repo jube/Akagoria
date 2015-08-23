@@ -21,11 +21,18 @@
 
 #include <game/WindowGeometry.h>
 
+#include "DataManager.h"
 #include "Hero.h"
 #include "SavePointManager.h"
 #include "Singletons.h"
 
 namespace akgr {
+
+  static sf::String getMessage(const std::string& name) {
+    auto data = gDataManager().getMessageDataFor(name);
+    assert(data);
+    return data->message;
+  }
 
   static constexpr unsigned STANDARD_SIZE = 20;
   static constexpr float STANDARD_POINTER_RADIUS = 5.0f;
@@ -198,7 +205,10 @@ namespace akgr {
   }
 
 
-  SplashUI::SplashUI() {
+  SplashUI::SplashUI()
+  : m_titleString(getMessage("SplashTitle"))
+  , m_loadingString(getMessage("SplashLoading"))
+  {
     m_font = gResourceManager().getFont("fonts/DejaVuSans.ttf");
     assert(m_font);
   }
@@ -215,7 +225,7 @@ namespace akgr {
     text.setFont(*m_font);
     text.setCharacterSize(32);
     text.setColor(sf::Color(0xFF, 0x80, 0x00));
-    text.setString("Akagoria, the revenge of Kalista");
+    text.setString(m_titleString);
 
     // put the splash screen in the center
     sf::FloatRect rect = text.getLocalBounds();
@@ -232,7 +242,7 @@ namespace akgr {
       loadingText.setFont(*m_font);
       loadingText.setCharacterSize(20);
       loadingText.setColor(sf::Color(0xFF, 0x80, 0x00));
-      loadingText.setString("Loading...");
+      loadingText.setString(m_loadingString);
       loadingText.setStyle(sf::Text::Italic);
 
       // put the splash screen in the center
@@ -273,6 +283,7 @@ namespace akgr {
 
   SelectSlotUI::SelectSlotUI()
   : MenuUI(SELECT_CHOICE_COUNT + 1) // 3 slots + back to main
+  , m_backString(getMessage("MenuBack"))
   {
     m_font = gResourceManager().getFont("fonts/DejaVuSans.ttf");
     assert(m_font);
@@ -314,7 +325,7 @@ namespace akgr {
     }
 
     y += SELECT_SLOT_HEIGHT + 2 * SELECT_SLOT_MARGIN;
-    drawText(window, *m_font, x, y, STANDARD_SIZE, "Back");
+    drawText(window, *m_font, x, y, STANDARD_SIZE, m_backString);
 
     if (choice == 3) {
       float pointerY = y + 0.4 * STANDARD_SIZE;
@@ -333,6 +344,9 @@ namespace akgr {
 
   StartUI::StartUI()
   : MenuUI(START_CHOICE_COUNT)
+  , m_newString(getMessage("MenuNew"))
+  , m_loadString(getMessage("MenuLoad"))
+  , m_quitString(getMessage("MenuQuit"))
   {
     m_font = gResourceManager().getFont("fonts/DejaVuSans.ttf");
     assert(m_font);
@@ -344,11 +358,11 @@ namespace akgr {
     float x = MENU_POS + MENU_LEFT;
     float y = MENU_POS + START_PADDING;
 
-    drawText(window, *m_font, x, y, START_SIZE, "Start new adventure");
+    drawText(window, *m_font, x, y, START_SIZE, m_newString);
     y += START_SIZE + START_PADDING;
-    drawText(window, *m_font, x, y, START_SIZE, "Load adventure");
+    drawText(window, *m_font, x, y, START_SIZE, m_loadString);
     y += START_SIZE + START_PADDING;
-    drawText(window, *m_font, x, y, START_SIZE, "Quit");
+    drawText(window, *m_font, x, y, START_SIZE, m_quitString);
 
     float pointerX = MENU_POS + MENU_POINTER;
     float pointerY = MENU_POS + START_PADDING + 0.4f * START_SIZE + getCurrentChoice() * (START_SIZE + START_PADDING);

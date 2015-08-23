@@ -137,7 +137,7 @@ namespace akgr {
     auto path = getSlotFilename(slot);
 
     if (!boost::filesystem::exists(path)) {
-      return "(empty)\n-\n-";
+      return "(empty)";
     }
 
     std::string info = "slot#" + std::to_string(slot) + '\n';

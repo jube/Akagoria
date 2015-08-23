@@ -1,3 +1,20 @@
+# UI messages
+
+SplashTitle:
+  message: "Akagoria, the revenge of Kalista"
+SplashLoading:
+  message: "Loading..."
+MenuNew:
+  message: "Start an adventure"
+MenuLoad:
+  message: "Load an adventure"
+MenuQuit:
+  message: "Quit"
+MenuBack:
+  message: "Back"
+
+# in-game messages
+
 Welcome:
   message: "Welcome to Akagoria!"
 PonaShrine:
