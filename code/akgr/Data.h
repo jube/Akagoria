@@ -23,6 +23,8 @@
 #include <boost/filesystem.hpp>
 #include <SFML/Graphics.hpp>
 
+#include <game/Id.h>
+
 #include "Location.h"
 
 namespace akgr {
@@ -69,6 +71,48 @@ namespace akgr {
 
   struct MessageData {
     sf::String message;
+  };
+
+
+  enum class QuestCategory {
+    HISTORY,
+    SHORT,
+    MEDIUM,
+    LONG,
+  };
+
+  enum class QuestType {
+    EXPLORE,
+    FARM,
+    HUNT,
+    TALK,
+  };
+
+  struct QuestData {
+    sf::String title;
+    sf::String goal;
+    sf::String description;
+    QuestCategory category;
+    QuestType type;
+
+    union {
+      struct {
+        game::Id place;
+      } explore;
+      struct {
+        game::Id item;
+        unsigned count;
+      } farm;
+      struct {
+        game::Id monster;
+        unsigned count;
+      } hunt;
+      struct {
+        game::Id conversation;
+      } talk;
+    };
+
+    std::string next;
   };
 
 }

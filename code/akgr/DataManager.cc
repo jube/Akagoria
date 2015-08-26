@@ -71,11 +71,12 @@ namespace akgr {
 
           data.circle.radius = radiusNode.as<float>();
 
-          collisions.emplace(std::move(name), data);
-
         } else {
           game::Log::warning(game::Log::RESOURCES, "Unknown type for entry: '%s'\n", name.c_str());
+          continue;
         }
+
+        collisions.emplace(std::move(name), data);
       }
     } catch (std::exception& ex) {
       game::Log::error(game::Log::RESOURCES, "Error when loading collision database: %s\n", ex.what());
@@ -240,7 +241,7 @@ namespace akgr {
         dialogues.emplace(std::move(name), std::move(data));
       }
     } catch (std::exception& ex) {
-      game::Log::error(game::Log::RESOURCES, "Error when loading item database: %s\n", ex.what());
+      game::Log::error(game::Log::RESOURCES, "Error when loading dialog database: %s\n", ex.what());
       return;
     }
   }
@@ -271,7 +272,173 @@ namespace akgr {
         messages.emplace(std::move(name), std::move(data));
       }
     } catch (std::exception& ex) {
-      game::Log::error(game::Log::RESOURCES, "Error when loading item database: %s\n", ex.what());
+      game::Log::error(game::Log::RESOURCES, "Error when loading message database: %s\n", ex.what());
+      return;
+    }
+  }
+
+  static void loadQuestData(std::map<std::string, QuestData>& quests, const std::string& path) {
+    try {
+      YAML::Node node = YAML::LoadFile(path);
+
+      assert(node.IsMap());
+
+      for (const auto& entry : node) {
+        std::string name = entry.first.as<std::string>();
+        auto properties = entry.second;
+
+        QuestData data;
+
+        assert(properties.IsMap());
+
+        auto titleNode = properties["title"];
+
+        if (!titleNode) {
+          game::Log::warning(game::Log::RESOURCES, "Missing title for entry: '%s'\n", name.c_str());
+          continue;
+        }
+
+        data.title = convertLocalString(titleNode.as<std::string>());
+
+        auto goalNode = properties["goal"];
+
+        if (!goalNode) {
+          game::Log::warning(game::Log::RESOURCES, "Missing goal for entry: '%s'\n", name.c_str());
+          continue;
+        }
+
+        data.goal = convertLocalString(goalNode.as<std::string>());
+
+        auto descriptionNode = properties["description"];
+
+        if (!descriptionNode) {
+          game::Log::warning(game::Log::RESOURCES, "Missing description for entry: '%s'\n", name.c_str());
+          continue;
+        }
+
+        data.description = convertLocalString(descriptionNode.as<std::string>());
+
+        auto categoryNode = properties["category"];
+
+        if (!categoryNode) {
+          game::Log::warning(game::Log::RESOURCES, "Missing category for entry: '%s'\n", name.c_str());
+          continue;
+        }
+
+        std::string category = categoryNode.as<std::string>();
+
+        if (category == "history") {
+          data.category = QuestCategory::HISTORY;
+        } else if (category == "short") {
+          data.category = QuestCategory::SHORT;
+        } else if (category == "medium") {
+          data.category = QuestCategory::MEDIUM;
+        } else if (category == "long") {
+          data.category = QuestCategory::LONG;
+        } else {
+          game::Log::warning(game::Log::RESOURCES, "Unknown category for entry: '%s'\n", name.c_str());
+          continue;
+        }
+
+        auto parametersNode = properties["parameters"];
+
+        if (!parametersNode) {
+          game::Log::warning(game::Log::RESOURCES, "Missing parameters for entry: '%s'\n", name.c_str());
+          continue;
+        }
+
+        assert(parametersNode.IsMap());
+
+        auto typeNode = properties["type"];
+
+        if (!typeNode) {
+          game::Log::warning(game::Log::RESOURCES, "Missing type for entry: '%s'\n", name.c_str());
+          continue;
+        }
+
+        std::string type = typeNode.as<std::string>();
+
+        if (type == "explore") {
+          data.type = QuestType::EXPLORE;
+
+          auto placeNode = parametersNode["place"];
+
+          if (!placeNode) {
+            game::Log::warning(game::Log::RESOURCES, "Missing place for entry: '%s'\n", name.c_str());
+            continue;
+          }
+
+          data.explore.place = game::Hash(placeNode.as<std::string>());
+
+        } else if (type == "farm") {
+          data.type = QuestType::FARM;
+
+          auto itemNode = parametersNode["item"];
+
+          if (!itemNode) {
+            game::Log::warning(game::Log::RESOURCES, "Missing item for entry: '%s'\n", name.c_str());
+            continue;
+          }
+
+          data.farm.item = game::Hash(itemNode.as<std::string>());
+
+          auto countNode = parametersNode["count"];
+
+          if (!countNode) {
+            game::Log::warning(game::Log::RESOURCES, "Missing count for entry: '%s'\n", name.c_str());
+            continue;
+          }
+
+          data.farm.count = countNode.as<unsigned>();
+
+        } else if (type == "hunt") {
+          data.type = QuestType::HUNT;
+
+          auto monsterNode = parametersNode["monster"];
+
+          if (!monsterNode) {
+            game::Log::warning(game::Log::RESOURCES, "Missing monster for entry: '%s'\n", name.c_str());
+            continue;
+          }
+
+          data.hunt.monster = game::Hash(monsterNode.as<std::string>());
+
+          auto countNode = parametersNode["count"];
+
+          if (!countNode) {
+            game::Log::warning(game::Log::RESOURCES, "Missing count for entry: '%s'\n", name.c_str());
+            continue;
+          }
+
+          data.hunt.count = countNode.as<unsigned>();
+
+        } else if (type == "talk") {
+          data.type = QuestType::TALK;
+
+          auto conversationNode = parametersNode["conversation"];
+
+          if (!conversationNode) {
+            game::Log::warning(game::Log::RESOURCES, "Missing conversation for entry: '%s'\n", name.c_str());
+            continue;
+          }
+
+          data.talk.conversation = game::Hash(conversationNode.as<std::string>());
+
+        } else {
+          game::Log::warning(game::Log::RESOURCES, "Unknown type for entry: '%s'\n", name.c_str());
+          continue;
+        }
+
+        auto nextNode = properties["next"];
+
+        if (nextNode) {
+          data.next = nextNode.as<std::string>();
+        }
+
+        quests.emplace(std::move(name), std::move(data));
+      }
+    } catch (std::exception& ex) {
+      game::Log::error(game::Log::RESOURCES, "Error when loading quest database: %s\n", ex.what());
       return;
     }
   }
@@ -298,6 +465,10 @@ namespace akgr {
     boost::filesystem::path messagesPath = basedir / "data/messages.yml";
     loadMessageData(m_messages, messagesPath.string());
     game::Log::info(game::Log::RESOURCES, "\tMessage data: %zu\n", m_messages.size());
+
+    boost::filesystem::path questsPath = basedir / "data/quests.yml";
+    loadQuestData(m_quests, questsPath.string());
+    game::Log::info(game::Log::RESOURCES, "\tQuest data: %zu\n", m_quests.size());
   }
 
   namespace {
@@ -419,6 +590,17 @@ namespace akgr {
 
     if (it == m_messages.end()) {
       game::Log::warning(game::Log::RESOURCES, "Could not find message data for '%s'\n", name.c_str());
+      return nullptr;
+    }
+
+    return &it->second;
+  }
+
+  const QuestData *DataManager::getQuestDataFor(const std::string& name) const {
+    auto it = m_quests.find(name);
+
+    if (it == m_quests.end()) {
+      game::Log::warning(game::Log::RESOURCES, "Could not find quest data for '%s'\n", name.c_str());
       return nullptr;
     }
 
