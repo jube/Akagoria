@@ -46,14 +46,13 @@ function(GETTEXT_MERGE potFile)
   foreach(lang ${parsed_LANGUAGES})
     set(poFile "${CMAKE_CURRENT_SOURCE_DIR}/${lang}.po")
 
-    add_custom_command(
-      OUTPUT "${poFile}"
+    add_custom_target(${lang}
       COMMAND ${GETTEXT_MSGMERGE_EXECUTABLE} --update --backup=none --quiet --sort-by-file ${poFile} ${potFile}
       WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
       DEPENDS ${potFile}
     )
 
-    list(APPEND poFiles ${poFile})
+    list(APPEND poFiles ${lang})
   endforeach()
 
   if (parsed_ALL)
@@ -81,7 +80,7 @@ function(GETTEXT_FMT domain)
     add_custom_command(
       OUTPUT "${gmoFile}"
       COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} -o ${gmoFile} ${poFile}
-      DEPENDS ${poFile}
+      DEPENDS ${lang}
     )
 
     if(parsed_INSTALL_DESTINATION)
